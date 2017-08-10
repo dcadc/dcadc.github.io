@@ -37,7 +37,7 @@ Jimp.read("3.5795-3-32-2.PNG").then(function (aaa) {
 				var green = this.bitmap.data[ idx + 1 ];
 				var blue  = this.bitmap.data[ idx + 2 ];
 				var alpha = this.bitmap.data[ idx + 3 ];
-			
+				this.bitmap.data[idx] = 0;
 				// rgba values run from 0 - 255
 				// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
 			})
@@ -52,6 +52,31 @@ Jimp.read("3.5795-3-32-2.PNG").then(function (aaa) {
     console.error(err);
 });
 </script>
+
+        <p><input type="file" onchange="newFiles(this);" /></p>  
+        <script>
+            
+        function newFiles(element){
+            for (var i=0; i<element.files.length; i++) {
+                readFileAndProcess(element.files[i]);
+            }
+
+            function readFileAndProcess(readfile){
+                var reader = new FileReader();
+                reader.addEventListener("load", function(){
+                    var worker = new Worker("jimp-worker.js");
+                    worker.onmessage = function (e) {
+                        var img = document.createElement("img");
+                        img.setAttribute("src", e.data);
+                        document.body.appendChild(img);
+                    };
+                    worker.postMessage(this.result);
+                });
+                reader.readAsArrayBuffer(readfile);
+            }
+        }
+
+        </script>
 <!--
 <select id="langsel" onchange="window.lastFile && recognizeFile(window.lastFile)">
 <option value='afr'     > Afrikaans             </option>
