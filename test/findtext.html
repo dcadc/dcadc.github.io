@@ -8,7 +8,7 @@
         <h1> Jimp on WebWorker thread : 偽OCR (未完成)</h1>
         <p><input type="file" onchange="newFiles(this);" /></p>  
         <script>
-            
+        var ids = 0;
         function newFiles(element){
             for (var i=0; i<element.files.length; i++) {
                 readFileAndProcess(element.files[i]);
@@ -20,14 +20,18 @@
                     var worker = new Worker("jimp-worker.js");
                     worker.onmessage = function (e) {
                         var img = document.createElement("img");
+                        img.setAttribute("id", 'img'+ids);
                         img.setAttribute("src", e.data);
                         document.body.appendChild(img);
+						var currentDiv = document.getElementById("ids"); 
+						var newBr = document.createElement("br"); 
+						document.body.insertBefore(img, currentDiv); 
                     };
                     worker.postMessage(this.result);
                 });
                 reader.readAsArrayBuffer(readfile);
             }
-		document.writeln("<br />");
+		ids++;
         }
 
         </script>
