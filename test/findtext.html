@@ -22,6 +22,7 @@
                         var img = document.createElement("img");
                         img.setAttribute("src", e.data);
                         document.body.appendChild(img);
+						document.createElement("br");
                     };
                     worker.postMessage(this.result);
                 });
