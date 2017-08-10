@@ -2,7 +2,7 @@
 /* global Jimp */
 
 //importScripts("../js/jimp.min.js");
-importScripts("../https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js);
+importScripts("https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js");
 self.addEventListener("message", function (e) {
     Jimp.read(e.data).then(function (lenna) {
 		lenna.crop( 71, 47, 163, 20 );
