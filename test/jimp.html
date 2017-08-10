@@ -6,13 +6,10 @@ var image = new Jimp(256, 256, 0x00FF00FF, function (err, image) {
     // this image is 256 x 256, every pixel is set to 0xFF0000FF
 });
 Jimp.read(image).then(function (mmm) {
-	  mmm.crop( 71, 47, 163, 20 )         // crop to the given region
-		.mask( image, 0, 0 )                 // set JPEG quality
-         //.greyscale()                 // set greyscale
-         .getBase64(Jimp.MIME_JPEG, function (err, src) {
-              var img2 = document.createElement("img");
-              img2.setAttribute("src", src);
-              document.body.appendChild(img2);
+	  mmm.getBase64(Jimp.MIME_JPEG, function (err, src) {
+              var img0 = document.createElement("img");
+              img0.setAttribute("src", src);
+              document.body.appendChild(img0);
          });
 }).catch(function (err) {
     console.error(err);
