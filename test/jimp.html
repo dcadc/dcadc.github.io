@@ -29,7 +29,7 @@ Jimp.read("3.5795-3-32-2.PNG").then(function (lenna) {
 Jimp.read("3.5795-3-32-2.PNG").then(function (aaa) {
 	  aaa.crop( 71, 47, 163, 20 )         // crop to the given region
          .invert()                 // set greyscale
-		.mask( image, 0, 0 )                 // set JPEG quality
+		.mask( image, 163, 20 )                 // set JPEG quality
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
               var img2 = document.createElement("img");
               img2.setAttribute("src", src);
