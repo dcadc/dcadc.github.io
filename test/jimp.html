@@ -6,6 +6,7 @@ var image = new Jimp(256, 256, 0xFF0000FF, function (err, image) {
     // this image is 256 x 256, every pixel is set to 0xFF0000FF
 });
 var img;
+Jimp.read("3.5795-3-32-2.PNG").then(function (lenna) {
     lenna.crop( 71, 47, 163, 20 )         // crop to the given region
          .quality(60)                 // set JPEG quality
          .greyscale()                 // set greyscale
@@ -17,7 +18,7 @@ var img;
 }).catch(function (err) {
     console.error(err);
 });
-	  img.mask( src, x, y )                 // set JPEG quality
+	  img.mask( image, 163, 20 )                 // set JPEG quality
          .greyscale()                 // set greyscale
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
               var img2 = document.createElement("img");
