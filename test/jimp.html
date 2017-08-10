@@ -2,13 +2,13 @@
 
 <script>
 
-var image = new Jimp(256, 256, 0xFF0000FF, function (err, image) {
+var image = new Jimp(256, 256, 0x00FF00FF, function (err, image) {
     // this image is 256 x 256, every pixel is set to 0xFF0000FF
 });
 var img;
 Jimp.read("3.5795-3-32-2.PNG").then(function (lenna) {
     lenna.crop( 71, 47, 163, 20 )         // crop to the given region
-         .quality(60)                 // set JPEG quality
+         //.quality(60)                 // set JPEG quality
          //.greyscale()                 // set greyscale
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
               img = document.createElement("img");
