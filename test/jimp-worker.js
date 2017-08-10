@@ -24,6 +24,7 @@ self.addEventListener("message", function (e) {
 						this.bitmap.data[ idx + i ] = 255;
 					}
 				}
+				
 				//document.writeln(green);
 				// rgba values run from 0 - 255
 				// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
