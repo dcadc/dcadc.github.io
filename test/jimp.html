@@ -20,9 +20,11 @@ Jimp.read("3.5795-3-32-2.PNG").then(function (lenna) {
 });
 Jimp.read("3.5795-3-32-2.PNG").then(function (aaa) {
 	  aaa.crop( 71, 47, 163, 20 )         // crop to the given region
-		.mask( image, 163, 20 )                 // set JPEG quality
+		.mask( image, 0, 0 )                 // set JPEG quality
          //.greyscale()                 // set greyscale
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
+			  document.createElement("br");
+			  document.createElement("br");
               var img2 = document.createElement("img");
               img2.setAttribute("src", src);
               document.body.appendChild(img2);
