@@ -16,7 +16,7 @@ self.addEventListener("message", function (e) {
 				var blue  = this.bitmap.data[ idx + 2 ];
 				var alpha = this.bitmap.data[ idx + 3 ];
 				if (green != 255) {
-					for (i = 0; i < 4; i++) { 
+					for (i = 0; i < 3; i++) { 
 						this.bitmap.data[ idx + i ] = 0;
 					}
 				} else { 
