@@ -11,7 +11,7 @@ Jimp.read("3.5795-3-32-2.PNG").then(function (lenna) {
          //.quality(60)                 // set JPEG quality
          //.greyscale()                 // set greyscale
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
-              img = document.createElement("img");
+              var img = document.createElement("img");
               img.setAttribute("src", src);
               document.body.appendChild(img);
          });
@@ -23,8 +23,6 @@ Jimp.read("3.5795-3-32-2.PNG").then(function (aaa) {
 		.mask( image, 0, 0 )                 // set JPEG quality
          //.greyscale()                 // set greyscale
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
-			  document.createElement("br");
-			  document.createElement("br");
               var img2 = document.createElement("img");
               img2.setAttribute("src", src);
               document.body.appendChild(img2);
