@@ -40,9 +40,9 @@ Jimp.read("3.5795-3-32-2.PNG").then(function (aaa) {
 			
 				// rgba values run from 0 - 255
 				// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
-			});
+			})
 		//.invert()                 // set greyscale
-		.mask( image, 163, 20 )                 // set JPEG quality
+		//.mask( image, 163, 20 )                 // set JPEG quality
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
               var img2 = document.createElement("img");
               img2.setAttribute("src", src);
