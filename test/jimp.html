@@ -1,8 +1,8 @@
 <script src="https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js"></script>
 
 <script>
-Jimp.read("3.5795-3-00-2rrr.png").then(function (lenna) {
-    lenna.resize(256, 256)            // resize
+Jimp.read("3.5795-3-32-2.PNG").then(function (lenna) {
+    lenna.crop( 71, 47, 163, 20 );         // crop to the given region
          .quality(60)                 // set JPEG quality
          .greyscale()                 // set greyscale
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
