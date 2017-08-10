@@ -1,15 +1,17 @@
 <script src="https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js"></script>
 
 <script>
-var Jimp = require("jimp");
-
-// open a file called "lenna.png"
-Jimp.read("https://assets-us2.piliapp.com/s3pxy/thumbs/what-is-my/sim-card-size/thumb-100x75.jpg", function (err, lenna) {
-    if (err) throw err;
+Jimp.read("https://assets-us2.piliapp.com/s3pxy/thumbs/what-is-my/sim-card-size/thumb-100x75.jpg").then(function (lenna) {
     lenna.resize(256, 256)            // resize
          .quality(60)                 // set JPEG quality
          .greyscale()                 // set greyscale
-         .write("lena-small-bw.jpg"); // save
+         .getBase64(Jimp.MIME_JPEG, function (err, src) {
+              var img = document.createElement("img");
+              img.setAttribute("src", src);
+              document.body.appendChild(img);
+         });
+}).catch(function (err) {
+    console.error(err);
 });
 </script>
 <select id="langsel" onchange="window.lastFile && recognizeFile(window.lastFile)">
