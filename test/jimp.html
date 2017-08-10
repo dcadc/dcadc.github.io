@@ -1,19 +1,34 @@
 <script src="https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js"></script>
 
 <script>
-Jimp.read("3.5795-3-32-2.PNG").then(function (lenna) {
+
+var image = new Jimp(256, 256, 0xFF0000FF, function (err, image) {
+    // this image is 256 x 256, every pixel is set to 0xFF0000FF
+});
+var img;
     lenna.crop( 71, 47, 163, 20 )         // crop to the given region
          .quality(60)                 // set JPEG quality
          .greyscale()                 // set greyscale
          .getBase64(Jimp.MIME_JPEG, function (err, src) {
-              var img = document.createElement("img");
+              img = document.createElement("img");
               img.setAttribute("src", src);
               document.body.appendChild(img);
          });
 }).catch(function (err) {
     console.error(err);
 });
+	  img.mask( src, x, y )                 // set JPEG quality
+         .greyscale()                 // set greyscale
+         .getBase64(Jimp.MIME_JPEG, function (err, src) {
+              var img2 = document.createElement("img");
+              img2.setAttribute("src", src);
+              document.body.appendChild(img2);
+         });
+}).catch(function (err) {
+    console.error(err);
+});
 </script>
+<!--
 <select id="langsel" onchange="window.lastFile && recognizeFile(window.lastFile)">
 <option value='afr'     > Afrikaans             </option>
 <option value='ara'     > Arabic                </option>
@@ -87,7 +102,7 @@ Jimp.read("3.5795-3-32-2.PNG").then(function (lenna) {
 <input type="file" onchange="recognizeFile(window.lastFile=this.files[0])">
 
 <div id="log"></div>
-
+-->
 
 <style>
 #log > div {
