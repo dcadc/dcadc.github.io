@@ -30,7 +30,7 @@
 						var newBr = document.createElement("br"); 
 						document.body.insertBefore(newBr, currentDiv); 
                     };
-                    worker.postMessage({'cmd': this.result, 'imgid': ids}, 'filename': this.result.name);
+                    worker.postMessage({'cmd': this.result, 'imgid': ids, 'filename': this.result.name});
                 });
                 reader.readAsArrayBuffer(readfile);
             }
