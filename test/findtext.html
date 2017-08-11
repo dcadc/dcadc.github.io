@@ -1,41 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Jimp 也是很猛</title>
-    </head>
-    <body>
+	<head>
+		<title>Jimp 也是很猛</title>
+	</head>
+	<body>
 
-        <h1> Jimp on WebWorker thread : 偽OCR (未完成)</h1>
-        <p>可以支援多檔轉換喔</p>
-	    
+		<h1> Jimp on WebWorker thread : 偽OCR (未完成)</h1>
+		<p>可以支援多檔轉換喔</p>
+		
 	<p><input type="file" onchange="newFiles(this);" multiple /></p>  
-        <script>
-        var ids = 0;
-        function newFiles(element){
-            for (var i=0; i<element.files.length; i++) {
-                readFileAndProcess(element.files[i]);
-            }
+		<script>
+		var ids = 0;
+		function newFiles(element){
+			for (var i=0; i<element.files.length; i++) {
+				readFileAndProcess(element.files[i]);
+			}
 
-            function readFileAndProcess(readfile){
-                var reader = new FileReader();
-                reader.addEventListener("load", function(){
-                    var worker = new Worker("jimp-worker.js");
-                    worker.onmessage = function (e) {
-                        var img = document.createElement("img");
-                        img.setAttribute("id", 'img'+e.data.imgid);
-                        img.setAttribute("src", e.data.view);
-                        document.body.appendChild(img);
-						var currentDiv = document.getElementById('img'+e.data.imgid); 
+			function readFileAndProcess(readfile){
+				var reader = new FileReader();
+				reader.addEventListener("load", function(){
+					var worker = new Worker("jimp-worker.js");
+					worker.onmessage = function (e) {
+						var img = document.createElement("img");
+						img.setAttribute("id", 'img'+e.data.imgid);
+						img.setAttribute("src", e.data.view);
 						var newBr = document.createElement("br"); 
+						var newDiv = document.createElement("div"); 
+						newDiv.setAttribute("id", 'img'+e.data.imgid);
+						newDiv.setAttribute("name", e.data.filename);
+						document.body.appendChild(newDiv);
+						var currentDiv = document.getElementById('img'+e.data.imgid); 
+						document.currentDiv.appendChild(img);
 						document.body.insertBefore(newBr, currentDiv); 
-                    };
-                    worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': readfile.name});
-                });
-                reader.readAsArrayBuffer(readfile);
-            }
-        }
+					};
+					worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': readfile.name});
+				});
+				reader.readAsArrayBuffer(readfile);
+			}
+		}
 
-        </script>
-        
-    </body>
+		</script>
+		
+	</body>
 </html>
