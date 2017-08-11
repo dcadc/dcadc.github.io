@@ -6,6 +6,7 @@ importScripts("../js/jimp.min.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
 		lenna.crop( 71, 46, 163, 20 );
+		var bitwisemap[x][y]
 		lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 			// x, y is the position of this pixel on the image
 			// idx is the position start position of this rgba tuple in the bitmap Buffer
@@ -24,7 +25,7 @@ self.addEventListener("message", function (e) {
 					this.bitmap.data[ idx + i ] = 255;
 				}
 			}
-			var bitwisemap[x][y] = (this.bitmap.data[ idx ] == 255) ? (1) : (0) ;
+			bitwisemap[x][y] = (this.bitmap.data[ idx ] == 255) ? (1) : (0) ;
 			//document.writeln(green);
 			// rgba values run from 0 - 255
 			// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
