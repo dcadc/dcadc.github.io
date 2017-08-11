@@ -29,10 +29,9 @@
 						var newBr = document.createElement("br"); 
 						document.body.insertBefore(newBr, currentDiv); 
                     };
-                    worker.postMessage({'cmd': this.result, 'imgid': ids});
+                    worker.postMessage({'cmd': this.result, 'imgid': ids++});
                 });
                 reader.readAsArrayBuffer(readfile);
-			ids++;
             }
         }
 
