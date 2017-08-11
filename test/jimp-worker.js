@@ -4,7 +4,7 @@
 importScripts("../js/jimp.min.js");
 //importScripts("https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js");
 self.addEventListener("message", function (e) {
-    Jimp.read(e.data).then(function (lenna) {
+    Jimp.read(e.data.cmd).then(function (lenna) {
 		lenna.crop( 71, 46, 163, 20 );
 		lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 				// x, y is the position of this pixel on the image
@@ -31,7 +31,7 @@ self.addEventListener("message", function (e) {
 			});                // set JPEG quality
       lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
                 if (err) throw err;
-				console.log('img');
+				console.log(e.data.img);
                 self.postMessage(src);
                 self.close();
          });
