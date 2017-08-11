@@ -29,7 +29,7 @@
 						var newBr = document.createElement("br"); 
 						document.body.insertBefore(newBr, currentDiv); 
                     };
-                    worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': element.files[i].name});
+                    worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': readfile.name});
                 });
                 reader.readAsArrayBuffer(readfile);
             }
