@@ -31,7 +31,7 @@ self.addEventListener("message", function (e) {
 			});                // set JPEG quality
       lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
                 if (err) throw err;
-				console.log(e.data.img);
+				console.log('img'+e.data.img);
                 self.postMessage(src);
                 self.close();
          });
