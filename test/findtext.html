@@ -42,11 +42,11 @@ function newFiles(element){
 	//for (var i=0; i<element.files.length; i++) {
 	//	readFileAndProcess(element.files[i]);
 	//}
-    element.stopPropagation();
-    element.preventDefault();
-	for (var i=0; i<element.dataTransfer.files.length; i++) {
-		readFileAndProcess(element.dataTransfer.files[i]);
-	}
+    //element.stopPropagation();
+    //element.preventDefault();
+	//for (var i=0; i<element.dataTransfer.files.length; i++) {
+	//	readFileAndProcess(element.dataTransfer.files[i]);
+	//}
 
 	function readFileAndProcess(readfile){
 		var reader = new FileReader();
