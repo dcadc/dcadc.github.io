@@ -10,13 +10,17 @@
 
 <h1> Jimp on WebWorker thread : 偽OCR (未完成)</h1>
 <p>可以支援多檔轉換喔</p>
+<br />
+<button onclick="CHSW()">SWAP BW</button>
+<br />
 
-
-<p><input type="file" onchange="newFiles(this);" multiple />
-or</p>
+<center>
+<p><input type="file" onchange="newFiles(this);" multiple /></p>
+<br />or
 <div id="drop_zone">
 <p>Drop files here</p>
 </div>
+</center>
 
 <script>
 var ids = 0;
@@ -138,6 +142,5 @@ function CHSW() {
 	}
 }
 </script>
-<button onclick="CHSW()">SWAP BW</button>
 </body>
 </html>
