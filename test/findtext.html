@@ -31,8 +31,8 @@
 						newDiv.setAttribute("name", e.data.filename);
 						document.body.appendChild(newDiv);
 						var currentDiv = document.getElementById('divv'+e.data.imgid); 
-						document.currentDiv.appendChild(img);
-						document.currentDiv.appendChild(fn);
+						currentDiv.appendChild(img);
+						currentDiv.appendChild(fn);
 						document.body.insertBefore(newBr, currentDiv); 
 					};
 					worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': readfile.name});
