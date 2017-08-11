@@ -114,11 +114,17 @@ dropZone.addEventListener('drop', newFiles, false);
 function invertColor(hexTripletColor) {
 	var color = hexTripletColor;
 	color = color.substring(1); // remove #
+	console.log(color+typeof color);
 	color = parseInt(color, 16); // convert to integer
+	console.log(color+typeof color);
 	color = 0xFFFFFF ^ color; // invert three bytes
+	console.log(color+typeof color);
 	color = color.toString(16); // convert to hex
+	console.log(color+typeof color);
 	color = ("000000" + color).slice(-6); // pad with leading zeros
+	console.log(color+typeof color);
 	color = "#" + color; // prepend #
+	console.log(color+typeof color);
 	return color;
 }
 function CHSW() {
