@@ -30,9 +30,9 @@
 						document.body.insertBefore(newBr, currentDiv); 
                     };
                     worker.postMessage({'cmd': this.result, 'img': ids});
+					ids++;
                 });
                 reader.readAsArrayBuffer(readfile);
-				ids++;
             }
         }
 
