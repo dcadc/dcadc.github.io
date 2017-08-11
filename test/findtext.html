@@ -25,11 +25,11 @@
                         img.setAttribute("id", 'img'+e.data.ids);
                         img.setAttribute("src", e.data.view);
                         document.body.appendChild(img);
-						var currentDiv = document.getElementById('img'+e.data.ids); 
+						var currentDiv = document.getElementById('img'+e.data.imgid); 
 						var newBr = document.createElement("br"); 
 						document.body.insertBefore(newBr, currentDiv); 
                     };
-                    worker.postMessage({'cmd': this.result, 'img': ids});
+                    worker.postMessage({'cmd': this.result, 'imgid': ids});
                 });
                 reader.readAsArrayBuffer(readfile);
             }
