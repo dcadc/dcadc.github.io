@@ -1,47 +1,66 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Jimp 也是很猛</title>
-	</head>
-	<body>
+<head>
+<title>Jimp 也是很猛</title>
+</head>
+<body>
 
-		<h1> Jimp on WebWorker thread : 偽OCR (未完成)</h1>
-		<p>可以支援多檔轉換喔</p>
-		
-	<p><input type="file" onchange="newFiles(this);" multiple /></p>  
-		<script>
-		var ids = 0;
-		function newFiles(element){
-			for (var i=0; i<element.files.length; i++) {
-				readFileAndProcess(element.files[i]);
-			}
+<h1> Jimp on WebWorker thread : 偽OCR (未完成)</h1>
+<p>可以支援多檔轉換喔</p>
 
-			function readFileAndProcess(readfile){
-				var reader = new FileReader();
-				reader.addEventListener("load", function(){
-					var worker = new Worker("jimp-worker.js");
-					worker.onmessage = function (e) {
-						var img = document.createElement("img");
-						img.setAttribute("id", 'img'+e.data.imgid);
-						img.setAttribute("src", e.data.view);
-						var newBr = document.createElement("br"); 
-						var newDiv = document.createElement("div"); 
-						var fn = document.createTextNode(e.data.filename);
-						newDiv.setAttribute("id", 'divv'+e.data.imgid);
-						newDiv.setAttribute("name", e.data.filename);
-						document.body.appendChild(newDiv);
-						var currentDiv = document.getElementById('divv'+e.data.imgid); 
-						currentDiv.appendChild(img);
-						currentDiv.appendChild(fn);
-						document.body.insertBefore(newBr, currentDiv); 
-					};
-					worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': readfile.name});
-				});
-				reader.readAsArrayBuffer(readfile);
-			}
-		}
+<p><input type="file" onchange="newFiles(this);" multiple /></p>  
 
-		</script>
-		
-	</body>
+<p><div id="drop_zone">Drop files here</div></p>  
+
+<script>
+var ids = 0;
+function newFiles(element){
+    element.stopPropagation();
+    element.preventDefault();
+
+	//for (var i=0; i<element.files.length; i++) {
+	//	readFileAndProcess(element.files[i]);
+	//}
+	
+	for (var i=0; i<element.dataTransfer.files.length; i++) {
+		readFileAndProcess(element.dataTransfer.files[i]);
+	}
+
+	function readFileAndProcess(readfile){
+		var reader = new FileReader();
+		reader.addEventListener("load", function(){
+			var worker = new Worker("jimp-worker.js");
+			worker.onmessage = function (e) {
+				var img = document.createElement("img");
+				img.setAttribute("id", 'img'+e.data.imgid);
+				img.setAttribute("src", e.data.view);
+				var newBr = document.createElement("br"); 
+				var newDiv = document.createElement("div"); 
+				var fn = document.createTextNode(e.data.filename);
+				newDiv.setAttribute("id", 'divv'+e.data.imgid);
+				newDiv.setAttribute("name", e.data.filename);
+				document.body.appendChild(newDiv);
+				var currentDiv = document.getElementById('divv'+e.data.imgid); 
+				currentDiv.appendChild(img);
+				currentDiv.appendChild(fn);
+				document.body.insertBefore(newBr, currentDiv); 
+			};
+			worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': readfile.name});
+		});
+		reader.readAsArrayBuffer(readfile);
+	}
+}
+function handleDragOver(evt) {
+	evt.stopPropagation();
+	evt.preventDefault();
+	evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+}
+// Setup the dnd listeners.
+var dropZone = document.getElementById('drop_zone');
+dropZone.addEventListener('dragover', handleDragOver, false);
+dropZone.addEventListener('drop', handleFileSelect, false);
+
+</script>
+
+</body>
 </html>
