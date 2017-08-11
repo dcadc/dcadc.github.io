@@ -99,7 +99,6 @@ function newFiles(element){
 				currentDiv.appendChild(fn);
 				currentDiv.appendChild(newTable);
 				document.body.insertBefore(newBr, currentDiv); 
-				console.log('00000000004'+'x.length='+e.data.bitwisemap.length+'y.length='+e.data.bitwisemap[0].length);
 			};
 			worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': readfile.name});
 		});
