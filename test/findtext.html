@@ -22,7 +22,7 @@
                     var worker = new Worker("jimp-worker.js");
                     worker.onmessage = function (e) {
                         var img = document.createElement("img");
-                        img.setAttribute("id", 'img'+e.data.ids);
+                        img.setAttribute("id", 'img'+e.data.imgid);
                         img.setAttribute("src", e.data.view);
                         document.body.appendChild(img);
 						var currentDiv = document.getElementById('img'+e.data.imgid); 
