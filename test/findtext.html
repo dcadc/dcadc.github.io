@@ -23,17 +23,17 @@
                     worker.onmessage = function (e) {
                         var img = document.createElement("img");
                         img.setAttribute("id", 'img'+ids);
-                        img.setAttribute("src", e.data);
+                        img.setAttribute("src", e.data.view);
                         document.body.appendChild(img);
 						var currentDiv = document.getElementById("ids"); 
 						var newBr = document.createElement("br"); 
 						document.body.insertBefore(newBr, currentDiv); 
                     };
                     worker.postMessage({'cmd': this.result, 'img': ids});
-					ids++;
                 });
                 reader.readAsArrayBuffer(readfile);
             }
+			ids++;
         }
 
         </script>
