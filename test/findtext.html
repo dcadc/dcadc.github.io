@@ -9,18 +9,19 @@
 <h1> Jimp on WebWorker thread : 偽OCR (未完成)</h1>
 <p>可以支援多檔轉換喔</p>
 
-<p><input type="file" onchange="newFiles(this);" multiple /></p>  
 
-<p><div id="drop_zone">Drop files here</div></p>  
+<div id="drop_zone"><p>Drop files here or</p>  
+<p><input type="file" onchange="newFiles(this);" multiple /></p>
+</div>
 
 <script>
 var ids = 0;
 function newFiles(element){
+	for (var i=0; i<element.files.length; i++) {
+		readFileAndProcess(element.files[i]);
+	}
     element.stopPropagation();
     element.preventDefault();
-	//for (var i=0; i<element.files.length; i++) {
-	//	readFileAndProcess(element.files[i]);
-	//}
 	for (var i=0; i<element.dataTransfer.files.length; i++) {
 		readFileAndProcess(element.dataTransfer.files[i]);
 	}
