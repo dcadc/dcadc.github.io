@@ -57,7 +57,7 @@ function newFiles(element){
 			worker.onmessage = function (e) {
 				var newTable = document.createElement("table");
 				newTable.setAttribute("id", 'tab'+e.data.imgid);
-				for (var row = 0; row < e.data.bitwisemap.length[0]; row++) {
+				for (var row = 0; row < e.data.bitwisemap[0].length; row++) {
 					//iterate through rows
 					//rows would be accessed using the "row" variable assigned in the for loop
 					var newTR = document.createElement("tr"); 
@@ -65,6 +65,9 @@ function newFiles(element){
 						//iterate through columns
 						//columns would be accessed using the "col" variable assigned in the for loop
 						var newTD = document.createElement("td"); 
+						if(e.data.bitwisemap[col][row] == 0){
+							newTD.setAttribute("bgcolor", '#000000');
+						}
 						newTR.appendChild(newTD);
 						//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.bitwisemap[col][row];
 						newTD.innerHTML = e.data.bitwisemap[col][row];
