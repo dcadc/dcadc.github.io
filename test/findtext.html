@@ -6,7 +6,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
 </head>
-<body>
+<body onload="crop_rst()">
 
 <h1> Jimp on WebWorker thread : 偽OCR (未完成)</h1>
 <p>可以支援多檔轉換喔</p>
@@ -36,11 +36,10 @@
 	<tr>
 		<td style="text-align:right;"> </td>
 		<td style="text-align:center;"><button onclick="CHSW()">SWAP BW</button></td>
-		<td style="text-align:left;"><button onclick="crop_rst()" reset>reset</button></td>
+		<td style="text-align:left;"><button onclick="crop_rst()">reset</button></td>
 	</tr>
 </table>
 </form>
-<button onclick="CHSW()">SWAP BW</button>
 </br />
 
 <center>
