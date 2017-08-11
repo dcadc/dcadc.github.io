@@ -14,6 +14,7 @@
         function newFiles(element){
             for (var i=0; i<element.files.length; i++) {
                 readFileAndProcess(element.files[i]);
+				ids++;
             }
 
             function readFileAndProcess(readfile){
@@ -29,7 +30,7 @@
 						var newBr = document.createElement("br"); 
 						document.body.insertBefore(newBr, currentDiv); 
                     };
-                    worker.postMessage({'cmd': this.result, 'imgid': ids++});
+                    worker.postMessage({'cmd': this.result, 'imgid': ids}, 'filename': this.result.name);
                 });
                 reader.readAsArrayBuffer(readfile);
             }
