@@ -24,20 +24,20 @@ function newFiles(element){
 	console.log('00000000002'+typeof element.dataTransfer);
 	console.log('00000000003'+typeof element.files);
     //var inpObj = document.getElementById("id1");
-	/*
-    if (element.dataTransfer.checkValidity() == true) {
+
+    if (newFiles.caller == null) {
 		element.stopPropagation();
 		element.preventDefault();
 		for (var i=0; i<element.dataTransfer.files.length; i++) {
 			readFileAndProcess(element.dataTransfer.files[i]);
 		}
     } 
-    if (element.files.checkValidity() == true) {
+    else{
 		for (var i=0; i<element.files.length; i++) {
 			readFileAndProcess(element.files[i]);
 		}
     } 
-*/
+
 
 	//for (var i=0; i<element.files.length; i++) {
 	//	readFileAndProcess(element.files[i]);
