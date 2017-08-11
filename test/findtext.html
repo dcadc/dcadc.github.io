@@ -22,10 +22,10 @@
                     var worker = new Worker("jimp-worker.js");
                     worker.onmessage = function (e) {
                         var img = document.createElement("img");
-                        img.setAttribute("id", 'img'+ids);
+                        img.setAttribute("id", 'img'+e.data.ids);
                         img.setAttribute("src", e.data.view);
                         document.body.appendChild(img);
-						var currentDiv = document.getElementById("ids"); 
+						var currentDiv = document.getElementById('img'+e.data.ids); 
 						var newBr = document.createElement("br"); 
 						document.body.insertBefore(newBr, currentDiv); 
                     };
