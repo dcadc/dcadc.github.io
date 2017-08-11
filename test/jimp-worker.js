@@ -6,7 +6,9 @@ importScripts("../js/jimp.min.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
 		lenna.crop( 71, 46, 163, 20 );
-		var bitwisemap = new Array();
+		var bitwisemap = new Array(lenna.bitmap.width);
+		for (i=0; i <lenna.bitmap.width; i++)
+			bitwisemap[i]=new Array(lenna.bitmap.height); 
 		lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 			// x, y is the position of this pixel on the image
 			// idx is the position start position of this rgba tuple in the bitmap Buffer
