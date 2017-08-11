@@ -58,10 +58,10 @@ document.crop_param.crop_w.value = "163";
 document.crop_param.crop_h.value = "20";
 
 function newFiles(element){
-	var crop_x = document.crop_param.crop_x.value;
-	var crop_y = document.crop_param.crop_y.value;
-	var crop_w = document.crop_param.crop_w.value;
-	var crop_h = document.crop_param.crop_h.value;
+	var crop_x = parseInt(document.crop_param.crop_x.value, 10);
+	var crop_y = parseInt(document.crop_param.crop_y.value, 10);
+	var crop_w = parseInt(document.crop_param.crop_w.value, 10);
+	var crop_h = parseInt(document.crop_param.crop_h.value, 10);
 	console.log('00000000000'+newFiles.caller);
 	console.log('00000000001'+typeof element);
 	console.log('00000000002'+typeof element.dataTransfer);
