@@ -61,12 +61,15 @@ function newFiles(element){
 					//iterate through rows
 					//rows would be accessed using the "row" variable assigned in the for loop
 					var newTR = document.createElement("tr"); 
+					newTR.style.height = '1px';
 					for (var col = 0; col < e.data.bitwisemap.length; col++) {
 						//iterate through columns
 						//columns would be accessed using the "col" variable assigned in the for loop
 						var newTD = document.createElement("td"); 
+						newTD.style.width = '1px';
 						if(e.data.bitwisemap[col][row] == 0){
-							newTD.setAttribute("bgcolor", '#000000');
+							newTD.style.backgroundColor = '#000000';
+							//newTD.setAttribute("bgcolor", '#000000');
 						}
 						newTR.appendChild(newTD);
 						//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.bitwisemap[col][row];
