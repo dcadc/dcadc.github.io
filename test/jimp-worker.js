@@ -5,7 +5,7 @@ importScripts("../js/jimp.min.js");
 //importScripts("https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
-		lenna.crop( 71, 46, 163, 20 );
+		lenna.crop( e.data.crop_x, e.data.crop_y, e.data.crop_w, e.data.crop_h );
 		var bitwisemap = new Array(lenna.bitmap.width);
 		for (i=0; i <lenna.bitmap.width; i++)
 			bitwisemap[i]=new Array(lenna.bitmap.height); 
@@ -35,7 +35,12 @@ self.addEventListener("message", function (e) {
 		lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 			if (err) throw err;
 			console.log('img'+e.data.imgid+' name='+ e.data.filename);
-			self.postMessage({'view': src, 'imgid': e.data.imgid, 'filename': e.data.filename, 'bitwisemap': bitwisemap});
+			self.postMessage({
+				'view': src,
+				'imgid': e.data.imgid,
+				'filename': e.data.filename,
+				'bitwisemap': bitwisemap
+				});
 			self.close();
 		});
 	});
