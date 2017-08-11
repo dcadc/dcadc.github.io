@@ -5,7 +5,7 @@ importScripts("../js/jimp.min.js");
 //importScripts("https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
-		lenna.crop( 71, 46, 163, 20 );
+		//lenna.crop( 71, 46, 163, 20 );
 		var bitwisemap = new Array(lenna.bitmap.width);
 		for (i=0; i <lenna.bitmap.width; i++)
 			bitwisemap[i]=new Array(lenna.bitmap.height); 
