@@ -11,21 +11,36 @@
 
 
 <div id="drop_zone">
-<p>Drop files here or
-<input type="file" onchange="newFiles(this);" multiple /></p>
+<p>Drop files here or<input type="file" onchange="newFiles(this);" multiple /></p>
 </div>
 
 <script>
 var ids = 0;
 function newFiles(element){
-	for (var i=0; i<element.files.length; i++) {
-		readFileAndProcess(element.files[i]);
-	}
-    element.stopPropagation();
-    element.preventDefault();
-	for (var i=0; i<element.dataTransfer.files.length; i++) {
-		readFileAndProcess(element.dataTransfer.files[i]);
-	}
+
+    //var inpObj = document.getElementById("id1");
+    if (element.dataTransfer.checkValidity() == true) {
+		element.stopPropagation();
+		element.preventDefault();
+		for (var i=0; i<element.dataTransfer.files.length; i++) {
+			readFileAndProcess(element.dataTransfer.files[i]);
+		}
+    } 
+    if (element.files.checkValidity() == true) {
+		for (var i=0; i<element.files.length; i++) {
+			readFileAndProcess(element.files[i]);
+		}
+    } 
+
+
+	//for (var i=0; i<element.files.length; i++) {
+	//	readFileAndProcess(element.files[i]);
+	//}
+    //element.stopPropagation();
+    //element.preventDefault();
+	//for (var i=0; i<element.dataTransfer.files.length; i++) {
+	//	readFileAndProcess(element.dataTransfer.files[i]);
+	//}
 
 	function readFileAndProcess(readfile){
 		var reader = new FileReader();
