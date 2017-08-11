@@ -26,11 +26,13 @@
 						img.setAttribute("src", e.data.view);
 						var newBr = document.createElement("br"); 
 						var newDiv = document.createElement("div"); 
+						var fn = document.createTextNode(e.data.filename);
 						newDiv.setAttribute("id", 'divv'+e.data.imgid);
 						newDiv.setAttribute("name", e.data.filename);
 						document.body.appendChild(newDiv);
 						var currentDiv = document.getElementById('divv'+e.data.imgid); 
 						document.currentDiv.appendChild(img);
+						document.currentDiv.appendChild(fn);
 						document.body.insertBefore(newBr, currentDiv); 
 					};
 					worker.postMessage({'cmd': this.result, 'imgid': ids++, 'filename': readfile.name});
