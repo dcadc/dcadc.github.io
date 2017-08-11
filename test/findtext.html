@@ -18,11 +18,9 @@ var ids = 0;
 function newFiles(element){
     element.stopPropagation();
     element.preventDefault();
-
 	//for (var i=0; i<element.files.length; i++) {
 	//	readFileAndProcess(element.files[i]);
 	//}
-	
 	for (var i=0; i<element.dataTransfer.files.length; i++) {
 		readFileAndProcess(element.dataTransfer.files[i]);
 	}
