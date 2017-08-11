@@ -10,15 +10,18 @@
 <p>可以支援多檔轉換喔</p>
 
 
+<p><input type="file" onchange="newFiles(this);" multiple />
+or</p>
 <div id="drop_zone">
-<p>Drop files here or<input type="file" onchange="newFiles(this);" multiple /></p>
+<p>Drop files here</p>
 </div>
 
 <script>
 var ids = 0;
 function newFiles(element){
-
+document.write(newFiles.caller);
     //var inpObj = document.getElementById("id1");
+	/*
     if (element.dataTransfer.checkValidity() == true) {
 		element.stopPropagation();
 		element.preventDefault();
@@ -31,7 +34,7 @@ function newFiles(element){
 			readFileAndProcess(element.files[i]);
 		}
     } 
-
+*/
 
 	//for (var i=0; i<element.files.length; i++) {
 	//	readFileAndProcess(element.files[i]);
