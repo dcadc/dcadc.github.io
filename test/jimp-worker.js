@@ -32,7 +32,7 @@ self.addEventListener("message", function (e) {
 		lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 			if (err) throw err;
 			console.log('img'+e.data.imgid+' name='+ e.data.filename);
-			self.postMessage({'view': src, 'imgid': e.data.imgid, 'filename': e.data.filename});
+			self.postMessage({'view': src, 'imgid': e.data.imgid, 'filename': e.data.filename, 'bitwisemap': bitwisemap});
 			self.close();
 		});
 	});
