@@ -71,9 +71,11 @@ self.addEventListener("message", function (e) {
 				for(var i = bmpfont1.length-1; i >= 0; i--){
 					if((typeof bmpfont1[i]) != 'undefined'){
 						if((bmpfont1[i].length) > 0){
-							font[regno][i] = new Array(bmpfont1[i].length);	
+							
+							font[regno][i] = new Array(bmpfont1[i].length);
+							font[regno][i] = bmpfont1[i].slice(0);	
+							
 							for(var j = 0; j < bmpfont1[i].length; j++){
-								font[regno][i][j] = bmpfont1[i][j].slice(0);
 								font[regno][i][j] = toPaddedHexString(font[regno][i][j], 2);
 								font[regno][i][j] = "x"+font[regno][i][j].toUpperCase()+"x";
 							}
