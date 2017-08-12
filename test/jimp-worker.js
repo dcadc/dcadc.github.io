@@ -88,23 +88,24 @@ self.addEventListener("message", function (e) {
 					}
 				}
 			}
+		console.log('img'+e.data.imgid+' name='+ e.data.filename);
+		console.log(' cropped.x' + bitwisemap[regno].length + ' cropped.y' + bitwisemap[regno][0].length+' bmpfont'+font[regno]);
 			lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 				if (err) throw err;
 				imgsrc[regno] = src;
+				self.postMessage({
+					'view': imgsrc,
+					'regno': regno,
+					'imgid': e.data.imgid,
+					'filename': e.data.filename,
+					'bitwisemap': bitwisemap,
+					'fruits_orig': fruits_orig,
+					'fruits': fruits
+				});
+				self.close();
 			});	
 		});
-		console.log('img'+e.data.imgid+' name='+ e.data.filename);
-		//console.log(' cropped.x' + bitwisemap[regno].length + ' cropped.y' + bitwisemap[regno][0].length+' bmpfont'+font[regno]);
 	}
-	self.postMessage({
-		'view': imgsrc,
-		'imgid': e.data.imgid,
-		'filename': e.data.filename,
-		'bitwisemap': bitwisemap,
-		'fruits_orig': fruits_orig,
-		'fruits': fruits
-	});
-	self.close();
 });
 
 function toPaddedHexString(num, len) {
