@@ -15,7 +15,7 @@ self.addEventListener("message", function (e) {
 		var font = new Array(e.data.region_data.length);
 		var imgsrc = new Array(e.data.region_data.length);
 		for(var regno = 0; regno < e.data.region_data.length; regno++){
-			Object.assign(lenna, lenna_bkp);
+			lenna = lenna_bkp.clone();
 			for (var i = 0; i < 5; i++)
 				console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] + 'val' + e.data.region_data[regno][i]);
 			
