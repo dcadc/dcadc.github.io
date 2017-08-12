@@ -6,9 +6,10 @@ importScripts("./8x6bitmapfont.js");
 //importScripts("https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
-		var lenna_bkp = new Object();;
+		var lenna_bkp = new Object();
 		Object.assign(lenna_bkp, lenna);
 		console.log(typeof lenna+' bkp is '+typeof lenna_bkp);
+		console.log( lenna+' bkp is '+ lenna_bkp);
 		var bitwisemap = new Array(e.data.region_data.length);
 		var fruits = new Array(e.data.region_data.length);
 		var fruits_orig = new Array(e.data.region_data.length);
@@ -17,6 +18,7 @@ self.addEventListener("message", function (e) {
 		for(var regno = 0; regno < e.data.region_data.length; regno++){
 			Object.assign(lenna, lenna_bkp);
 			lenna.crop( e.data.region_data[regno][0], e.data.region_data[regno][1], e.data.region_data[regno][2], e.data.region_data[regno][3], );
+			
 			bitwisemap[regno] = new Array(lenna.bitmap.width);
 			for (var i=0; i <lenna.bitmap.width; i++)
 				bitwisemap[regno][i]=new Array(lenna.bitmap.height); 
@@ -24,7 +26,6 @@ self.addEventListener("message", function (e) {
 				// x, y is the position of this pixel on the image
 				// idx is the position start position of this rgba tuple in the bitmap Buffer
 				// this is the image
-
 				var red   = this.bitmap.data[ idx + 0 ];
 				var green = this.bitmap.data[ idx + 1 ];
 				var blue  = this.bitmap.data[ idx + 2 ];
