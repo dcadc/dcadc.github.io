@@ -8,7 +8,7 @@ self.addEventListener("message", function (e) {
 		lenna.crop( e.data.crop_x, e.data.crop_y, e.data.crop_w, e.data.crop_h );
 		var bitwisemap = new Array(lenna.bitmap.width);
 		for (i=0; i <lenna.bitmap.width; i++)
-		bitwisemap[i]=new Array(lenna.bitmap.height); 
+			bitwisemap[i]=new Array(lenna.bitmap.height); 
 		lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 			// x, y is the position of this pixel on the image
 			// idx is the position start position of this rgba tuple in the bitmap Buffer
@@ -31,10 +31,10 @@ self.addEventListener("message", function (e) {
 			//document.writeln(green);
 			// rgba values run from 0 - 255
 			// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
-		});                // set JPEG quality
+		});
 		
 		var fruits = bitwisemap;
-		for(var i = 0; i<fruits.length; i++){
+		for(var i = 0; i < fruits.length; i++){
 			fruits[i]=fruits[i].join('');
 			fruits[i].toString();
 			fruits[i] = parseInt(fruits[i], 2);
@@ -43,7 +43,7 @@ self.addEventListener("message", function (e) {
 		}
 		lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 			if (err) throw err;
-			console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length);
+			console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+lenna.bitmap.width+ ' cropped.y'+lenna.bitmap.height);
 			self.postMessage({
 				'view': src,
 				'imgid': e.data.imgid,
