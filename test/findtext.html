@@ -136,9 +136,8 @@ function newFiles(element){
 				newtext.setAttribute("name", 'HEX'+e.data.imgid);
 				//newtext.setAttribute("value", e.data.fruits.join(','));
 				newtext.setAttribute("value", e.data.fruits_orig);
-				var newSpan = document.createElement("span");
-				newSpan.setAttribute("type", 'text');
-				newSpan.setAttribute("name", 'decode'+e.data.imgid);
+				var newSpan = document.createElement("textarea");
+				newSpan.setAttribute("id", 'decode'+e.data.imgid);
 				newSpan.innerHTML = e.data.fruits;
 				currentDiv.appendChild(img);
 				currentDiv.appendChild(fn);
