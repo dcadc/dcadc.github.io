@@ -33,7 +33,14 @@ self.addEventListener("message", function (e) {
 			// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
 		});
 		
-		var fruits = bitwisemap;
+		var fruits = bitwisemap.slice(0);
+		for(var i = 0; i < fruits.length; i++){
+			fruits[i]=fruits[i].join('');
+			fruits[i].toString();
+			fruits[i] = parseInt(fruits[i], 2);
+			fruits[i] = toPaddedHexString(fruits[i], 2);
+			fruits[i] = "0x"+fruits[i].toUpperCase(); 
+		}
 		lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 			if (err) throw err;
 			console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length);
