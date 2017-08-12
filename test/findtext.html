@@ -111,19 +111,20 @@ function newFiles(element){
 		reader.addEventListener("load", function(){
 			var worker = new Worker("jimp-worker.js");
 			worker.onmessage = function (e) {
-				for(var e.data.regno = 0; e.data.regno < region_data.length; e.data.regno++){
+				for(var regno = 0; regno < region_data.length; regno++){
 					var newTable = document.createElement("table");
-					newTable.setAttribute("id", 'tab'+e.data.imgid+e.data.regno);
+					newTable.setAttribute("id", 'tab'+e.data.imgid+regno);
+					for (var row = 0; row < e.data.bitwisemap[regno][0].length; row++) {
 						//iterate through rows
 						//rows would be accessed using the "row" variable assigned in the for loop
 						var newTR = document.createElement("tr"); 
 						newTR.style.height = '1px';
-						for (var col = 0; col < e.data.bitwisemap[e.data.regno].length; col++) {
+						for (var col = 0; col < e.data.bitwisemap[regno].length; col++) {
 							//iterate through columns
 							//columns would be accessed using the "col" variable assigned in the for loop
 							var newTD = document.createElement("td"); 
 							newTD.style.width = '1px';
-							if(e.data.bitwisemap[e.data.regno][col][row]){
+							if(e.data.bitwisemap[regno][col][row]){
 								newTD.setAttribute("class", 'b-CH');
 								newTD.style.backgroundColor = '#000000';
 							}
@@ -132,31 +133,31 @@ function newFiles(element){
 								newTD.style.backgroundColor = '#FFFFFF';
 							}
 							newTR.appendChild(newTD);
-							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.bitwisemap[e.data.regno][col][row];
-							//newTD.innerHTML = e.data.bitwisemap[e.data.regno][col][row];
+							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.bitwisemap[regno][col][row];
+							//newTD.innerHTML = e.data.bitwisemap[regno][col][row];
 						}
 						newTable.appendChild(newTR);
 					}
 					
 					var img = document.createElement("img");
-					img.setAttribute("id", 'img'+e.data.imgid+e.data.regno);
-					img.setAttribute("src", e.data.view[e.data.regno]);
+					img.setAttribute("id", 'img'+e.data.imgid+regno);
+					img.setAttribute("src", e.data.view[regno]);
 					
 					var newBr = document.createElement("br"); 				
 					var newDiv = document.createElement("div");				
-					var fn = document.createTextNode(e.data.filename+' region'+e.data.regno);
-					newDiv.setAttribute("id", 'divv'+e.data.imgid+e.data.regno);
-					newDiv.setAttribute("name", e.data.filename+' region'+e.data.regno);
+					var fn = document.createTextNode(e.data.filename+' region'+regno);
+					newDiv.setAttribute("id", 'divv'+e.data.imgid+regno);
+					newDiv.setAttribute("name", e.data.filename+' region'+regno);
 					document.body.appendChild(newDiv);
-					var currentDiv = document.getElementById('divv'+e.data.imgid+e.data.regno); 
+					var currentDiv = document.getElementById('divv'+e.data.imgid+regno); 
 					var newtext = document.createElement("input");
 					newtext.setAttribute("type", 'text');
-					newtext.setAttribute("name", 'HEX'+e.data.imgid+e.data.regno);
-					//newtext.setAttribute("value", e.data.fruits[e.data.regno].join(','));
-					newtext.setAttribute("value", e.data.fruits_orig[e.data.regno]);
+					newtext.setAttribute("name", 'HEX'+e.data.imgid+regno);
+					//newtext.setAttribute("value", e.data.fruits[regno].join(','));
+					newtext.setAttribute("value", e.data.fruits_orig[regno]);
 					var newSpan = document.createElement("textarea");
-					newSpan.setAttribute("id", 'decode'+e.data.imgid+e.data.regno);
-					newSpan.innerHTML = e.data.fruits[e.data.regno].replace(/x[0-9A-F]{1,2}x/g, "");
+					newSpan.setAttribute("id", 'decode'+e.data.imgid+regno);
+					newSpan.innerHTML = e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
 					currentDiv.appendChild(img);
 					currentDiv.appendChild(fn);
 					currentDiv.appendChild(newBr);
@@ -165,7 +166,8 @@ function newFiles(element){
 					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(newtext);
 					document.body.insertBefore(newBr, currentDiv); 
-					console.log('00000000004'+'x.length='+e.data.bitwisemap[e.data.regno].length+' y.length='+e.data.bitwisemap[e.data.regno][0].length);
+					console.log('00000000004'+'x.length='+e.data.bitwisemap[regno].length+' y.length='+e.data.bitwisemap[regno][0].length);
+				}
 			};
 			worker.postMessage({
 				'cmd': this.result,
