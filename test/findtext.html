@@ -220,9 +220,9 @@ function CHSW() {
 	}
 }
 function crop_rst() {
-	document.crop_param.crop_x.value = "102";//"71";
+	document.crop_param.crop_x.value = "60";//"71";
 	document.crop_param.crop_y.value = "47";//"57""46";
-	document.crop_param.crop_w.value = "132";
+	document.crop_param.crop_w.value = "174";
 	document.crop_param.crop_h.value = "8";//"20";
 	document.crop_param.region_no.value = "1";
 	refresh_region();
@@ -269,6 +269,7 @@ function sel_region() {
 function value_sync(valuesegment) {
     var x = document.getElementById("region_select").value.slice(7);
 		console.log(valuesegment.id);
+		/*
 	switch (valuesegment.id){
 		case "crop_x":
 			region_data[x][0] = document.crop_param.crop_x.value;
@@ -286,6 +287,13 @@ function value_sync(valuesegment) {
 			region_data[x][4] = document.crop_param.text_color.value;
 			break;
 	}
+	*/
+	
+	region_data[x][0] = document.crop_param.crop_x.value;
+	region_data[x][1] = document.crop_param.crop_y.value;
+	region_data[x][2] = document.crop_param.crop_w.value;
+	region_data[x][3] = document.crop_param.crop_h.value;
+	region_data[x][4] = document.crop_param.text_color.value;
 	for(var i = 0; i < 5; i++)
 		region_data[x][i] = isNaN(parseInt(region_data[x][i], 10))?0:parseInt(region_data[x][i], 10);
 }
