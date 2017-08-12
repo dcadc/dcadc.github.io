@@ -71,7 +71,7 @@ self.addEventListener("message", function (e) {
 		}
 		lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 			if (err) throw err;
-			console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length);
+			console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length+' bmpfont'+bmpfont1);
 			self.postMessage({
 				'view': src,
 				'imgid': e.data.imgid,
