@@ -11,6 +11,7 @@ self.addEventListener("message", function (e) {
 		var fruits = new Array(e.data.region_data.length);
 		var fruits_orig = new Array(e.data.region_data.length);
 		var font = new Array(e.data.region_data.length);
+		var imgsrc = new Array(e.data.region_data.length);
 		for(var regno = 0; regno < e.data.region_data.length; regno++){
 			lenna = lenna_bkp.slice(0);
 			lenna.crop( e.data.region_data[regno][0], e.data.region_data[regno][1], e.data.region_data[regno][2], e.data.region_data[regno][3], );
@@ -74,10 +75,10 @@ self.addEventListener("message", function (e) {
 						}
 					}
 				}
-				
 			}
-			lenna.getBase64(Jimp.MIME_JPEG, function (err, src[regno]) {
+			lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 				if (err) throw err;
+				imgsrc[regno] = src;
 			});	
 		}
 		console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length+' bmpfont'+font[regno]);
