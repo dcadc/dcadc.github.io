@@ -18,12 +18,14 @@ self.addEventListener("message", function (e) {
 		Jimp.read(e.data.cmd).then(function (lenna) {
 			//Object.assign(lenna, lenna_bkp);
 			for (var i = 0; i < 5; i++)
-				console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] + 'val' + e.data.region_data[regno][i]);
+				console.log('e.data.region_data[regno][i] = ' + typeof e.data.region_data[regno][i] + ' val= ' + e.data.region_data[regno][i]);
+			
 			lenna.crop( e.data.region_data[regno][0], e.data.region_data[regno][1], e.data.region_data[regno][2], e.data.region_data[regno][3] );
 			
 			bitwisemap[regno] = new Array(lenna.bitmap.width);
 			for (var i=0; i <lenna.bitmap.width; i++)
 				bitwisemap[regno][i]=new Array(lenna.bitmap.height); 
+			
 			lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 				// x, y is the position of this pixel on the image
 				// idx is the position start position of this rgba tuple in the bitmap Buffer
@@ -46,6 +48,7 @@ self.addEventListener("message", function (e) {
 				// rgba values run from 0 - 255
 				// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
 			});
+			
 			fruits[regno] = bitwisemap[regno].slice(0);
 			if ( e.data.region_data[regno][3] == 8) {
 				/*
@@ -90,7 +93,7 @@ self.addEventListener("message", function (e) {
 				imgsrc[regno] = src;
 			});	
 		});
-	console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap[regno].length+ ' cropped.y'+bitwisemap[regno][0].length+' bmpfont'+font[regno]);
+		console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap[regno].length+ ' cropped.y'+bitwisemap[regno][0].length+' bmpfont'+font[regno]);
 	}
 	self.postMessage({
 		'view': imgsrc,
