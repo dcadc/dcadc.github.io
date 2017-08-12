@@ -67,7 +67,8 @@ self.addEventListener("message", function (e) {
 				}
 				fruits[regno] = fruits[regno].join('');
 				fruits_orig[regno] = fruits[regno].slice(0);
-				font[regno] = bmpfont1.slice(0);
+				Object.assign(font[regno], bmpfont1);
+				//font[regno] = bmpfont1.slice(0);
 				for(var i = font[regno].length-1; i >= 0; i--){
 					if((typeof font[regno][i]) != 'undefined'){
 						if((font[regno][i].length) > 0){						
