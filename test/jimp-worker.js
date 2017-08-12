@@ -58,9 +58,10 @@ self.addEventListener("message", function (e) {
 				if((typeof bmpfont1[i]) != 'undefined'){
 					if((bmpfont1[i].length) > 0){						
 						for(var j = 0; j < bmpfont1[i].length; j++){
-							bmpfont1[i]=toPaddedHexString(bmpfont1[i][j], 2);
-							bmpfont1[i]="x"+bmpfont1[i].toUpperCase()+"x";
+							bmpfont1[i][j]=toPaddedHexString(bmpfont1[i][j], 2);
+							bmpfont1[i][j]="x"+bmpfont1[i].toUpperCase()+"x";
 						}
+						bmpfont1[i] = bmpfont1[i].join('');
 						fruits = fruits.replace("&#"+ i +";", bmpfont1[i]);
 					}
 				}
