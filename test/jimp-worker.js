@@ -53,6 +53,7 @@ self.addEventListener("message", function (e) {
 				fruits[i] = "x"+fruits[i].toUpperCase()+"x"; 
 			}
 			fruits = fruits.join('');
+			var fruits_orig = fruits.slice(0);
 			
 			for(var i = bmpfont1.length-1; i >= 0; i--){
 				if((typeof bmpfont1[i]) != 'undefined'){
@@ -63,7 +64,7 @@ self.addEventListener("message", function (e) {
 						}
 						bmpfont1[i] = bmpfont1[i].join('');
 						//fruits = bmpfont1[48];
-						fruits = fruits.replace('/'+bmpfont1[i]+'/g', "&#"+ i +";");
+						fruits = fruits.replace(new RegExp(bmpfont1[i], 'g'), "&#"+ i +";");
 					}
 				}
 			}
@@ -76,7 +77,7 @@ self.addEventListener("message", function (e) {
 				'view': src,
 				'imgid': e.data.imgid,
 				'filename': e.data.filename,
-				'bitwisemap': bitwisemap,
+				'bitwisemap': fruits_orig,
 				'fruits': fruits
 			});
 			self.close();
