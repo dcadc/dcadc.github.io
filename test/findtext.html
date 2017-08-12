@@ -220,12 +220,13 @@ function CHSW() {
 	}
 }
 function crop_rst() {
+	refresh_region();
 	document.crop_param.crop_x.value = "102";//"71";
 	document.crop_param.crop_y.value = "47";//"57""46";
 	document.crop_param.crop_w.value = "132";
 	document.crop_param.crop_h.value = "8";//"20";
 	document.crop_param.region_no.value = "1";
-	 refresh_region();
+	sel_region() ;
 }
 function refresh_region(){
 	var reg_sel = document.getElementById('region_select');
