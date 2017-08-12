@@ -141,10 +141,11 @@ function newFiles(element){
 				newSpan.innerHTML = e.data.fruits;
 				currentDiv.appendChild(img);
 				currentDiv.appendChild(fn);
+				currentDiv.appendChild(newBr);
+				currentDiv.appendChild(newSpan);
 				currentDiv.appendChild(newTable);
 				currentDiv.appendChild(newBr);
 				currentDiv.appendChild(newtext);
-				currentDiv.appendChild(newSpan);
 				document.body.insertBefore(newBr, currentDiv); 
 				console.log('00000000004'+'x.length='+e.data.bitwisemap.length+' y.length='+e.data.bitwisemap[0].length);
 			};
