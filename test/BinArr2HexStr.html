@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to convert the array into a String.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+	var fruitsnn = [[1,0,1,1,0,0,1,0], [1,1,0,1,1,0,0,1], [0,0,0,0,1,1,1,0], [0,0,1,1,0,0,0,0]];
+	var fruits = fruitsnn;
+	for(var i = 0; i<fruits.length; i++){
+		fruits[i]=fruits[i].join('');
+		console.log('0000000000['+i+']'+typeof fruits+' '+typeof fruits[i]+' val='+fruits);
+		fruits[i].toString();
+		console.log('0000000000['+i+']'+typeof fruits+' '+typeof fruits[i]+' val='+fruits);
+		fruits[i] = parseInt(fruits[i], 2);
+		console.log('0000000000['+i+']'+typeof fruits+' '+typeof fruits[i]+' val='+fruits);
+		//fruits[i] = fruits[i].toString(16);
+		fruits[i] = toPaddedHexString(fruits[i], 2)
+		console.log('0000000000['+i+']'+typeof fruits+' '+typeof fruits[i]+' val='+fruits);
+		fruits[i] = "0x"+fruits[i].toUpperCase();
+		console.log('0000000000['+i+']'+typeof fruits+' '+typeof fruits[i]+' val='+fruits);
+	}
+	
+	function toPaddedHexString(num, len) {
+		str = num.toString(16);
+		return "0".repeat(len - str.length) + str;
+	}
+
+	var hexStr = toPaddedHexString(255, 2);
+	document.getElementById("demo").innerHTML = hexStr;
+}
+</script>
+
+</body>
+</html>

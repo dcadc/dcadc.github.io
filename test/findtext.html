@@ -13,31 +13,31 @@
 
 <form id=crop_param name=crop_param onsubmit="return false">
 <table>
-	<tr>
-		<td style="text-align:right;">Crop x posisition:</td>
-		<td style="text-align:center;"><input id=crop_x size=15 /></td>
-		<td style="text-align:left;">px</td>
-	</tr>
-	<tr>
-		<td style="text-align:right;">Crop y posisition:</td>
-		<td style="text-align:center;"><input id=crop_y size=15 /></td>
-		<td style="text-align:left;">px</td>
-	</tr>
-	<tr>
-		<td style="text-align:right;">Crop width(x-axis):</td>
-		<td style="text-align:center;"><input id=crop_w size=15 /></td>
-		<td style="text-align:left;">px</td>
-	</tr>
-	<tr>
-		<td style="text-align:right;">Crop height(y-axis):</td>
-		<td style="text-align:center;"><input id=crop_h size=15 /></td>
-		<td style="text-align:left;">px</td>
-	</tr>
-	<tr>
-		<td style="text-align:right;"> </td>
-		<td style="text-align:center;"><button onclick="CHSW()">SWAP BW</button></td>
-		<td style="text-align:left;"><button onclick="crop_rst()">reset</button></td>
-	</tr>
+<tr>
+<td style="text-align:right;">Crop x posisition:</td>
+<td style="text-align:center;"><input id=crop_x size=15 /></td>
+<td style="text-align:left;">px</td>
+</tr>
+<tr>
+<td style="text-align:right;">Crop y posisition:</td>
+<td style="text-align:center;"><input id=crop_y size=15 /></td>
+<td style="text-align:left;">px</td>
+</tr>
+<tr>
+<td style="text-align:right;">Crop width(x-axis):</td>
+<td style="text-align:center;"><input id=crop_w size=15 /></td>
+<td style="text-align:left;">px</td>
+</tr>
+<tr>
+<td style="text-align:right;">Crop height(y-axis):</td>
+<td style="text-align:center;"><input id=crop_h size=15 /></td>
+<td style="text-align:left;">px</td>
+</tr>
+<tr>
+<td style="text-align:right;"> </td>
+<td style="text-align:center;"><button onclick="CHSW()">SWAP BW</button></td>
+<td style="text-align:left;"><button onclick="crop_rst()">reset</button></td>
+</tr>
 </table>
 </form>
 </br />
@@ -127,9 +127,16 @@ function newFiles(element){
 				newDiv.setAttribute("name", e.data.filename);
 				document.body.appendChild(newDiv);
 				var currentDiv = document.getElementById('divv'+e.data.imgid); 
+				var newtext = document.createElement("input");
+				newtext.setAttribute("type", 'text');
+				newtext.setAttribute("name", 'HEX'+e.data.imgid);
+				newtext.setAttribute("value", e.data.fruit.join(','));
+				
 				currentDiv.appendChild(img);
 				currentDiv.appendChild(fn);
 				currentDiv.appendChild(newTable);
+				currentDiv.appendChild(newBr);
+				currentDiv.appendChild(newtext);
 				document.body.insertBefore(newBr, currentDiv); 
 				console.log('00000000004'+'x.length='+e.data.bitwisemap.length+' y.length='+e.data.bitwisemap[0].length);
 			};
@@ -183,9 +190,9 @@ function CHSW() {
 	}
 }
 function crop_rst() {
-	document.crop_param.crop_x.value = "71";
+	document.crop_param.crop_x.value = "126";//"71";
 	document.crop_param.crop_y.value = "47";//"46";
-	document.crop_param.crop_w.value = "163";
+	document.crop_param.crop_w.value = "30";
 	document.crop_param.crop_h.value = "8";//"20";
 }
 
