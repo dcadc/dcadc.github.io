@@ -63,7 +63,7 @@ self.addEventListener("message", function (e) {
 						}
 						bmpfont1[i] = bmpfont1[i].join('');
 						//fruits = bmpfont1[48];
-						//fruits = fruits.replace(bmpfont1[i], "&#"+ i +";");
+						fruits = fruits.replace(/bmpfont1[i]/g, "&#"+ i +";");
 					}
 				}
 			}
