@@ -5,21 +5,20 @@ importScripts("../js/jimp.min.js");
 importScripts("./8x6bitmapfont.js");
 //importScripts("https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js");
 self.addEventListener("message", function (e) {
-	Jimp.read(e.data.cmd).then(function (lenna) {
-		var lenna_bkp = new Jimp();
-		Object.assign(lenna_bkp, lenna);
-		console.log(typeof lenna+' bkp is '+typeof lenna_bkp);
-		console.log( lenna+' bkp is '+ lenna_bkp);
-		var bitwisemap = new Array(e.data.region_data.length);
-		var fruits = new Array(e.data.region_data.length);
-		var fruits_orig = new Array(e.data.region_data.length);
-		var font = new Array(e.data.region_data.length);
-		var imgsrc = new Array(e.data.region_data.length);
-		for(var regno = 0; regno < e.data.region_data.length; regno++){
-			Object.assign(lenna, lenna_bkp);
+	var lenna_bkp = new Jimp();
+	Object.assign(lenna_bkp, lenna);
+	console.log(typeof lenna+' bkp is '+typeof lenna_bkp);
+	console.log( lenna+' bkp is '+ lenna_bkp);
+	var bitwisemap = new Array(e.data.region_data.length);
+	var fruits = new Array(e.data.region_data.length);
+	var fruits_orig = new Array(e.data.region_data.length);
+	var font = new Array(e.data.region_data.length);
+	var imgsrc = new Array(e.data.region_data.length);
+	for(var regno = 0; regno < e.data.region_data.length; regno++){
+		Jimp.read(e.data.cmd).then(function (lenna) {
+			//Object.assign(lenna, lenna_bkp);
 			for (var i = 0; i < 5; i++)
 				console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] + 'val' + e.data.region_data[regno][i]);
-			
 			lenna.crop( e.data.region_data[regno][0], e.data.region_data[regno][1], e.data.region_data[regno][2], e.data.region_data[regno][3] );
 			
 			bitwisemap[regno] = new Array(lenna.bitmap.width);
@@ -90,18 +89,18 @@ self.addEventListener("message", function (e) {
 				if (err) throw err;
 				imgsrc[regno] = src;
 			});	
-		}
-		console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length+' bmpfont'+font[regno]);
-		self.postMessage({
-			'view': imgsrc,
-			'imgid': e.data.imgid,
-			'filename': e.data.filename,
-			'bitwisemap': bitwisemap,
-			'fruits_orig': fruits_orig,
-			'fruits': fruits
 		});
-		self.close();
+	}
+	console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length+' bmpfont'+font[regno]);
+	self.postMessage({
+		'view': imgsrc,
+		'imgid': e.data.imgid,
+		'filename': e.data.filename,
+		'bitwisemap': bitwisemap,
+		'fruits_orig': fruits_orig,
+		'fruits': fruits
 	});
+	self.close();
 });
 
 function toPaddedHexString(num, len) {
