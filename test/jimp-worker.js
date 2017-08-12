@@ -17,6 +17,8 @@ self.addEventListener("message", function (e) {
 		var imgsrc = new Array(e.data.region_data.length);
 		for(var regno = 0; regno < e.data.region_data.length; regno++){
 			Object.assign(lenna, lenna_bkp);
+			for (var i = 0; i < 5; i++)
+				console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] 'val' + e.data.region_data[regno][i]);
 			lenna.crop( e.data.region_data[regno][0], e.data.region_data[regno][1], e.data.region_data[regno][2], e.data.region_data[regno][3] );
 			
 			bitwisemap[regno] = new Array(lenna.bitmap.width);
