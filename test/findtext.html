@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Jimp 也是很猛</title>
-<link rel="stylesheet" href="/css/test.css" />
+<link rel="stylesheet" href="../css/test.css" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
 </head>
@@ -12,25 +12,25 @@
 <p>可以支援多檔轉換喔</p>
 
 <form id=crop_param name=crop_param onsubmit="return false">
-<table border=1 class="inlineTable">
+<table class="inlineTable">
 <tr>
 <td style="text-align:right;">Crop x posisition:</td>
-<td style="text-align:center;"><input id=crop_x size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync(this)" id=crop_x size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop y posisition:</td>
-<td style="text-align:center;"><input id=crop_y size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync(this)" id=crop_y size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop width(x-axis):</td>
-<td style="text-align:center;"><input id=crop_w size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync(this)" id=crop_w size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop height(y-axis):</td>
-<td style="text-align:center;"><input id=crop_h size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync(this)" id=crop_h size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
@@ -39,31 +39,34 @@
 <td style="text-align:left;"><button onclick="crop_rst()">reset</button></td>
 </tr>
 </table>
-<table border=1 class="inlineTable">
+<table class="inlineTable">
 <tr>
-<td style="text-align:right;">Crop x posisition:</td>
-<td style="text-align:center;"><input id=crop_x size=15 /></td>
-<td style="text-align:left;">px</td>
+<td style="text-align:right;">Enable text converting</td>
+<td style="text-align:center;"><input type="checkbox" id="convert_en"></td>
+<td style="text-align:left;"></td>
 </tr>
 <tr>
-<td style="text-align:right;">Crop y posisition:</td>
-<td style="text-align:center;"><input id=crop_y size=15 /></td>
-<td style="text-align:left;">px</td>
+<td style="text-align:right;">Number of regions</td>
+<td style="text-align:center;"><input id=region_no  onchange="refresh_region()" size=15 /></td>
+<td style="text-align:left;"></td>
 </tr>
 <tr>
-<td style="text-align:right;">Crop width(x-axis):</td>
-<td style="text-align:center;"><input id=crop_w size=15 /></td>
-<td style="text-align:left;">px</td>
+<td style="text-align:right;">Region select:</td>
+<td style="text-align:center;">
+  <select id="region_select" onchange="sel_region()">
+</select>
+</td>
+<td style="text-align:left;"></td>
 </tr>
 <tr>
-<td style="text-align:right;">Crop height(y-axis):</td>
-<td style="text-align:center;"><input id=crop_h size=15 /></td>
-<td style="text-align:left;">px</td>
+<td style="text-align:right;">Text color:</td>
+<td style="text-align:center;"><input onchange="value_sync(this)" id=text_color size=15 /></td>
+<td style="text-align:left;"> </td>
 </tr>
 <tr>
 <td style="text-align:right;"> </td>
-<td style="text-align:center;"><button onclick="CHSW()">SWAP BW</button></td>
-<td style="text-align:left;"><button onclick="crop_rst()">reset</button></td>
+<td style="text-align:center;"><!--<button onclick="c()">SWAP BW</button>--></td>
+<td style="text-align:left;"><!--<button onclick="crop_rst()">reset</button>--></td>
 </tr>
 </table>
 </form>
@@ -103,83 +106,74 @@ function newFiles(element){
 		}
 	} 
 
-
-	//for (var i=0; i<element.files.length; i++) {
-	//	readFileAndProcess(element.files[i]);
-	//}
-	//element.stopPropagation();
-	//element.preventDefault();
-	//for (var i=0; i<element.dataTransfer.files.length; i++) {
-	//	readFileAndProcess(element.dataTransfer.files[i]);
-	//}
-
 	function readFileAndProcess(readfile){
 		var reader = new FileReader();
 		reader.addEventListener("load", function(){
 			var worker = new Worker("jimp-worker.js");
 			worker.onmessage = function (e) {
-				var newTable = document.createElement("table");
-				newTable.setAttribute("id", 'tab'+e.data.imgid);
-				for (var row = 0; row < e.data.bitwisemap[0].length; row++) {
-					//iterate through rows
-					//rows would be accessed using the "row" variable assigned in the for loop
-					var newTR = document.createElement("tr"); 
-					newTR.style.height = '1px';
-					for (var col = 0; col < e.data.bitwisemap.length; col++) {
-						//iterate through columns
-						//columns would be accessed using the "col" variable assigned in the for loop
-						var newTD = document.createElement("td"); 
-						newTD.style.width = '1px';
-						if(e.data.bitwisemap[col][row]){
-							newTD.setAttribute("class", 'b-CH');
-							newTD.style.backgroundColor = '#000000';
+				for(var regno = 0; regno < region_data.length; regno++){
+					var newTable = document.createElement("table");
+					newTable.setAttribute("id", 'tab'+e.data.imgid+regno);
+					for (var row = 0; row < e.data.bitwisemap[regno][0].length; row++) {
+						//iterate through rows
+						//rows would be accessed using the "row" variable assigned in the for loop
+						var newTR = document.createElement("tr"); 
+						newTR.style.height = '1px';
+						for (var col = 0; col < e.data.bitwisemap[regno].length; col++) {
+							//iterate through columns
+							//columns would be accessed using the "col" variable assigned in the for loop
+							var newTD = document.createElement("td"); 
+							newTD.style.width = '1px';
+							if(e.data.bitwisemap[regno][col][row]){
+								newTD.setAttribute("class", 'b-CH');
+								newTD.style.backgroundColor = '#000000';
+							}
+							else{
+								newTD.setAttribute("class", 'w-CH');
+								newTD.style.backgroundColor = '#FFFFFF';
+							}
+							newTR.appendChild(newTD);
+							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.bitwisemap[regno][col][row];
+							//newTD.innerHTML = e.data.bitwisemap[regno][col][row];
 						}
-						else{
-							newTD.setAttribute("class", 'w-CH');
-							newTD.style.backgroundColor = '#FFFFFF';
-						}
-						newTR.appendChild(newTD);
-						//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.bitwisemap[col][row];
-						//newTD.innerHTML = e.data.bitwisemap[col][row];
+						newTable.appendChild(newTR);
 					}
-					newTable.appendChild(newTR);
+					
+					var img = document.createElement("img");
+					img.setAttribute("id", 'img'+e.data.imgid+regno);
+					img.setAttribute("src", e.data.view[regno]);
+					
+					var newBr = document.createElement("br"); 				
+					var newDiv = document.createElement("div");				
+					var fn = document.createTextNode(e.data.filename+' region'+regno);
+					newDiv.setAttribute("id", 'divv'+e.data.imgid+regno);
+					newDiv.setAttribute("name", e.data.filename+' region'+regno);
+					document.body.appendChild(newDiv);
+					var currentDiv = document.getElementById('divv'+e.data.imgid+regno); 
+					var newtext = document.createElement("input");
+					newtext.setAttribute("type", 'text');
+					newtext.setAttribute("name", 'HEX'+e.data.imgid+regno);
+					//newtext.setAttribute("value", e.data.fruits[regno].join(','));
+					newtext.setAttribute("value", e.data.fruits_orig[regno]);
+					var newSpan = document.createElement("textarea");
+					newSpan.setAttribute("id", 'decode'+e.data.imgid+regno);
+					newSpan.innerHTML = e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
+					currentDiv.appendChild(img);
+					currentDiv.appendChild(fn);
+					currentDiv.appendChild(newBr);
+					currentDiv.appendChild(newTable);
+					currentDiv.appendChild(newSpan);
+					currentDiv.appendChild(newBr);
+					//currentDiv.appendChild(newtext);
+					document.body.insertBefore(newBr, currentDiv); 
+					console.log('00000000004'+'x.length='+e.data.bitwisemap[regno].length+' y.length='+e.data.bitwisemap[regno][0].length);
 				}
-				
-				var img = document.createElement("img");
-				img.setAttribute("id", 'img'+e.data.imgid);
-				img.setAttribute("src", e.data.view);
-				
-				var newBr = document.createElement("br"); 
-				
-				var newDiv = document.createElement("div"); 
-				
-				var fn = document.createTextNode(e.data.filename);
-				newDiv.setAttribute("id", 'divv'+e.data.imgid);
-				newDiv.setAttribute("name", e.data.filename);
-				document.body.appendChild(newDiv);
-				var currentDiv = document.getElementById('divv'+e.data.imgid); 
-				var newtext = document.createElement("input");
-				newtext.setAttribute("type", 'text');
-				newtext.setAttribute("name", 'HEX'+e.data.imgid);
-				//newtext.setAttribute("value", e.data.fruits.join(','));
-				newtext.setAttribute("value", e.data.fruits_orig);
-				var newSpan = document.createElement("textarea");
-				newSpan.setAttribute("id", 'decode'+e.data.imgid);
-				newSpan.innerHTML = e.data.fruits.replace(/x[0-9A-F]{1,2}x/g, "");
-				currentDiv.appendChild(img);
-				currentDiv.appendChild(fn);
-				currentDiv.appendChild(newBr);
-				currentDiv.appendChild(newTable);
-				currentDiv.appendChild(newSpan);
-				currentDiv.appendChild(newBr);
-				//currentDiv.appendChild(newtext);
-				document.body.insertBefore(newBr, currentDiv); 
-				console.log('00000000004'+'x.length='+e.data.bitwisemap.length+' y.length='+e.data.bitwisemap[0].length);
 			};
 			worker.postMessage({
 				'cmd': this.result,
 				'imgid': ids++,
 				'filename': readfile.name,
+				'region_data': region_data,
 				'crop_x': crop_x,
 				'crop_y': crop_y,
 				'crop_w': crop_w,
@@ -230,8 +224,71 @@ function crop_rst() {
 	document.crop_param.crop_y.value = "47";//"57""46";
 	document.crop_param.crop_w.value = "132";
 	document.crop_param.crop_h.value = "8";//"20";
+	document.crop_param.region_no.value = "1";
+	 refresh_region();
+}
+function refresh_region(){
+	var reg_sel = document.getElementById('region_select');
+	if((reg_sel.options.length)<(document.crop_param.region_no.value)){
+		for(var i = reg_sel.options.length; i < (document.crop_param.region_no.value) ; i++){ 
+				var new_reg_opt = document.createElement("option");
+				new_reg_opt.value = "region_"+i;
+				new_reg_opt.id = "region_"+i;
+				var new_reg_txt = document.createTextNode(new_reg_opt.value);
+				new_reg_opt.appendChild(new_reg_txt);
+				reg_sel.appendChild(new_reg_opt);
+		}
+	}
+	region_data = new Array(reg_sel.options.length);
+	for (var i=0; i <reg_sel.options.length; i++){
+		region_data[i]=new Array(5); 
+	}
+}
+function sel_region() {
+    var x = document.getElementById("region_select").value.slice(7);
+		console.log(x);
+	if((typeof region_data[x][0]) != 'undefined'){
+		document.crop_param.crop_x.value = region_data[x][0];
+		document.crop_param.crop_y.value = region_data[x][1];
+		document.crop_param.crop_w.value = region_data[x][2];
+		document.crop_param.crop_h.value = region_data[x][3];
+		document.crop_param.text_color.value = region_data[x][4];
+	}
+	else{
+		region_data[x][0] = document.crop_param.crop_x.value;
+		region_data[x][1] = document.crop_param.crop_y.value;
+		region_data[x][2] = document.crop_param.crop_w.value;
+		region_data[x][3] = document.crop_param.crop_h.value;
+		region_data[x][4] = document.crop_param.text_color.value;
+		for(var i = 0; i < 5; i++)
+			region_data[x][i] = isNaN(parseInt(region_data[x][i], 10))?0:parseInt(region_data[x][i], 10);
+	}
 }
 
+function value_sync(valuesegment) {
+    var x = document.getElementById("region_select").value.slice(7);
+		console.log(valuesegment.id);
+	switch (valuesegment.id){
+		case "crop_x":
+			region_data[x][0] = document.crop_param.crop_x.value;
+			break;
+		case "crop_y":
+			region_data[x][1] = document.crop_param.crop_y.value;
+			break;
+		case "crop_w":
+			region_data[x][2] = document.crop_param.crop_w.value;
+			break;
+		case "crop_h":
+			region_data[x][3] = document.crop_param.crop_h.value;
+			break;
+		case "text_color":
+			region_data[x][4] = document.crop_param.text_color.value;
+			break;
+	}
+	for(var i = 0; i < 5; i++)
+		region_data[x][i] = isNaN(parseInt(region_data[x][i], 10))?0:parseInt(region_data[x][i], 10);
+}
+	var region_data// = new Array(document.crop_param.region_no.value);
 </script>
 </body>
 </html>
