@@ -111,10 +111,9 @@ function newFiles(element){
 		reader.addEventListener("load", function(){
 			var worker = new Worker("jimp-worker.js");
 			worker.onmessage = function (e) {
-				//for(var e.data.regno = 0; e.data.regno < region_data.length; e.data.regno++){
+				for(var e.data.regno = 0; e.data.regno < region_data.length; e.data.regno++){
 					var newTable = document.createElement("table");
 					newTable.setAttribute("id", 'tab'+e.data.imgid+e.data.regno);
-					for (var row = 0; row < e.data.bitwisemap[e.data.regno][0].length; row++) {
 						//iterate through rows
 						//rows would be accessed using the "row" variable assigned in the for loop
 						var newTR = document.createElement("tr"); 
@@ -167,7 +166,6 @@ function newFiles(element){
 					currentDiv.appendChild(newtext);
 					document.body.insertBefore(newBr, currentDiv); 
 					console.log('00000000004'+'x.length='+e.data.bitwisemap[e.data.regno].length+' y.length='+e.data.bitwisemap[e.data.regno][0].length);
-				//}
 			};
 			worker.postMessage({
 				'cmd': this.result,
