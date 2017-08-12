@@ -62,7 +62,7 @@ self.addEventListener("message", function (e) {
 							bmpfont1[i][j] = "x"+bmpfont1[i][j].toUpperCase()+"x";
 						}
 						bmpfont1[i] = bmpfont1[i].join('');
-						fruits = bmpfont1[48];
+						//fruits = bmpfont1[48];
 						//fruits = fruits.replace(bmpfont1[i], "&#"+ i +";");
 					}
 				}
