@@ -138,7 +138,7 @@ function newFiles(element){
 				newtext.setAttribute("value", e.data.fruits_orig);
 				var newSpan = document.createElement("textarea");
 				newSpan.setAttribute("id", 'decode'+e.data.imgid);
-				newSpan.innerHTML = e.data.fruits;
+				newSpan.innerHTML = e.data.fruits.replace(/x[0-9A-F]{1,2}x/g, "");
 				currentDiv.appendChild(img);
 				currentDiv.appendChild(fn);
 				currentDiv.appendChild(newBr);
