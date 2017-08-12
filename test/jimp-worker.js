@@ -67,9 +67,11 @@ self.addEventListener("message", function (e) {
 				}
 				fruits[regno] = fruits[regno].join('');
 				fruits_orig[regno] = fruits[regno].slice(0);
+				font[regno] = new Array(bmpfont1.length);
 				for(var i = bmpfont1.length-1; i >= 0; i--){
 					if((typeof bmpfont1[i]) != 'undefined'){
-						if((bmpfont1[i].length) > 0){						
+						if((bmpfont1[i].length) > 0){
+							font[regno][i] = new Array(bmpfont1[i].length);	
 							for(var j = 0; j < bmpfont1[i].length; j++){
 								font[regno][i][j] = bmpfont1[i][j].slice(0);
 								font[regno][i][j] = toPaddedHexString(font[regno][i][j], 2);
