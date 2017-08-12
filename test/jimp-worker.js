@@ -90,8 +90,8 @@ self.addEventListener("message", function (e) {
 				imgsrc[regno] = src;
 			});	
 		});
-	console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap[regno].length+ ' cropped.y'+bitwisemap[regno][0].length+' bmpfont'+font[regno]);
 	}
+	console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length+' bmpfont'+font[regno]);
 	self.postMessage({
 		'view': imgsrc,
 		'imgid': e.data.imgid,
