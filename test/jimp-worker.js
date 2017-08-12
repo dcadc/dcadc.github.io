@@ -67,12 +67,11 @@ self.addEventListener("message", function (e) {
 				}
 				fruits[regno] = fruits[regno].join('');
 				fruits_orig[regno] = fruits[regno].slice(0);
-				Object.assign(font[regno], bmpfont1);
-				//font[regno] = bmpfont1.slice(0);
-				for(var i = font[regno].length-1; i >= 0; i--){
-					if((typeof font[regno][i]) != 'undefined'){
-						if((font[regno][i].length) > 0){						
-							for(var j = 0; j < font[regno][i].length; j++){
+				for(var i = bmpfont1.length-1; i >= 0; i--){
+					if((typeof bmpfont1[i]) != 'undefined'){
+						if((bmpfont1[i].length) > 0){						
+							for(var j = 0; j < bmpfont1[i].length; j++){
+								font[regno][i][j] = bmpfont1[i][j].slice(0);
 								font[regno][i][j] = toPaddedHexString(font[regno][i][j], 2);
 								font[regno][i][j] = "x"+font[regno][i][j].toUpperCase()+"x";
 							}
