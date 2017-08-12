@@ -2,13 +2,14 @@
 /* global Jimp */
 
 importScripts("../js/jimp.min.js");
+importScripts("./8x6bitmapfont.js");
 //importScripts("https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
 		lenna.crop( e.data.crop_x, e.data.crop_y, e.data.crop_w, e.data.crop_h );
 		var bitwisemap = new Array(lenna.bitmap.width);
 		for (i=0; i <lenna.bitmap.width; i++)
-			bitwisemap[i]=new Array(lenna.bitmap.height); 
+		bitwisemap[i]=new Array(lenna.bitmap.height); 
 		lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 			// x, y is the position of this pixel on the image
 			// idx is the position start position of this rgba tuple in the bitmap Buffer
@@ -32,14 +33,39 @@ self.addEventListener("message", function (e) {
 			// rgba values run from 0 - 255
 			// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
 		});
-		
 		var fruits = bitwisemap.slice(0);
-		for(var i = 0; i < fruits.length; i++){
-			fruits[i]=fruits[i].join('');
-			fruits[i].toString();
-			fruits[i] = parseInt(fruits[i], 2);
-			fruits[i] = toPaddedHexString(fruits[i], 2);
-			fruits[i] = "0x"+fruits[i].toUpperCase(); 
+		var textout = "";
+		if (e.data.crop_h == 8) {
+			/*
+			for(var i = 0; i < fruits.length; i++){
+				fruits[i]=fruits[i].join('');
+				fruits[i].toString();
+				fruits[i] = parseInt(fruits[i], 2);
+				fruits[i] = toPaddedHexString(fruits[i], 2);
+				fruits[i] = "0x"+fruits[i].toUpperCase(); 
+			}
+			*/
+			for(var i = 0; i < fruits.length; i++){
+				fruits[i]=fruits[i].join('');
+				fruits[i].toString();
+				fruits[i] = parseInt(fruits[i], 2);
+				fruits[i] = toPaddedHexString(fruits[i], 2);
+				fruits[i] = "x"+fruits[i].toUpperCase()+"x"; 
+			}
+			fruits = fruits.join('');
+			
+			for(var i = bmpfont1.length-1; i >= 0; i--){
+				if((typeof bmpfont1[i]) != 'undefined'){
+					if((bmpfont1[i].length) > 0){						
+						for(var j = 0; j < bmpfont1[i].length; j++){
+							bmpfont1[i]=toPaddedHexString(bmpfont1[i][j], 2);
+							bmpfont1[i]="x"+bmpfont1[i].toUpperCase()+"x";
+						}
+						fruits = fruits.replace("&#"+ i +";", bmpfont1[i]);
+					}
+				}
+			}
+			
 		}
 		lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 			if (err) throw err;
