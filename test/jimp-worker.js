@@ -6,8 +6,8 @@ importScripts("./8x6bitmapfont.js");
 //importScripts("https://cdn.rawgit.com/oliver-moran/jimp/7d388b7a/browser/lib/jimp.min.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
-		var lenna_bkp = new Object();
-		Object.assign(lenna_bkp, lenna);
+		var lenna_bkp = new Jimp();
+		Jimp.assign(lenna_bkp, lenna);
 		console.log(typeof lenna+' bkp is '+typeof lenna_bkp);
 		console.log( lenna+' bkp is '+ lenna_bkp);
 		var bitwisemap = new Array(e.data.region_data.length);
@@ -16,7 +16,7 @@ self.addEventListener("message", function (e) {
 		var font = new Array(e.data.region_data.length);
 		var imgsrc = new Array(e.data.region_data.length);
 		for(var regno = 0; regno < e.data.region_data.length; regno++){
-			Object.assign(lenna, lenna_bkp);
+			Jimp.assign(lenna, lenna_bkp);
 			lenna.crop( e.data.region_data[regno][0], e.data.region_data[regno][1], e.data.region_data[regno][2], e.data.region_data[regno][3], );
 			
 			bitwisemap[regno] = new Array(lenna.bitmap.width);
