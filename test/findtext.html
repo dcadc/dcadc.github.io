@@ -132,6 +132,7 @@ function newFiles(element){
 				newtext.setAttribute("name", 'HEX'+e.data.imgid);
 				//newtext.setAttribute("value", e.data.fruits.join(','));
 				newtext.setAttribute("value", e.data.fruits);
+				newtext.innerHTML = e.data.fruits;
 				currentDiv.appendChild(img);
 				currentDiv.appendChild(fn);
 				currentDiv.appendChild(newTable);
