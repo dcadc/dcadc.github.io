@@ -77,7 +77,8 @@ self.addEventListener("message", function (e) {
 				'view': src,
 				'imgid': e.data.imgid,
 				'filename': e.data.filename,
-				'bitwisemap': fruits_orig,
+				'bitwisemap': bitwisemap,
+				'fruits_orig': fruits_orig,
 				'fruits': fruits
 			});
 			self.close();

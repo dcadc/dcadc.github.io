@@ -117,11 +117,15 @@ function newFiles(element){
 					}
 					newTable.appendChild(newTR);
 				}
+				
 				var img = document.createElement("img");
 				img.setAttribute("id", 'img'+e.data.imgid);
 				img.setAttribute("src", e.data.view);
+				
 				var newBr = document.createElement("br"); 
+				
 				var newDiv = document.createElement("div"); 
+				
 				var fn = document.createTextNode(e.data.filename);
 				newDiv.setAttribute("id", 'divv'+e.data.imgid);
 				newDiv.setAttribute("name", e.data.filename);
@@ -131,7 +135,7 @@ function newFiles(element){
 				newtext.setAttribute("type", 'text');
 				newtext.setAttribute("name", 'HEX'+e.data.imgid);
 				//newtext.setAttribute("value", e.data.fruits.join(','));
-				newtext.setAttribute("value", e.data.bitwisemap);
+				newtext.setAttribute("value", e.data.fruits_orig);
 				var newSpan = document.createElement("span");
 				newSpan.setAttribute("type", 'text');
 				newSpan.setAttribute("name", 'decode'+e.data.imgid);
