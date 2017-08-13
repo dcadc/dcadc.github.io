@@ -15,22 +15,22 @@
 <table class="inlineTable">
 <tr>
 <td style="text-align:right;">Crop x posisition:</td>
-<td style="text-align:center;"><input onchange="value_sync(this)" id=crop_x size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=crop_x size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop y posisition:</td>
-<td style="text-align:center;"><input onchange="value_sync(this)" id=crop_y size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=crop_y size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop width(x-axis):</td>
-<td style="text-align:center;"><input onchange="value_sync(this)" id=crop_w size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=crop_w size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop height(y-axis):</td>
-<td style="text-align:center;"><input onchange="value_sync(this)" id=crop_h size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=crop_h size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
@@ -59,8 +59,8 @@
 <td style="text-align:left;"></td>
 </tr>
 <tr>
-<td style="text-align:right;">Text color:</td>
-<td style="text-align:center;"><input onchange="value_sync(this)" id=text_color size=15 /></td>
+<td style="text-align:right;">Text color(Hex RGBA):</td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=text_color size=15 /></td>
 <td style="text-align:left;"> </td>
 </tr>
 <tr>
@@ -224,9 +224,10 @@ function crop_rst() {
 	document.crop_param.crop_y.value = "47";//"57""46";
 	document.crop_param.crop_w.value = "168";
 	document.crop_param.crop_h.value = "8";//"20";
+	document.crop_param.text_color.value = "#00FF00FF";
 	document.crop_param.region_no.value = "1";
 	refresh_region();
-	sel_region() ;
+	sel_region();
 }
 function refresh_region(){
 	var reg_sel = document.getElementById('region_select');
@@ -253,23 +254,17 @@ function sel_region() {
 		document.crop_param.crop_y.value = region_data[x][1];
 		document.crop_param.crop_w.value = region_data[x][2];
 		document.crop_param.crop_h.value = region_data[x][3];
-		document.crop_param.text_color.value = region_data[x][4];
+		document.crop_param.text_color.value = '#'+toPaddedHexString(region_data[x][4], 8).toUpperCase();
 	}
 	else{
-		region_data[x][0] = document.crop_param.crop_x.value;
-		region_data[x][1] = document.crop_param.crop_y.value;
-		region_data[x][2] = document.crop_param.crop_w.value;
-		region_data[x][3] = document.crop_param.crop_h.value;
-		region_data[x][4] = document.crop_param.text_color.value;
-		for(var i = 0; i < 5; i++)
-			region_data[x][i] = isNaN(parseInt(region_data[x][i], 10))?0:parseInt(region_data[x][i], 10);
+		value_sync();
 	}
 }
 
-function value_sync(valuesegment) {
-    var x = document.getElementById("region_select").value.slice(7);
-		console.log(valuesegment.id);
-		/*
+function value_sync() {
+	var x = document.getElementById("region_select").value.slice(7);
+	//console.log(valuesegment.id);
+	/*
 	switch (valuesegment.id){
 		case "crop_x":
 			region_data[x][0] = document.crop_param.crop_x.value;
@@ -293,11 +288,23 @@ function value_sync(valuesegment) {
 	region_data[x][1] = document.crop_param.crop_y.value;
 	region_data[x][2] = document.crop_param.crop_w.value;
 	region_data[x][3] = document.crop_param.crop_h.value;
-	region_data[x][4] = document.crop_param.text_color.value;
-	for(var i = 0; i < 5; i++)
+	region_data[x][4] = parseInt(document.crop_param.text_color.value.slice(1), 16);
+	for(var i = 0; i < 4; i++)
 		region_data[x][i] = isNaN(parseInt(region_data[x][i], 10))?0:parseInt(region_data[x][i], 10);
+	region_data[x][4] = (isNaN(region_data[x][4]))?0xFF:((region_data[x][4] > 0xFFFFFFFF || region_data[x][4] < 0)?0xFF:region_data[x][4]);
+	document.crop_param.crop_x.value = region_data[x][0];
+	document.crop_param.crop_y.value = region_data[x][1];
+	document.crop_param.crop_w.value = region_data[x][2];
+	document.crop_param.crop_h.value = region_data[x][3];
+	document.crop_param.text_color.value = '#'+toPaddedHexString(region_data[x][4], 8).toUpperCase();
+	console.log('region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 }
 	var region_data// = new Array(document.crop_param.region_no.value);
+
+function toPaddedHexString(num, len) {
+	str = num.toString(16);
+	return "0".repeat(len - str.length) + str;
+}
 </script>
 </body>
 </html>

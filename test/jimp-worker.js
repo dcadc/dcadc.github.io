@@ -28,6 +28,7 @@ self.addEventListener("message", function (e) {
 				// x, y is the position of this pixel on the image
 				// idx is the position start position of this rgba tuple in the bitmap Buffer
 				// this is the image
+				/*
 				var red   = this.bitmap.data[ idx + 0 ];
 				var green = this.bitmap.data[ idx + 1 ];
 				var blue  = this.bitmap.data[ idx + 2 ];
@@ -40,9 +41,16 @@ self.addEventListener("message", function (e) {
 					for (var i = 0; i < 3; i++) { 
 						this.bitmap.data[ idx + i ] = 255;
 					}
+				}*/
+				if(lenna.getPixelColor(x, y)==e.data.region_data[regno][4]){
+					lenna.setPixelColor(0xFFFFFFFF, x, y);
 				}
-				console.log('pixel ('+x+', '+y+')'+' idx '+idx+' content= '+lenna.getPixelColor(x, y)+'  '+Jimp.rgbaToInt(red, green, blue, alpha));
-				
+				else{
+					lenna.setPixelColor(0x000000FF, x, y);
+				}
+				/*
+				console.log('pixel ('+x+', '+y+')'+' idx '+idx+' content= '+lenna.getPixelColor(x, y)+'  '+Jimp.rgbaToInt(this.bitmap.data[ idx + 0 ], this.bitmap.data[ idx + 1 ], this.bitmap.data[ idx + 2 ], this.bitmap.data[ idx + 3 ]));
+				*/
 				bitwisemap[regno][x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
 				//document.writeln(green);
 				// rgba values run from 0 - 255
