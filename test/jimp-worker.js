@@ -68,7 +68,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				fruits_orig[regno] = fruits[regno].slice(0);
 				
 				for(var i = font[regno].data.length-1; i >= 0; i--){
-					if((typeof font[regno].data[i]) != null){
+					if((font[regno].data[i]) != null){
 						if((font[regno].data[i].length) > 0){
 							console.log('i:'+i+' font[regno].data[i]:'+font[regno].data[i]);
 							for(var j = 0; j < font[regno].data[i].length; j++){
