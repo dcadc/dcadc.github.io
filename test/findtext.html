@@ -162,6 +162,7 @@ function newFiles(element){
 					var newSpan = document.createElement("textarea");
 					newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+regno);
 					newSpan.innerHTML = e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
+					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(img);
 					currentDiv.appendChild(fn);
 					currentDiv.appendChild(newBr);
@@ -171,7 +172,7 @@ function newFiles(element){
 						currentDiv.appendChild(newBr);
 					}
 					//currentDiv.appendChild(newtext);
-					document.body.insertBefore(newBr, currentDiv); 
+					//document.body.insertBefore(newBr, currentDiv); 
 					console.log('00000000004'+'x.length='+e.data.bitwisemap[regno].length+' y.length='+e.data.bitwisemap[regno][0].length);
 				}
 			};
@@ -327,8 +328,8 @@ function toPaddedHexString(num, len){
 }
 function ClearALL(){
 	var x = document.getElementsByClassName("result");
-	for (var i = 0; i < x.length; i++) {
-		x[i].remove();
+	while (x.length > 0) {
+        x[0].remove();
 	}
 }
 </script>
