@@ -91,10 +91,6 @@
 <script>
 var ids = 0;
 function newFiles(element){
-	var crop_x = parseInt(document.crop_param.crop_x.value, 10);
-	var crop_y = parseInt(document.crop_param.crop_y.value, 10);
-	var crop_w = parseInt(document.crop_param.crop_w.value, 10);
-	var crop_h = parseInt(document.crop_param.crop_h.value, 10);
 	console.log('00000000000'+newFiles.caller);
 	console.log('00000000001'+typeof element);
 	console.log('00000000002'+typeof element.dataTransfer);
@@ -200,10 +196,6 @@ function newFiles(element){
 				'imgid': ids++,
 				'filename': readfile.name,
 				'region_data': region_data,
-				'crop_x': crop_x,
-				'crop_y': crop_y,
-				'crop_w': crop_w,
-				'crop_h': crop_h
 			});
 		});
 		reader.readAsArrayBuffer(readfile);

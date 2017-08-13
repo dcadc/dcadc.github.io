@@ -7,8 +7,6 @@ importScripts("./8x6bitmapfont.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
 		var lenna_bkp = lenna.clone();
-		console.log(typeof lenna+' bkp is '+typeof lenna_bkp);
-		console.log( lenna+' bkp is '+ lenna_bkp);
 		var bitwisemap = new Array(e.data.region_data.length);
 		var fruits = new Array(e.data.region_data.length);
 		var fruits_orig = new Array(e.data.region_data.length);
@@ -16,14 +14,17 @@ self.addEventListener("message", function (e) {
 		var imgsrc = new Array(e.data.region_data.length);
 		for(var regno = 0; regno < e.data.region_data.length; regno++){
 			lenna = lenna_bkp.clone();
-			for (var i = 0; i < 5; i++)
-				console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] + 'val' + e.data.region_data[regno][i]);
-			
-			lenna.crop( e.data.region_data[regno][0], e.data.region_data[regno][1], e.data.region_data[regno][2], e.data.region_data[regno][3] );
+for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] + 'val' + e.data.region_data[regno][i]);
+
+			lenna.crop( e.data.region_data[regno][0],
+						e.data.region_data[regno][1],
+						e.data.region_data[regno][2],
+						e.data.region_data[regno][3] );
 			
 			bitwisemap[regno] = new Array(lenna.bitmap.width);
 			for (var i=0; i <lenna.bitmap.width; i++)
 				bitwisemap[regno][i]=new Array(lenna.bitmap.height); 
+			
 			lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 				// x, y is the position of this pixel on the image
 				// idx is the position start position of this rgba tuple in the bitmap Buffer
@@ -48,25 +49,13 @@ self.addEventListener("message", function (e) {
 				else{
 					lenna.setPixelColor(0x000000FF, x, y);
 				}
-				/*
-				console.log('pixel ('+x+', '+y+')'+' idx '+idx+' content= '+lenna.getPixelColor(x, y)+'  '+Jimp.rgbaToInt(this.bitmap.data[ idx + 0 ], this.bitmap.data[ idx + 1 ], this.bitmap.data[ idx + 2 ], this.bitmap.data[ idx + 3 ]));
-				*/
 				bitwisemap[regno][x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
-				//document.writeln(green);
-				// rgba values run from 0 - 255
-				// e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
 			});
+			
 			fruits[regno] = bitwisemap[regno].slice(0);
-			if ( e.data.region_data[regno][3] == 8) {
-				/*
-				for(var i = 0; i < fruits[regno].length; i++){
-					fruits[regno][i]=fruits[regno][i].join('');
-					fruits[regno][i].toString();
-					fruits[regno][i] = parseInt(fruits[regno][i], 2);
-					fruits[regno][i] = toPaddedHexString(fruits[regno][i], 2);
-					fruits[regno][i] = "0x"+fruits[regno][i].toUpperCase(); 
-				}
-				*/
+			font[regno] = JSON.parse(JSON.stringify(bmpfont1));
+			
+			if ( e.data.region_data[regno][3] == font[regno].height) {
 				for(var i = 0; i < fruits[regno].length; i++){
 					fruits[regno][i]=fruits[regno][i].join('');
 					fruits[regno][i].toString();
@@ -74,22 +63,18 @@ self.addEventListener("message", function (e) {
 					fruits[regno][i] = toPaddedHexString(fruits[regno][i], 2);
 					fruits[regno][i] = "x"+fruits[regno][i].toUpperCase()+"x"; 
 				}
+				
 				fruits[regno] = fruits[regno].join('');
 				fruits_orig[regno] = fruits[regno].slice(0);
-				font[regno] = new Array(bmpfont1.length);
-				for(var i = bmpfont1.length-1; i >= 0; i--){
-					if((typeof bmpfont1[i]) != 'undefined'){
-						if((bmpfont1[i].length) > 0){
-							
-							font[regno][i] = new Array(bmpfont1[i].length);
-							font[regno][i] = bmpfont1[i].slice(0);	
-							
-							for(var j = 0; j < bmpfont1[i].length; j++){
+				
+				for(var i = font[regno].data.length-1; i >= 0; i--){
+					if((typeof font[regno].data[i]) != 'undefined'){
+						if((font[regno].data[i].length) > 0){
+							for(var j = 0; j < font[regno].data[i].length; j++){
 								font[regno][i][j] = toPaddedHexString(font[regno][i][j], 2);
 								font[regno][i][j] = "x"+font[regno][i][j].toUpperCase()+"x";
 							}
 							font[regno][i] = font[regno][i].join('');
-							//fruits[regno] = font[regno][48];
 							fruits[regno] = fruits[regno].replace(new RegExp(font[regno][i], 'g'), "&#"+ i +";");
 						}
 					}
@@ -100,7 +85,7 @@ self.addEventListener("message", function (e) {
 				imgsrc[regno] = src;
 			});	
 		}
-		console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length+' bmpfont'+font[regno]);
+console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length+' bmpfont'+font[regno]);
 		self.postMessage({
 			'view': imgsrc,
 			'imgid': e.data.imgid,
