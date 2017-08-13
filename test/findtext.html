@@ -175,11 +175,16 @@ function newFiles(element){
 				}
 				var newSpan = document.createElement("textarea");
 				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+regno);
+				newSpan.setAttribute("rows", (e.data.fruits.length+3));
 				newSpan.innerHTML = e.data.filename + '\n';
-				for(var regno = 0; regno < region_data.length; regno++)
+				var max_fruit_len = newSpan.innerHTML.length;
+				for(var regno = 0; regno < region_data.length; regno++){
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
-				newSpan.style.width = '30%';
+					max_fruit_len = (e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "").length > max_fruit_len)?e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "").length:max_fruit_len;
+				}
+				newSpan.setAttribute("cols", (max_fruit_len+1));
 				if(document.getElementById("convert_en").checked){
+					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(newSpan);
 					currentDiv.appendChild(newBr);
 				}
