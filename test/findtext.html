@@ -116,7 +116,7 @@ function newFiles(element){
 			worker.onmessage = function (e) {
 				for(var regno = 0; regno < region_data.length; regno++){
 					var newTable = document.createElement("table");
-					newTable.setAttribute("id", 'tab'+e.data.imgid+regno);
+					newTable.setAttribute("id", 'tab'+e.data.imgid+'_'+regno);
 					for (var row = 0; row < e.data.bitwisemap[regno][0].length; row++) {
 						//iterate through rows
 						//rows would be accessed using the "row" variable assigned in the for loop
@@ -143,24 +143,24 @@ function newFiles(element){
 					}
 					
 					var img = document.createElement("img");
-					img.setAttribute("id", 'img'+e.data.imgid+regno);
+					img.setAttribute("id", 'img'+e.data.imgid+'_'+regno);
 					img.setAttribute("src", e.data.view[regno]);
 					
 					var newBr = document.createElement("br"); 				
 					var newDiv = document.createElement("div");				
 					var fn = document.createTextNode(e.data.filename+'  region '+regno);
-					newDiv.setAttribute("id", 'divv'+e.data.imgid+regno);
+					newDiv.setAttribute("id", 'divv'+e.data.imgid+'_'+regno);
 					newDiv.setAttribute("name", e.data.filename+' region'+regno);
+					newDiv.setAttribute("class", 'result');
 					document.body.appendChild(newDiv);
-					var currentDiv = document.getElementById('divv'+e.data.imgid+regno); 
+					var currentDiv = document.getElementById('divv'+e.data.imgid+'_'+regno); 
 					var newtext = document.createElement("input");
-					newtext.setAttribute("class", 'result');
 					newtext.setAttribute("type", 'text');
-					newtext.setAttribute("name", 'HEX'+e.data.imgid+regno);
+					newtext.setAttribute("name", 'HEX'+e.data.imgid+'_'+regno);
 					//newtext.setAttribute("value", e.data.fruits[regno].join(','));
 					newtext.setAttribute("value", e.data.fruits_orig[regno]);
 					var newSpan = document.createElement("textarea");
-					newSpan.setAttribute("id", 'decode'+e.data.imgid+regno);
+					newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+regno);
 					newSpan.innerHTML = e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
 					currentDiv.appendChild(img);
 					currentDiv.appendChild(fn);
