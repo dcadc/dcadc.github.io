@@ -310,6 +310,7 @@ function value_sync() {
 		region_data[x][2] = document.crop_param.crop_w.value;
 		region_data[x][3] = document.crop_param.crop_h.value;
 		region_data[x][4] = parseInt(document.crop_param.text_color.value.slice(1), 16);
+	console.log('else::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 	}
 	
 	for(var i = 0; i < 4; i++)
