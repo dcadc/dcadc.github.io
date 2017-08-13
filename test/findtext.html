@@ -299,6 +299,7 @@ function value_sync() {
 					document.crop_param.crop_w.value, 
 					document.crop_param.crop_h.value, 
 					document.crop_param.text_color.value]; 
+	console.log('brfore::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 	if(document.crop_param.g_praser.value != region_data[x].join(' ')){
 		region_data[x] = document.crop_param.g_praser.value.split(' ');
 		region_data[x][4] = parseInt(region_data[x][4].slice(1), 16);
@@ -327,7 +328,7 @@ function value_sync() {
 					document.crop_param.crop_h.value, 
 					document.crop_param.text_color.value]; 
 	document.crop_param.g_praser.value = tmp_data.join(' ');
-	console.log('region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
+	console.log('after::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 }
 	var region_data// = new Array(document.crop_param.region_no.value);
 function ColorInt2HEXStr(int_color){
