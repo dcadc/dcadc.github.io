@@ -182,8 +182,10 @@ function newFiles(element){
 				for(var regno = 0; regno < region_data.length; regno++){
 					var wordFilter = e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
-					console.log('wordFilter.length: '+(wordFilter.match(/&#/g) || []).length);
-					max_fruit_len = ((wordFilter.match(/&#/g) || []).length) > max_fruit_len)?(wordFilter.match(/&#/g) || []).length):max_fruit_len;
+					console.log(wordFilter);
+					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length
+					console.log(wordFilter);
+					max_fruit_len = (wordFilter > max_fruit_len)?wordFilter:max_fruit_len;
 				}
 				newSpan.setAttribute("cols", (max_fruit_len+1));
 				if(document.getElementById("convert_en").checked){
