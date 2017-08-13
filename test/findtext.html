@@ -6,6 +6,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </script>
 
+<script>
+	$('#content').on( 'change keyup keydown paste cut', 'textarea', function (){
+		$(this).height(0).height(this.scrollHeight);
+	}).find( 'textarea' ).change();
+</script>
 </head>
 <body onload="crop_rst()">
 
@@ -83,11 +88,6 @@
 <p>Drop files here</p>
 </div>
 </center>
-<script>
-	$('#content').on( 'change keyup keydown paste cut', 'textarea', function (){
-		$(this).height(0).height(this.scrollHeight);
-	}).find( 'textarea' ).change();
-</script>
 <script>
 var ids = 0;
 function newFiles(element){
