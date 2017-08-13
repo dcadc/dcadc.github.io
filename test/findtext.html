@@ -177,10 +177,11 @@ function newFiles(element){
 				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+regno);
 				newSpan.setAttribute("rows", (e.data.fruits.length+3));
 				newSpan.innerHTML = e.data.filename + '\n';
-				var max_fruit_len = newSpan.innerHTML.length;
+				var max_fruit_len = e.data.filename.length;
 				for(var regno = 0; regno < region_data.length; regno++){
-					newSpan.innerHTML = newSpan.innerHTML + '\n' + e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
-					max_fruit_len = (e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "").length > max_fruit_len)?e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "").length:max_fruit_len;
+					var wordFilter = e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
+					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
+					max_fruit_len = (wordFilter.length > max_fruit_len)?wordFilter.length:max_fruit_len;
 				}
 				newSpan.setAttribute("cols", (max_fruit_len+1));
 				if(document.getElementById("convert_en").checked){
