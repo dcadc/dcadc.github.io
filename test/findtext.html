@@ -56,7 +56,7 @@
 </tr>
 <tr>
 <td style="text-align:right;">Enable text converting</td>
-<td style="text-align:center;"><input type="checkbox" id="convert_en"></td>
+<td style="text-align:center;"><input type="checkbox" id="convert_en" checked></td>
 <td style="text-align:left;"></td>
 </tr>
 <tr>
@@ -178,6 +178,7 @@ function newFiles(element){
 				newSpan.innerHTML = e.data.filename + '\n';
 				for(var regno = 0; regno < region_data.length; regno++)
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
+				newSpan.style.width = '30%';
 				if(document.getElementById("convert_en").checked){
 					currentDiv.appendChild(newSpan);
 					currentDiv.appendChild(newBr);
