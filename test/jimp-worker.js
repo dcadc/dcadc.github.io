@@ -70,6 +70,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				for(var i = font[regno].data.length-1; i >= 0; i--){
 					if((typeof font[regno].data[i]) != 'undefined'){
 						if((font[regno].data[i].length) > 0){
+							console.log('i:'+i+' font[regno].data[i]:'+font[regno].data[i]);
 							for(var j = 0; j < font[regno].data[i].length; j++){
 								font[regno][i][j] = toPaddedHexString(font[regno][i][j], 2);
 								font[regno][i][j] = "x"+font[regno][i][j].toUpperCase()+"x";
