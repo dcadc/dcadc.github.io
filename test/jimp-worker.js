@@ -72,11 +72,11 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 						if((font[regno].data[i].length) > 0){
 							console.log('i:'+i+' font[regno].data[i]:'+font[regno].data[i]);
 							for(var j = 0; j < font[regno].data[i].length; j++){
-								font[regno][i][j] = toPaddedHexString(font[regno][i][j], 2);
-								font[regno][i][j] = "x"+font[regno][i][j].toUpperCase()+"x";
+								font[regno].data[i][j] = toPaddedHexString(font[regno].data[i][j], 2);
+								font[regno].data[i][j] = "x"+font[regno].data[i][j].toUpperCase()+"x";
 							}
-							font[regno][i] = font[regno][i].join('');
-							fruits[regno] = fruits[regno].replace(new RegExp(font[regno][i], 'g'), "&#"+ i +";");
+							font[regno].data[i] = font[regno].data[i].join('');
+							fruits[regno] = fruits[regno].replace(new RegExp(font[regno].data[i], 'g'), "&#"+ i +";");
 						}
 					}
 				}
