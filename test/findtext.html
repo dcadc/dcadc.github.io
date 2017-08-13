@@ -15,22 +15,22 @@
 <table class="inlineTable">
 <tr>
 <td style="text-align:right;">Crop x posisition:</td>
-<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=crop_x size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id="crop_x" size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop y posisition:</td>
-<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=crop_y size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id="crop_y" size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop width(x-axis):</td>
-<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=crop_w size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id="crop_w" size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
 <td style="text-align:right;">Crop height(y-axis):</td>
-<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=crop_h size=15 /></td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id="crop_h" size=15 /></td>
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
@@ -41,13 +41,18 @@
 </table>
 <table class="inlineTable">
 <tr>
+<td style="text-align:right;">Text color(Hex RGBA):</td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id="text_color" size=15 /></td>
+<td style="text-align:left;"> </td>
+</tr>
+<tr>
 <td style="text-align:right;">Enable text converting</td>
 <td style="text-align:center;"><input type="checkbox" id="convert_en"></td>
 <td style="text-align:left;"></td>
 </tr>
 <tr>
 <td style="text-align:right;">Number of regions</td>
-<td style="text-align:center;"><input id=region_no  onchange="refresh_region()" size=15 /></td>
+<td style="text-align:center;"><input id="region_no"  onchange="refresh_region()" size=15 /></td>
 <td style="text-align:left;"></td>
 </tr>
 <tr>
@@ -59,14 +64,9 @@
 <td style="text-align:left;"></td>
 </tr>
 <tr>
-<td style="text-align:right;">Text color(Hex RGBA):</td>
-<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id=text_color size=15 /></td>
-<td style="text-align:left;"> </td>
-</tr>
-<tr>
-<td style="text-align:right;"> </td>
-<td style="text-align:center;"><!--<button onclick="c()">SWAP BW</button>--></td>
-<td style="text-align:left;"><!--<button onclick="crop_rst()">reset</button>--></td>
+<td style="text-align:right;">General parser</td>
+<td style="text-align:center;"><input onchange="value_sync()" onclick="value_sync()" id="g_praser" size=15 /></td>
+<td style="text-align:left;"></td>
 </tr>
 </table>
 </form>
@@ -226,6 +226,13 @@ function crop_rst() {
 	document.crop_param.crop_h.value = "8";//"20";
 	document.crop_param.text_color.value = "#00FF00FF";
 	document.crop_param.region_no.value = "1";
+	var tmp_data = [document.crop_param.crop_x.value, 
+					document.crop_param.crop_y.value, 
+					document.crop_param.crop_w.value, 
+					document.crop_param.crop_h.value, 
+					document.crop_param.text_color.value]; 
+					//parseInt(document.crop_param.text_color.value.slice(1), 16)];
+	document.crop_param.g_praser.value = tmp_data.join(' ');
 	refresh_region();
 	sel_region();
 }
@@ -254,7 +261,13 @@ function sel_region() {
 		document.crop_param.crop_y.value = region_data[x][1];
 		document.crop_param.crop_w.value = region_data[x][2];
 		document.crop_param.crop_h.value = region_data[x][3];
-		document.crop_param.text_color.value = '#'+toPaddedHexString(region_data[x][4], 8).toUpperCase();
+		document.crop_param.text_color.value = ColorInt2HEXStr(region_data[x][4]);
+		var tmp_data = [document.crop_param.crop_x.value, 
+						document.crop_param.crop_y.value, 
+						document.crop_param.crop_w.value, 
+						document.crop_param.crop_h.value, 
+						document.crop_param.text_color.value]; 
+		document.crop_param.g_praser.value = tmp_data.join(' ');
 	}
 	else{
 		value_sync();
@@ -263,44 +276,45 @@ function sel_region() {
 
 function value_sync() {
 	var x = document.getElementById("region_select").value.slice(7);
-	//console.log(valuesegment.id);
-	/*
-	switch (valuesegment.id){
-		case "crop_x":
-			region_data[x][0] = document.crop_param.crop_x.value;
-			break;
-		case "crop_y":
-			region_data[x][1] = document.crop_param.crop_y.value;
-			break;
-		case "crop_w":
-			region_data[x][2] = document.crop_param.crop_w.value;
-			break;
-		case "crop_h":
-			region_data[x][3] = document.crop_param.crop_h.value;
-			break;
-		case "text_color":
-			region_data[x][4] = document.crop_param.text_color.value;
-			break;
+	var tmp_data = [document.crop_param.crop_x.value, 
+					document.crop_param.crop_y.value, 
+					document.crop_param.crop_w.value, 
+					document.crop_param.crop_h.value, 
+					document.crop_param.text_color.value]; 
+	if(document.crop_param.g_praser.value != tmp_data.join(' ')){
+		region_data[x] = document.crop_param.g_praser.value.split(' ');
+		region_data[x][4] = parseInt(region_data[x][4].slice(1), 16);
 	}
-	*/
+	else{
+		region_data[x][0] = document.crop_param.crop_x.value;
+		region_data[x][1] = document.crop_param.crop_y.value;
+		region_data[x][2] = document.crop_param.crop_w.value;
+		region_data[x][3] = document.crop_param.crop_h.value;
+		region_data[x][4] = parseInt(document.crop_param.text_color.value.slice(1), 16);
+	}
 	
-	region_data[x][0] = document.crop_param.crop_x.value;
-	region_data[x][1] = document.crop_param.crop_y.value;
-	region_data[x][2] = document.crop_param.crop_w.value;
-	region_data[x][3] = document.crop_param.crop_h.value;
-	region_data[x][4] = parseInt(document.crop_param.text_color.value.slice(1), 16);
 	for(var i = 0; i < 4; i++)
 		region_data[x][i] = isNaN(parseInt(region_data[x][i], 10))?0:parseInt(region_data[x][i], 10);
 	region_data[x][4] = (isNaN(region_data[x][4]))?0xFF:((region_data[x][4] > 0xFFFFFFFF || region_data[x][4] < 0)?0xFF:region_data[x][4]);
+	
 	document.crop_param.crop_x.value = region_data[x][0];
 	document.crop_param.crop_y.value = region_data[x][1];
 	document.crop_param.crop_w.value = region_data[x][2];
 	document.crop_param.crop_h.value = region_data[x][3];
-	document.crop_param.text_color.value = '#'+toPaddedHexString(region_data[x][4], 8).toUpperCase();
+	document.crop_param.text_color.value = ColorInt2HEXStr(region_data[x][4]);
+	
+	tmp_data = [document.crop_param.crop_x.value, 
+					document.crop_param.crop_y.value, 
+					document.crop_param.crop_w.value, 
+					document.crop_param.crop_h.value, 
+					document.crop_param.text_color.value]; 
+	document.crop_param.g_praser.value = tmp_data.join(' ');
 	console.log('region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 }
 	var region_data// = new Array(document.crop_param.region_no.value);
-
+function ColorInt2HEXStr(int_color){
+	return '#'+toPaddedHexString(int_color, 8).toUpperCase();
+}
 function toPaddedHexString(num, len) {
 	str = num.toString(16);
 	return "0".repeat(len - str.length) + str;
