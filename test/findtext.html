@@ -294,13 +294,13 @@ function sel_region() {
 
 function value_sync() {
 	var x = document.getElementById("region_select").value.slice(7);
-	var tmp_data = [document.crop_param.crop_x.value, 
-					document.crop_param.crop_y.value, 
-					document.crop_param.crop_w.value, 
-					document.crop_param.crop_h.value, 
-					document.crop_param.text_color.value]; 
+	var tmp_data = [region_data[x][0], 
+					region_data[x][1], 
+					region_data[x][2], 
+					region_data[x][3], 
+					ColorInt2HEXStr(region_data[x][4])]; 
 	console.log('brfore::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
-	if(document.crop_param.g_praser.value != region_data[x].join(' ')){
+	if(document.crop_param.g_praser.value != tmp_data.join(' ')){
 		region_data[x] = document.crop_param.g_praser.value.split(' ');
 		region_data[x][4] = parseInt(region_data[x][4].slice(1), 16);
 	}
