@@ -41,7 +41,7 @@ self.addEventListener("message", function (e) {
 						this.bitmap.data[ idx + i ] = 255;
 					}
 				}
-				console.log('pixel ('+x+', '+y+')'+' content= '+lenna.getPixelIndex(x, y));
+				console.log('pixel ('+x+', '+y+')'+' content= '+lenna.getPixelColor(x, y)+'  '+parseInt(this.bitmap.data));
 				
 				bitwisemap[regno][x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
 				//document.writeln(green);
