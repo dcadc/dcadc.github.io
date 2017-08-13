@@ -42,7 +42,7 @@
 <tr>
 <td style="text-align:right;"> </td>
 <td style="text-align:center;">
-	<button onclick="CHSW()">SWAP BW</button>
+	<button onclick="channel_swap()">Swap BW</button>
 	<button onclick="ClearALL()">Clear Result</button>
 </td>
 <td style="text-align:left;"><button onclick="crop_rst()">Reset</button></td>
@@ -130,11 +130,11 @@ function newFiles(element){
 							newTD.style.width = '1px';
 							if(e.data.bitwisemap[regno][col][row]){
 								newTD.setAttribute("class", 'b-CH');
-								newTD.style.backgroundColor = '#000000';
+								newTD.style.backgroundColor = '#FFFFFF';
 							}
 							else{
 								newTD.setAttribute("class", 'w-CH');
-								newTD.style.backgroundColor = '#FFFFFF';
+								newTD.style.backgroundColor = '#000000';
 							}
 							newTR.appendChild(newTD);
 							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.bitwisemap[regno][col][row];
@@ -227,7 +227,7 @@ function invertColor(col) {
 	color = "#" + color; // prepend #
 	return color;
 }
-function CHSW() {
+function channel_swap() {
 	var x = document.getElementsByClassName("b-CH");
 	for (var i = 0; i < x.length; i++) {
 		x[i].style.backgroundColor = invertColor(x[i].style.backgroundColor);
