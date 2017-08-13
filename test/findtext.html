@@ -35,8 +35,11 @@
 </tr>
 <tr>
 <td style="text-align:right;"> </td>
-<td style="text-align:center;"><button onclick="CHSW()">SWAP BW</button></td>
-<td style="text-align:left;"><button onclick="crop_rst()">reset</button></td>
+<td style="text-align:center;">
+	<button onclick="CHSW()">SWAP BW</button>
+	<button onclick="ClearALL()">Clear Result</button>
+</td>
+<td style="text-align:left;"><button onclick="crop_rst()">Reset</button></td>
 </tr>
 </table>
 <table class="inlineTable">
@@ -151,6 +154,7 @@ function newFiles(element){
 					document.body.appendChild(newDiv);
 					var currentDiv = document.getElementById('divv'+e.data.imgid+regno); 
 					var newtext = document.createElement("input");
+					newtext.setAttribute("class", 'result');
 					newtext.setAttribute("type", 'text');
 					newtext.setAttribute("name", 'HEX'+e.data.imgid+regno);
 					//newtext.setAttribute("value", e.data.fruits[regno].join(','));
@@ -162,8 +166,10 @@ function newFiles(element){
 					currentDiv.appendChild(fn);
 					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(newTable);
-					currentDiv.appendChild(newSpan);
-					currentDiv.appendChild(newBr);
+					if(document.getElementById("convert_en").checked){
+						currentDiv.appendChild(newSpan);
+						currentDiv.appendChild(newBr);
+					}
 					//currentDiv.appendChild(newtext);
 					document.body.insertBefore(newBr, currentDiv); 
 					console.log('00000000004'+'x.length='+e.data.bitwisemap[regno].length+' y.length='+e.data.bitwisemap[regno][0].length);
@@ -315,9 +321,15 @@ function value_sync() {
 function ColorInt2HEXStr(int_color){
 	return '#'+toPaddedHexString(int_color, 8).toUpperCase();
 }
-function toPaddedHexString(num, len) {
+function toPaddedHexString(num, len){
 	str = num.toString(16);
 	return "0".repeat(len - str.length) + str;
+}
+function ClearALL(){
+	var x = document.getElementsByClassName("result");
+	for (var i = 0; i < x.length; i++) {
+		x[i].remove();
+	}
 }
 </script>
 </body>
