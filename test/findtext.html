@@ -298,7 +298,8 @@ function value_sync() {
 					region_data[x][1], 
 					region_data[x][2], 
 					region_data[x][3], 
-					ColorInt2HEXStr(region_data[x][4])]; 
+					((typeof region_data[x][4]) != 'undefined' )?ColorInt2HEXStr(region_data[x][4]):0
+					]; 
 	console.log('brfore::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 	if(document.crop_param.g_praser.value != tmp_data.join(' ')){
 		region_data[x] = document.crop_param.g_praser.value.split(' ');
