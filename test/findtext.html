@@ -170,6 +170,7 @@ function newFiles(element){
 				}
 				var newSpan = document.createElement("textarea");
 				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+regno);
+				newSpan.innerHTML = e.data.filename + '\n';
 				for(var regno = 0; regno < region_data.length; regno++)
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
 				if(document.getElementById("convert_en").checked){
