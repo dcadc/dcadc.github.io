@@ -181,7 +181,7 @@ function newFiles(element){
 					var wordFilter = e.data.monkey[regno].extracted.replace(new RegExp("x[0-9A-F]{2}x", "g"), "");
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
 					console.log(wordFilter);
-					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length
+					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length;
 					console.log(wordFilter);
 					max_fruit_len = (wordFilter > max_fruit_len)?wordFilter:max_fruit_len;
 				}
