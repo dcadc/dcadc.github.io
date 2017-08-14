@@ -181,12 +181,12 @@ function newFiles(element){
 				}
 				var newSpan = document.createElement("textarea");
 				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+region_id);
-				var newlinechar = e.data.monkey[region_id].extracted.split("\n").length;
-				newSpan.setAttribute("rows", (e.data.monkey.length+3+newlinechar));
 				newSpan.innerHTML = e.data.filename + '\n';
 				var max_len_of_text = e.data.filename.length;
 					console.log('e.data.filename.length: '+e.data.filename.length);
+				var newlinechar = 0;
 				for(var region_id = 0; region_id < e.data.monkey.length; region_id++){
+					newlinechar +=e.data.monkey[region_id].sub_region.length;
 					var wordFilter = e.data.monkey[region_id].extracted.replace(new RegExp("(x)([0-9A-F]{2}x)", "g"), "");
 					wordFilter = wordFilter.replace(new RegExp("((&#32;){5})", "g"), "");
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
@@ -195,6 +195,7 @@ function newFiles(element){
 					console.log(wordFilter);
 					max_len_of_text = (wordFilter > max_len_of_text)?wordFilter:max_len_of_text;
 				}
+				newSpan.setAttribute("rows", (e.data.monkey.length+3+newlinechar));
 				newSpan.setAttribute("cols", (max_len_of_text+1));
 				if(document.getElementById("convert_en").checked){
 					currentDiv.appendChild(newBr);
