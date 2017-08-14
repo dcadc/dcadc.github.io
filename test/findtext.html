@@ -159,8 +159,8 @@ function newFiles(element){
 					newtext.setAttribute("type", 'text');
 					newtext.setAttribute("name", 'HEX'+e.data.imgid+'_'+regno);
 					//newtext.setAttribute("value", e.data.fruits[regno].join(','));
-					newtext.setAttribute("value", e.data.fruits_orig[regno]);
-					console.log('Data before replacing into chars: \n'+e.data.fruits_orig[regno]);
+					newtext.setAttribute("value", e.data.monkey[regno].original);
+					console.log('Data before replacing into chars: \n'+e.data.monkey[regno].original);
 					console.log('Data after  replacing into chars: \n'+e.data.fruits[regno]);		
 					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(img);

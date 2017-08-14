@@ -73,7 +73,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				}
 				
 				fruits[regno] = fruits[regno].join('');
-				fruits_orig[regno] = fruits[regno].slice(0);
+				monkey[regno].original = fruits[regno].slice(0);
 				
 				for(var i = font[regno].data.length-1; i >= 0; i--){
 					if((font[regno].data[i]) != null){
