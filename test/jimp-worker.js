@@ -133,7 +133,7 @@ function SearchandReplace(col_obj, fon_obj) {
 			if((fon[i].length) > 0){								//bypass unknown fonts
 				//console.log('i:'+i+' fon[i]:'+fon[i]);
 				for(var j = 0; j < fon[i].length; j++){				//matching the payload
-console.log('fon[i]['+i+']['+j+']:'+fon[i][j]);
+//console.log('fon[i]['+i+']['+j+']:'+fon[i][j]);
 					fon[i][j] = toPaddedHexString(fon[i][j], 2);	//prase the decimal int to HEX with padding zeros
 					fon[i][j] = "x"+fon[i][j].toUpperCase()+"x"; 	//wrap the uppercased HEX column data with x & x
 				}
