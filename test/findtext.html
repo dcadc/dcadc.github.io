@@ -158,10 +158,10 @@ function newFiles(element){
 					var newtext = document.createElement("input");
 					newtext.setAttribute("type", 'text');
 					newtext.setAttribute("name", 'HEX'+e.data.imgid+'_'+regno);
-					//newtext.setAttribute("value", e.data.fruits[regno].join(','));
+					//newtext.setAttribute("value", e.data.monkey[regno].extracted.join(','));
 					newtext.setAttribute("value", e.data.monkey[regno].original);
 					console.log('Data before replacing into chars: \n'+e.data.monkey[regno].original);
-					console.log('Data after  replacing into chars: \n'+e.data.fruits[regno]);		
+					console.log('Data after  replacing into chars: \n'+e.data.monkey[regno].extracted);		
 					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(img);
 					currentDiv.appendChild(fn);
@@ -178,7 +178,7 @@ function newFiles(element){
 				var max_fruit_len = e.data.filename.length;
 					console.log('e.data.filename.length: '+e.data.filename.length);
 				for(var regno = 0; regno < e.data.monkey.length; regno++){
-					var wordFilter = e.data.fruits[regno].replace(new RegExp("x[0-9A-F]{2}x", "g"), "");
+					var wordFilter = e.data.monkey[regno].extracted.replace(new RegExp("x[0-9A-F]{2}x", "g"), "");
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
 					console.log(wordFilter);
 					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length
