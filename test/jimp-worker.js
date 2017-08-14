@@ -80,9 +80,10 @@ self.addEventListener("message", function (e) {
 				srolling_temp = srolling_temp.sort(function (a, b) { return a.number_of.valid_chars < b.number_of.valid_chars ? 1 : -1;});	//sorting the most valid data at the top
 				console.log('srolling_temp[sorted].valid_chars:'+srolling_temp[0].number_of.valid_chars);
 				console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.length-1].number_of.valid_chars);
-				if(srolling_temp.filter(function(a){ return a.number_of.valid_chars > 1;}).length > 1){											//see if there is more than one line decoded
+				if(srolling_temp.filter(function(a){ return a.number_of.valid_chars > 5;}).length > 1){											//see if there is more than one line decoded
 					monkey[region_id].sub_region = srolling_temp.filter(function(a){ return a.number_of.valid_chars > 1;});						//apply to .sub_region
 					monkey[region_id].sub_region = monkey[region_id].sub_region.sort(function (a, b) { return a.offset > b.offset ? 1 : -1;});	//sort .sub_region with offsets
+					monkey[region_id].most_valid_offs = monkey[region_id].sub_region.[monkey[region_id].sub_region.length-1].offset;
 					monkey[region_id].original = "";
 					monkey[region_id].extracted = "";
 					for(var i = 0; i < monkey[region_id].sub_region.length; i++){
@@ -98,11 +99,16 @@ self.addEventListener("message", function (e) {
 				}
 				monkey[region_id] = JSON.parse(JSON.stringify(monkey[region_id]));												//latch the whole object
 			}
+			
 			else{
 				monkey[region_id].original = "not enough height";
 				monkey[region_id].extracted = "";
 			}
-			
+			lenna.crop( e.data.region_data[region_id][0],
+				e.data.region_data[region_id][1],
+				e.data.region_data[region_id][2],
+				monkey[region_id].most_valid_offs+font.height
+				);
 			lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 				if (err) throw err;
 				monkey[region_id].img_src = src;
