@@ -17,7 +17,7 @@
 <h1> 網路分析儀截圖解析工具</h1>
 <p>可以支援多檔轉換喔</p>
 
-<form id=crop_param name=crop_param onsubmit="return false">
+<form id=region_param name=region_param onsubmit="return false">
 <table class="inlineTable">
 <tr>
 <td style="text-align:right;">Crop x posisition:</td>
@@ -160,6 +160,8 @@ function newFiles(element){
 					newtext.setAttribute("name", 'HEX'+e.data.imgid+'_'+regno);
 					//newtext.setAttribute("value", e.data.fruits[regno].join(','));
 					newtext.setAttribute("value", e.data.fruits_orig[regno]);
+					console.log('Data before replacing into chars: \n'+e.data.fruits_orig[regno]);
+					console.log('Data after  replacing into chars: \n'+e.data.fruits[regno]);		
 					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(img);
 					currentDiv.appendChild(fn);
@@ -238,26 +240,26 @@ function channel_swap() {
 	}
 }
 function crop_rst() {
-	document.crop_param.crop_x.value = "66";//"71";
-	document.crop_param.crop_y.value = "47";//"57""46";
-	document.crop_param.crop_w.value = "168";
-	document.crop_param.crop_h.value = "8";//"20";
-	document.crop_param.text_color.value = "#00FF00FF";
-	document.crop_param.region_no.value = "1";
-	var tmp_data = [document.crop_param.crop_x.value, 
-					document.crop_param.crop_y.value, 
-					document.crop_param.crop_w.value, 
-					document.crop_param.crop_h.value, 
-					document.crop_param.text_color.value]; 
-					//parseInt(document.crop_param.text_color.value.slice(1), 16)];
-	document.crop_param.g_praser.value = tmp_data.join(' ');
+	document.region_param.crop_x.value = "66";//"71";
+	document.region_param.crop_y.value = "47";//"57""46";
+	document.region_param.crop_w.value = "168";
+	document.region_param.crop_h.value = "8";//"20";
+	document.region_param.text_color.value = "#00FF00FF";
+	document.region_param.region_no.value = "1";
+	var tmp_data = [document.region_param.crop_x.value, 
+					document.region_param.crop_y.value, 
+					document.region_param.crop_w.value, 
+					document.region_param.crop_h.value, 
+					document.region_param.text_color.value]; 
+					//parseInt(document.region_param.text_color.value.slice(1), 16)];
+	document.region_param.g_praser.value = tmp_data.join(' ');
 	refresh_region();
 	sel_region();
 }
 function refresh_region(){
 	var reg_sel = document.getElementById('region_select');
-	if((reg_sel.options.length)<(document.crop_param.region_no.value)){
-		for(var i = reg_sel.options.length; i < (document.crop_param.region_no.value) ; i++){ 
+	if((reg_sel.options.length)<(document.region_param.region_no.value)){
+		for(var i = reg_sel.options.length; i < (document.region_param.region_no.value) ; i++){ 
 				var new_reg_opt = document.createElement("option");
 				new_reg_opt.value = "region_"+i;
 				new_reg_opt.id = "region_"+i;
@@ -269,23 +271,24 @@ function refresh_region(){
 	region_data = new Array(reg_sel.options.length);
 	for (var i=0; i <reg_sel.options.length; i++){
 		region_data[i]=new Array(5); 
+		value_sync();
 	}
 }
 function sel_region() {
     var x = document.getElementById("region_select").value.slice(7);
 		console.log('sel'+x);
 	if((typeof region_data[x][0]) != 'undefined'){
-		document.crop_param.crop_x.value = region_data[x][0];
-		document.crop_param.crop_y.value = region_data[x][1];
-		document.crop_param.crop_w.value = region_data[x][2];
-		document.crop_param.crop_h.value = region_data[x][3];
-		document.crop_param.text_color.value = ColorInt2HEXStr(region_data[x][4]);
-		var tmp_data = [document.crop_param.crop_x.value, 
-						document.crop_param.crop_y.value, 
-						document.crop_param.crop_w.value, 
-						document.crop_param.crop_h.value, 
-						document.crop_param.text_color.value]; 
-		document.crop_param.g_praser.value = tmp_data.join(' ');
+		document.region_param.crop_x.value = region_data[x][0];
+		document.region_param.crop_y.value = region_data[x][1];
+		document.region_param.crop_w.value = region_data[x][2];
+		document.region_param.crop_h.value = region_data[x][3];
+		document.region_param.text_color.value = ColorInt2HEXStr(region_data[x][4]);
+		var tmp_data = [document.region_param.crop_x.value, 
+						document.region_param.crop_y.value, 
+						document.region_param.crop_w.value, 
+						document.region_param.crop_h.value, 
+						document.region_param.text_color.value]; 
+		document.region_param.g_praser.value = tmp_data.join(' ');
 	}
 	else{
 		value_sync();
@@ -301,16 +304,16 @@ function value_sync() {
 					((typeof region_data[x][4]) != 'undefined' )?ColorInt2HEXStr(region_data[x][4]):0
 					]; 
 	console.log('brfore::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
-	if(document.crop_param.g_praser.value != tmp_data.join(' ')){
-		region_data[x] = document.crop_param.g_praser.value.split(' ');
+	if(document.region_param.g_praser.value != tmp_data.join(' ')){
+		region_data[x] = document.region_param.g_praser.value.split(' ');
 		region_data[x][4] = parseInt(region_data[x][4].slice(1), 16);
 	}
 	else{
-		region_data[x][0] = document.crop_param.crop_x.value;
-		region_data[x][1] = document.crop_param.crop_y.value;
-		region_data[x][2] = document.crop_param.crop_w.value;
-		region_data[x][3] = document.crop_param.crop_h.value;
-		region_data[x][4] = parseInt(document.crop_param.text_color.value.slice(1), 16);
+		region_data[x][0] = document.region_param.crop_x.value;
+		region_data[x][1] = document.region_param.crop_y.value;
+		region_data[x][2] = document.region_param.crop_w.value;
+		region_data[x][3] = document.region_param.crop_h.value;
+		region_data[x][4] = parseInt(document.region_param.text_color.value.slice(1), 16);
 	console.log('else   ::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 	}
 	
@@ -318,21 +321,21 @@ function value_sync() {
 		region_data[x][i] = isNaN(parseInt(region_data[x][i], 10))?0:parseInt(region_data[x][i], 10);
 	region_data[x][4] = (isNaN(region_data[x][4]))?0xFF:((region_data[x][4] > 0xFFFFFFFF || region_data[x][4] < 0)?0xFF:region_data[x][4]);
 	
-	document.crop_param.crop_x.value = region_data[x][0];
-	document.crop_param.crop_y.value = region_data[x][1];
-	document.crop_param.crop_w.value = region_data[x][2];
-	document.crop_param.crop_h.value = region_data[x][3];
-	document.crop_param.text_color.value = ColorInt2HEXStr(region_data[x][4]);
+	document.region_param.crop_x.value = region_data[x][0];
+	document.region_param.crop_y.value = region_data[x][1];
+	document.region_param.crop_w.value = region_data[x][2];
+	document.region_param.crop_h.value = region_data[x][3];
+	document.region_param.text_color.value = ColorInt2HEXStr(region_data[x][4]);
 	
-	tmp_data = [document.crop_param.crop_x.value, 
-					document.crop_param.crop_y.value, 
-					document.crop_param.crop_w.value, 
-					document.crop_param.crop_h.value, 
-					document.crop_param.text_color.value]; 
-	document.crop_param.g_praser.value = tmp_data.join(' ');
+	tmp_data = [document.region_param.crop_x.value, 
+					document.region_param.crop_y.value, 
+					document.region_param.crop_w.value, 
+					document.region_param.crop_h.value, 
+					document.region_param.text_color.value]; 
+	document.region_param.g_praser.value = tmp_data.join(' ');
 	console.log('after   ::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 }
-	var region_data// = new Array(document.crop_param.region_no.value);
+	var region_data// = new Array(document.region_param.region_no.value);
 function ColorInt2HEXStr(int_color){
 	return '#'+toPaddedHexString(int_color, 8).toUpperCase();
 }
