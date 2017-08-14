@@ -11,7 +11,7 @@ self.addEventListener("message", function (e) {
 		var font = JSON.parse(JSON.stringify(bmpfont1));
 		for(var region_id = 0; region_id < e.data.region_data.length; region_id++){
 			lenna = lenna_bkp.clone();
-for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typeof e.data.region_data[region_id][i] + 'val' + e.data.region_data[region_id][i]);
+			for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typeof e.data.region_data[region_id][i] + 'val' + e.data.region_data[region_id][i]);
 			monkey[region_id] ={
 				region_id:		new Number(),
 				img_src:		new String(),
@@ -20,6 +20,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 				original:  		new String(),
 				extracted:  	new String(),
 				number_of:  	new Object(),
+				sub_region:  	new Array(),
 			};
 			monkey[region_id].number_of ={
 				chars:			new Number(),
@@ -27,13 +28,13 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 			};
 			
 			lenna.crop( e.data.region_data[region_id][0],
-						e.data.region_data[region_id][1],
-						e.data.region_data[region_id][2],
-						e.data.region_data[region_id][3] );
+			e.data.region_data[region_id][1],
+			e.data.region_data[region_id][2],
+			e.data.region_data[region_id][3] );
 			
 			monkey[region_id].map_of_bits = new Array(lenna.bitmap.width);
 			for (var i=0; i <lenna.bitmap.width; i++)
-				monkey[region_id].map_of_bits[i]=new Array(lenna.bitmap.height); 
+			monkey[region_id].map_of_bits[i]=new Array(lenna.bitmap.height); 
 			
 			lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 				// x, y is the position of this pixel on the image
@@ -48,14 +49,17 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 			});
 			
 			if ( lenna.bitmap.height == font.height) {
+				monkey[region_id].most_valid_offs = -1;														//no subregion detection
 				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits);
 				monkey[region_id].original = monkey[region_id].extracted.slice(0);							//clone the undecoded string 
 				monkey[region_id].extracted = SearchandReplace(monkey[region_id].extracted, font.data);
 			}
 			else if ( lenna.bitmap.height > font.height) {
-				var srolling_temp = new Array(lenna.bitmap.height-font.height+1);
-				for(var offset = 0; offset <= (lenna.bitmap.height-font.height); offset++){
+				var subregion_num = lenna.bitmap.height-font.height+1;
+				var srolling_temp = new Array(subregion_num);
+				for(var offset = 0; offset < (subregion_num); offset++){
 					srolling_temp[offset] ={
+						offset:			offset;
 						map_of_bits: 	new Array(),
 						original:  		new String(),
 						extracted:  	new String(),
@@ -65,19 +69,26 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 						chars:  		new Number(),
 						valid_chars:	new Number(),
 					};
-					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset);
+					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset);	//refresh offset in the map_of_bits
 					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits);
-					srolling_temp[offset].original = srolling_temp[offset].extracted.slice(0);							//clone the undecoded string 
+					srolling_temp[offset].original = srolling_temp[offset].extracted.slice(0);									//clone the undecoded string 
 					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data);
-					srolling_temp[offset].number_of.chars = CountNumberofChars(srolling_temp[offset].extracted);
-					srolling_temp[offset].number_of.valid_chars = CountNumberofValidChars(srolling_temp[offset].extracted);
-console.log('srolling_temp['+offset+'].valid_chars:'+srolling_temp[offset].number_of.valid_chars);
+					srolling_temp[offset].number_of.chars = CountNumberofChars(srolling_temp[offset].extracted);				//this actually calculates for fun only
+					srolling_temp[offset].number_of.valid_chars = CountNumberofValidChars(srolling_temp[offset].extracted);		//valid chars means [0-9A-Za-z]
+					console.log('srolling_temp['+offset+'].valid_chars:'+srolling_temp[offset].number_of.valid_chars);
 				}
-				srolling_temp = srolling_temp.sort(function (a, b) { return a.number_of.valid_chars < b.number_of.valid_chars ? 1 : -1;});
-				Object.assign(monkey[region_id], srolling_temp[0]);
-console.log('srolling_temp[sorted].valid_chars:'+srolling_temp[0].number_of.valid_chars);
-console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.length-1].number_of.valid_chars);
-				monkey[region_id] = JSON.parse(JSON.stringify(monkey[region_id]));
+				srolling_temp = srolling_temp.sort(function (a, b) { return a.number_of.valid_chars < b.number_of.valid_chars ? 1 : -1;});	//sorting the most valid data at the top
+				console.log('srolling_temp[sorted].valid_chars:'+srolling_temp[0].number_of.valid_chars);
+				console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.length-1].number_of.valid_chars);
+				if(srolling_temp.filter(function(a){ return a.number_of.valid_chars > 1;}).length > 1){											//see if there is more than one line decoded
+					monkey[region_id].sub_region = srolling_temp.filter(function(a){ return a.number_of.valid_chars > 1;});						//apply to .sub_region
+					monkey[region_id].sub_region = monkey[region_id].sub_region.sort(function (a, b) { return a.offset < b.offset ? 1 : -1;});	//sort .sub_region with offsets
+				}
+				else{
+					Object.assign(monkey[region_id], srolling_temp[0]);															//only one line detected, no .sub_region
+					monkey[region_id].most_valid_offs = srolling_temp[0].offset;												//apply which offset is this region
+				}
+				monkey[region_id] = JSON.parse(JSON.stringify(monkey[region_id]));												//latch the whole object
 			}
 			else{
 				monkey[region_id].original = "not enough height";
@@ -92,8 +103,8 @@ console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.le
 			monkey[region_id].number_of.chars = CountNumberofChars(monkey[region_id].extracted);
 			monkey[region_id].number_of.valid_chars = CountNumberofValidChars(monkey[region_id].extracted);
 			
-console.log('img:'+e.data.imgid+' name:'+ e.data.filename+' region:'+region_id+ ' cropped.x:'+monkey[region_id].map_of_bits.length+ ' cropped.y:'+monkey[region_id].map_of_bits[0].length);
-console.log(' font:'+font+' chars:'+monkey[region_id].number_of.chars+' valid chars:'+monkey[region_id].number_of.valid_chars);
+			console.log('img:'+e.data.imgid+' name:'+ e.data.filename+' region:'+region_id+ ' cropped.x:'+monkey[region_id].map_of_bits.length+ ' cropped.y:'+monkey[region_id].map_of_bits[0].length);
+			console.log(' font:'+font+' chars:'+monkey[region_id].number_of.chars+' valid chars:'+monkey[region_id].number_of.valid_chars);
 		}
 		self.postMessage({
 			'imgid': e.data.imgid,
@@ -112,14 +123,14 @@ function toPaddedHexString(num, len) {
 function OffsetMapofBits(map_obj, fh, dh) {
 	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
 	for(var i = 0; i < map.length; i++)			//for each columns
-		map[i] = map[i].slice(dh, dh+fh)		//recalculate rows from offset value to fontheight+offset
+	map[i] = map[i].slice(dh, dh+fh)		//recalculate rows from offset value to fontheight+offset
 	return map;									//join all the HEX columns into string
 }
 
 function CalculateColumn(map_obj) {
 	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
 	for(var i = 0; i < map.length; i++){		//for each columns
-//console.log('map['+i+']:'+map[i]);
+		//console.log('map['+i+']:'+map[i]);
 		map[i] = map[i].join('');				//join the binary value of columns
 		map[i] = parseInt(map[i], 2);			//prase the joined binary columns into decimal int
 		map[i] = toPaddedHexString(map[i], 2);	//prase the decimal int to HEX with padding zeros
@@ -134,14 +145,12 @@ function SearchandReplace(col_obj, fon_obj) {
 	for(var i = fon.length-1; i >= 0; i--){							//for each symbol
 		if((fon[i]) != null){										//bypass undefined(i.e. control symbols)
 			if((fon[i].length) > 0){								//bypass unknown fonts
-				//console.log('i:'+i+' fon[i]:'+fon[i]);
 				for(var j = 0; j < fon[i].length; j++){				//matching the payload
-//console.log('fon[i]['+i+']['+j+']:'+fon[i][j]);
 					fon[i][j] = toPaddedHexString(fon[i][j], 2);	//prase the decimal int to HEX with padding zeros
 					fon[i][j] = "x"+fon[i][j].toUpperCase()+"x"; 	//wrap the uppercased HEX column data with x & x
 				}
 				fon[i] = fon[i].join('');							//font is in string, ready to be replaced
-				col = col.replace(new RegExp(fon[i], 'g'), "&#"+ i +";");
+				col = col.replace(new RegExp(fon[i], 'g'), "&#"+ i +";");		//the main purpose of the whole crap
 			}
 		}
 	}

@@ -178,7 +178,8 @@ function newFiles(element){
 				var max_len_of_text = e.data.filename.length;
 					console.log('e.data.filename.length: '+e.data.filename.length);
 				for(var region_id = 0; region_id < e.data.monkey.length; region_id++){
-					var wordFilter = e.data.monkey[region_id].extracted.replace(new RegExp("x[0-9A-F]{2}x", "g"), "");
+					var wordFilter = e.data.monkey[region_id].extracted.replace(new RegExp("(x)([0-9A-F]{2}x)", "g"), "");
+					wordFilter = wordFilter.replace("")
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
 					console.log(wordFilter);
 					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length;
@@ -317,8 +318,11 @@ function value_sync() {
 	console.log('else   ::region_data[x][0]:'+region_data[x][0]+' region_data[x][1]:'+region_data[x][1]+' region_data[x][2]:'+region_data[x][2]+' region_data[x][3]:'+region_data[x][3]+' region_data[x][4]:'+region_data[x][4]);
 	}
 	
-	for(var i = 0; i < 4; i++)
-		region_data[x][i] = isNaN(parseInt(region_data[x][i], 10))?0:parseInt(region_data[x][i], 10);
+	
+	region_data[x][0] = isNaN(parseInt(region_data[x][0], 10))?0:parseInt(region_data[x][0], 10);
+	region_data[x][1] = isNaN(parseInt(region_data[x][1], 10))?0:parseInt(region_data[x][1], 10);
+	region_data[x][2] = isNaN(parseInt(region_data[x][2], 10))?1:parseInt(region_data[x][2], 10);
+	region_data[x][3] = isNaN(parseInt(region_data[x][3], 10))?1:parseInt(region_data[x][3], 10);
 	region_data[x][4] = (isNaN(region_data[x][4]))?0xFF:((region_data[x][4] > 0xFFFFFFFF || region_data[x][4] < 0)?0xFF:region_data[x][4]);
 	
 	document.region_param.crop_x.value = region_data[x][0];
