@@ -175,7 +175,7 @@ function newFiles(element){
 				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+regno);
 				newSpan.setAttribute("rows", (e.data.monkey.length+3));
 				newSpan.innerHTML = e.data.filename + '\n';
-				var max_fruit_len = e.data.filename.length;
+				var max_len_of_text = e.data.filename.length;
 					console.log('e.data.filename.length: '+e.data.filename.length);
 				for(var regno = 0; regno < e.data.monkey.length; regno++){
 					var wordFilter = e.data.monkey[regno].extracted.replace(new RegExp("x[0-9A-F]{2}x", "g"), "");
@@ -183,9 +183,9 @@ function newFiles(element){
 					console.log(wordFilter);
 					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length;
 					console.log(wordFilter);
-					max_fruit_len = (wordFilter > max_fruit_len)?wordFilter:max_fruit_len;
+					max_len_of_text = (wordFilter > max_len_of_text)?wordFilter:max_len_of_text;
 				}
-				newSpan.setAttribute("cols", (max_fruit_len+1));
+				newSpan.setAttribute("cols", (max_len_of_text+1));
 				if(document.getElementById("convert_en").checked){
 					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(newSpan);
