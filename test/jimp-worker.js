@@ -73,7 +73,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 					srolling_temp[offset].number_of.valid_chars = CountNumberofValidChars(srolling_temp[offset].extracted);
 console.log('srolling_temp['+offset+'].valid_chars:'+srolling_temp[offset].number_of.valid_chars);
 				}
-				srolling_temp = srolling_temp.sort(function (a, b) { return a.valid_chars > b.valid_chars ? 1 : -1;});
+				srolling_temp = srolling_temp.sort(function (a, b) { return a.number_of.valid_chars < b.number_of.valid_chars ? 1 : -1;});
 				Object.assign(monkey[region_id], srolling_temp[0]);
 console.log('srolling_temp[sorted].valid_chars:'+srolling_temp[0].number_of.valid_chars);
 console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.length-1].number_of.valid_chars);
