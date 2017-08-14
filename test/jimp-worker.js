@@ -10,20 +10,28 @@ self.addEventListener("message", function (e) {
 		var bitwisemap = new Array(e.data.region_data.length);
 		var fruits = new Array(e.data.region_data.length);
 		var fruits_orig = new Array(e.data.region_data.length);
+		var monkey = new Array(e.data.region_data.length);
+
 		var font = new Array(e.data.region_data.length);
 		var imgsrc = new Array(e.data.region_data.length);
 		for(var regno = 0; regno < e.data.region_data.length; regno++){
 			lenna = lenna_bkp.clone();
 for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] + 'val' + e.data.region_data[regno][i]);
-
+			monkey[regno] ={
+				region_number:  new Number(),
+				map_of_bits: new Array(),
+				original:  new Number(),
+				extracted:  new String(),
+				number_of_chars:  new Number(),
+			};
 			lenna.crop( e.data.region_data[regno][0],
 						e.data.region_data[regno][1],
 						e.data.region_data[regno][2],
 						e.data.region_data[regno][3] );
 			
-			bitwisemap[regno] = new Array(lenna.bitmap.width);
+			monkey[regno].map_of_bits = new Array(lenna.bitmap.width);
 			for (var i=0; i <lenna.bitmap.width; i++)
-				bitwisemap[regno][i]=new Array(lenna.bitmap.height); 
+				monkey[regno].map_of_bits[i]=new Array(lenna.bitmap.height); 
 			
 			lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 				// x, y is the position of this pixel on the image
@@ -49,10 +57,10 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				else{
 					lenna.setPixelColor(0x000000FF, x, y);
 				}
-				bitwisemap[regno][x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
+				monkey[regno].map_of_bits[x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
 			});
 			
-			fruits[regno] = bitwisemap[regno].slice(0);
+			fruits[regno] = monkey[regno].map_of_bits.slice(0);
 			font[regno] = JSON.parse(JSON.stringify(bmpfont1));
 			
 			if ( e.data.region_data[regno][3] == font[regno].height) {
