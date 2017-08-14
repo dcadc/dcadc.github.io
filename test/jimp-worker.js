@@ -94,7 +94,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				imgsrc[regno] = src;
 			});	
 			
-			monkey[regno].number_of_chars = (monkey[regno].extracted.match(new RegExp("([&#]{2}(4[89]|5[0-7]|6[5-9]|[78][0-9]|90|9[7-9]|1[01][0-9]|12[0-2])[;]{1})", "g")) || []).length
+			monkey[regno].number_of_chars = (monkey[regno].extracted.match(new RegExp("[&#]{2}(4[89]|5[0-7]|6[5-9]|[78][0-9]|90|9[7-9]|1[01][0-9]|12[0-2])[;]{1}", "g")) || []).length
 			
 console.log('img:'+e.data.imgid+' region:'+regno+' name:'+ e.data.filename+ ' cropped.x:'+monkey[regno].map_of_bits.length+ ' cropped.y:'+monkey[regno].map_of_bits[0].length+' font:'+font[regno]+' valid chars:'+monkey[regno].number_of_chars);
 		}
