@@ -85,7 +85,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 				monkey[region_id].extracted = monkey[region_id].extracted.join('');							//join all the HEX columns into string
 				monkey[region_id].original = monkey[region_id].extracted.slice(0);							//clone the undecoded string 
 				
-				SearchandReplace(monkey[region_id].extracted, font[region_id].data);
+				monkey[region_id].extracted = SearchandReplace(monkey[region_id].extracted, font[region_id].data);
 				
 			}
 			else{
@@ -132,4 +132,5 @@ function SearchandReplace(col, fon) {
 			}
 		}
 	}
+	return col;
 }
