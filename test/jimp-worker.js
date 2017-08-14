@@ -75,6 +75,8 @@ console.log('srolling_temp['+offset+'].valid_chars:'+srolling_temp[offset].numbe
 				}
 				srolling_temp = srolling_temp.sort(function (a, b) { return a.valid_chars > b.valid_chars ? 1 : -1;});
 				Object.assign(monkey[region_id], srolling_temp[0]);
+console.log('srolling_temp[sorted].valid_chars:'+srolling_temp[0].number_of.valid_chars);
+console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.length-1].number_of.valid_chars);
 				monkey[region_id] = JSON.parse(JSON.stringify(monkey[region_id]));
 			}
 			else{
