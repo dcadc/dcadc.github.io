@@ -181,7 +181,8 @@ function newFiles(element){
 				}
 				var newSpan = document.createElement("textarea");
 				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+region_id);
-				newSpan.setAttribute("rows", (e.data.monkey.length+5);
+				var newlinechar = e.data.monkey[region_id].extracted.split("\n").length;
+				newSpan.setAttribute("rows", (e.data.monkey.length+3+newlinechar));
 				newSpan.innerHTML = e.data.filename + '\n';
 				var max_len_of_text = e.data.filename.length;
 					console.log('e.data.filename.length: '+e.data.filename.length);
