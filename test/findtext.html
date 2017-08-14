@@ -179,7 +179,7 @@ function newFiles(element){
 					console.log('e.data.filename.length: '+e.data.filename.length);
 				for(var region_id = 0; region_id < e.data.monkey.length; region_id++){
 					var wordFilter = e.data.monkey[region_id].extracted.replace(new RegExp("(x)([0-9A-F]{2}x)", "g"), "");
-					wordFilter = wordFilter.replace("")
+					wordFilter = wordFilter.replace(new RegExp("((&#32;){5})", "g"), "");
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
 					console.log(wordFilter);
 					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length;

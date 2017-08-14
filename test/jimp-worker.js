@@ -86,8 +86,8 @@ self.addEventListener("message", function (e) {
 					monkey[region_id].original = "";
 					monkey[region_id].extracted = "";
 					for(var i = 0; i < monkey[region_id].sub_region.length; i++){
-						monkey[region_id].original 	= monkey[region_id].original +monkey[region_id].sub_region[i].original;
-						monkey[region_id].extracted	= monkey[region_id].extracted+monkey[region_id].sub_region[i].extracted;
+						monkey[region_id].original 	= monkey[region_id].original +monkey[region_id].sub_region[i].original+"\n";
+						monkey[region_id].extracted	= monkey[region_id].extracted+monkey[region_id].sub_region[i].extracted+"\n";
 						monkey[region_id].number_of.chars += monkey[region_id].sub_region[i]
 						monkey[region_id].number_of.valid_chars += monkey[region_id].sub_region[i]
 					}
