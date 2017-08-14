@@ -60,20 +60,20 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				monkey[regno].map_of_bits[x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
 			});
 			
-			fruits[regno] = monkey[regno].map_of_bits.slice(0);
+			monkey[regno].extracted = monkey[regno].map_of_bits.slice(0);
 			font[regno] = JSON.parse(JSON.stringify(bmpfont1));
 			
 			if ( e.data.region_data[regno][3] == font[regno].height) {
-				for(var i = 0; i < fruits[regno].length; i++){
-					fruits[regno][i]=fruits[regno][i].join('');
-					fruits[regno][i].toString();
-					fruits[regno][i] = parseInt(fruits[regno][i], 2);
-					fruits[regno][i] = toPaddedHexString(fruits[regno][i], 2);
-					fruits[regno][i] = "x"+fruits[regno][i].toUpperCase()+"x"; 
+				for(var i = 0; i < monkey[regno].extracted.length; i++){
+					monkey[regno].extracted[i]=monkey[regno].extracted[i].join('');
+					monkey[regno].extracted[i].toString();
+					monkey[regno].extracted[i] = parseInt(monkey[regno].extracted[i], 2);
+					monkey[regno].extracted[i] = toPaddedHexString(monkey[regno].extracted[i], 2);
+					monkey[regno].extracted[i] = "x"+monkey[regno].extracted[i].toUpperCase()+"x"; 
 				}
 				
-				fruits[regno] = fruits[regno].join('');
-				monkey[regno].original = fruits[regno].slice(0);
+				monkey[regno].extracted = monkey[regno].extracted.join('');
+				monkey[regno].original = monkey[regno].extracted.slice(0);
 				
 				for(var i = font[regno].data.length-1; i >= 0; i--){
 					if((font[regno].data[i]) != null){
@@ -84,7 +84,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 								font[regno].data[i][j] = "x"+font[regno].data[i][j].toUpperCase()+"x";
 							}
 							font[regno].data[i] = font[regno].data[i].join('');
-							fruits[regno] = fruits[regno].replace(new RegExp(font[regno].data[i], 'g'), "&#"+ i +";");
+							monkey[regno].extracted = monkey[regno].extracted.replace(new RegExp(font[regno].data[i], 'g'), "&#"+ i +";");
 						}
 					}
 				}
@@ -93,10 +93,10 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				if (err) throw err;
 				imgsrc[regno] = src;
 			});	
-			monkey[regno].extracted = fruits[regno].slice(0);
+			
 			monkey[regno].number_of_chars = (monkey[regno].extracted.match(new RegExp("[&#]{2}(4[89]|5[0-7]|6[5-9]|[78][0-9]|90|9[7-9]|1[01][0-9]|12[0-2])[;]{1}", "g")) || []).length
 			
-console.log('img:'+e.data.imgid+' region:'+regno+' name:'+ e.data.filename+ ' cropped.x:'+monkey[regno].map_of_bits.length+ ' cropped.y:'+monkey[regno].map_of_bits[0].length+' font:'+font[regno]+' valid chars:'+monkey[regno].number_of_chars);
+console.log('img:'+e.data.imgid+' name:'+ e.data.filename+' region:'+regno+ ' cropped.x:'+monkey[regno].map_of_bits.length+ ' cropped.y:'+monkey[regno].map_of_bits[0].length+' font:'+font[regno]+' valid chars:'+monkey[regno].number_of_chars);
 		}
 		self.postMessage({
 			'view': imgsrc,
