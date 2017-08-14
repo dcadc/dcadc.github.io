@@ -115,20 +115,20 @@ function newFiles(element){
 		reader.addEventListener("load", function(){
 			var worker = new Worker("jimp-worker.js");
 			worker.onmessage = function (e) {
-				for(var regno = 0; regno < e.data.monkey.length; regno++){
+				for(var region_id = 0; region_id < e.data.monkey.length; region_id++){
 					var newTable = document.createElement("table");
-					newTable.setAttribute("id", 'tab'+e.data.imgid+'_'+regno);
-					for (var row = 0; row < e.data.monkey[regno].map_of_bits[0].length; row++) {
+					newTable.setAttribute("id", 'tab'+e.data.imgid+'_'+region_id);
+					for (var row = 0; row < e.data.monkey[region_id].map_of_bits[0].length; row++) {
 						//iterate through rows
 						//rows would be accessed using the "row" variable assigned in the for loop
 						var newTR = document.createElement("tr"); 
 						newTR.style.height = '1px';
-						for (var col = 0; col < e.data.monkey[regno].map_of_bits.length; col++) {
+						for (var col = 0; col < e.data.monkey[region_id].map_of_bits.length; col++) {
 							//iterate through columns
 							//columns would be accessed using the "col" variable assigned in the for loop
 							var newTD = document.createElement("td"); 
 							newTD.style.width = '1px';
-							if(e.data.monkey[regno].map_of_bits[col][row]){
+							if(e.data.monkey[region_id].map_of_bits[col][row]){
 								newTD.setAttribute("class", 'b-CH');
 								newTD.style.backgroundColor = '#FFFFFF';
 							}
@@ -137,31 +137,31 @@ function newFiles(element){
 								newTD.style.backgroundColor = '#000000';
 							}
 							newTR.appendChild(newTD);
-							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.monkey[regno].map_of_bits[col][row];
-							//newTD.innerHTML = e.data.monkey[regno].map_of_bits[col][row];
+							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.monkey[region_id].map_of_bits[col][row];
+							//newTD.innerHTML = e.data.monkey[region_id].map_of_bits[col][row];
 						}
 						newTable.appendChild(newTR);
 					}
 					
 					var img = document.createElement("img");
-					img.setAttribute("id", 'img'+e.data.imgid+'_'+regno);
-					img.setAttribute("src", e.data.monkey[regno].img_src);
+					img.setAttribute("id", 'img'+e.data.imgid+'_'+region_id);
+					img.setAttribute("src", e.data.monkey[region_id].img_src);
 					
 					var newBr = document.createElement("br"); 				
 					var newDiv = document.createElement("div");				
-					var fn = document.createTextNode(e.data.filename+'  region '+regno);
-					newDiv.setAttribute("id", 'divv'+e.data.imgid+'_'+regno);
-					newDiv.setAttribute("name", e.data.filename+' region'+regno);
+					var fn = document.createTextNode(e.data.filename+'  region '+region_id);
+					newDiv.setAttribute("id", 'divv'+e.data.imgid+'_'+region_id);
+					newDiv.setAttribute("name", e.data.filename+' region'+region_id);
 					newDiv.setAttribute("class", 'result');
 					document.body.appendChild(newDiv);
-					var currentDiv = document.getElementById('divv'+e.data.imgid+'_'+regno); 
+					var currentDiv = document.getElementById('divv'+e.data.imgid+'_'+region_id); 
 					var newtext = document.createElement("input");
 					newtext.setAttribute("type", 'text');
-					newtext.setAttribute("name", 'HEX'+e.data.imgid+'_'+regno);
-					//newtext.setAttribute("value", e.data.monkey[regno].extracted.join(','));
-					newtext.setAttribute("value", e.data.monkey[regno].original);
-					console.log('Data before replacing into chars: \n'+e.data.monkey[regno].original);
-					console.log('Data after  replacing into chars: \n'+e.data.monkey[regno].extracted);		
+					newtext.setAttribute("name", 'HEX'+e.data.imgid+'_'+region_id);
+					//newtext.setAttribute("value", e.data.monkey[region_id].extracted.join(','));
+					newtext.setAttribute("value", e.data.monkey[region_id].original);
+					console.log('Data before replacing into chars: \n'+e.data.monkey[region_id].original);
+					console.log('Data after  replacing into chars: \n'+e.data.monkey[region_id].extracted);		
 					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(img);
 					currentDiv.appendChild(fn);
@@ -169,16 +169,16 @@ function newFiles(element){
 					currentDiv.appendChild(newTable);
 					//currentDiv.appendChild(newtext);
 					//document.body.insertBefore(newBr, currentDiv); 
-					console.log('00000000004'+'x.length='+e.data.monkey[regno].map_of_bits.length+' y.length='+e.data.monkey[regno].map_of_bits[0].length);
+					console.log('00000000004'+'x.length='+e.data.monkey[region_id].map_of_bits.length+' y.length='+e.data.monkey[region_id].map_of_bits[0].length);
 				}
 				var newSpan = document.createElement("textarea");
-				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+regno);
+				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+region_id);
 				newSpan.setAttribute("rows", (e.data.monkey.length+3));
 				newSpan.innerHTML = e.data.filename + '\n';
 				var max_len_of_text = e.data.filename.length;
 					console.log('e.data.filename.length: '+e.data.filename.length);
-				for(var regno = 0; regno < e.data.monkey.length; regno++){
-					var wordFilter = e.data.monkey[regno].extracted.replace(new RegExp("x[0-9A-F]{2}x", "g"), "");
+				for(var region_id = 0; region_id < e.data.monkey.length; region_id++){
+					var wordFilter = e.data.monkey[region_id].extracted.replace(new RegExp("x[0-9A-F]{2}x", "g"), "");
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
 					console.log(wordFilter);
 					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length;
