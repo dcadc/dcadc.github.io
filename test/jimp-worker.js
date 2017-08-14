@@ -73,8 +73,8 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 					srolling_temp[offset].number_of.valid_chars = CountNumberofValidChars(srolling_temp[offset].extracted);
 				}
 				srolling_temp = srolling_temp.sort(function (a, b) { return a.valid_chars > b.valid_chars ? 1 : -1;});
-				Object.assign(monkey[region_id], srolling_temp[0]);
-				monkey[region_id] = JSON.parse(JSON.stringify(monkey[region_id]));
+				//Object.assign(monkey[region_id], srolling_temp[0]);
+				monkey[region_id] = JSON.parse(JSON.stringify(srolling_temp[0]));
 			}
 			else{
 				monkey[region_id].original = "not enough height";
