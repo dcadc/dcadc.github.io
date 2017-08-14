@@ -114,7 +114,7 @@ function OffsetMapofBits(map, fh, dh) {
 
 function CalculateColumn(map) {
 	for(var i = 0; i < map.length; i++){		//for each columns
-console.log('map['+i+']:'+map);
+console.log('map['+i+']:'+map[i]);
 		map[i] = map[i].join('');				//join the binary value of columns
 		map[i] = parseInt(map[i], 2);			//prase the joined binary columns into decimal int
 		map[i] = toPaddedHexString(map[i], 2);	//prase the decimal int to HEX with padding zeros
