@@ -107,14 +107,14 @@ function toPaddedHexString(num, len) {
 }
 
 function OffsetMapofBits(map_obj, fh, dh) {
-	var map = map_obj.slice(0);						//preventing call by ref on non-primitive type (clone)
+	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
 	for(var i = 0; i < map.length; i++)			//for each columns
 		map[i] = map[i].slice(dh, dh+fh)		//recalculate rows from offset value to fontheight+offset
 	return map;									//join all the HEX columns into string
 }
 
 function CalculateColumn(map_obj) {
-	var map = map_obj.slice(0);						//preventing call by ref on non-primitive type (clone)
+	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
 	for(var i = 0; i < map.length; i++){		//for each columns
 //console.log('map['+i+']:'+map[i]);
 		map[i] = map[i].join('');				//join the binary value of columns
@@ -126,8 +126,8 @@ function CalculateColumn(map_obj) {
 }
 
 function SearchandReplace(col_obj, fon_obj) {
-	var fon = fon_obj.slice(0);						//preventing call by ref on non-primitive type (clone)
-	var col = col_obj.slice(0);						//preventing call by ref on non-primitive type (clone)
+	var fon = JSON.parse(JSON.stringify(fon_obj));	//preventing call by ref on non-primitive type (clone)
+	var col = JSON.parse(JSON.stringify(col_obj));	//preventing call by ref on non-primitive type (clone)
 	for(var i = fon.length-1; i >= 0; i--){							//for each symbol
 		if((fon[i]) != null){										//bypass undefined(i.e. control symbols)
 			if((fon[i].length) > 0){								//bypass unknown fonts
