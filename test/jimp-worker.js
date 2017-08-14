@@ -48,7 +48,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 			});
 			
 			if ( lenna.bitmap.height == font.height) {
-				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits);
+				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits.slice(0));
 				monkey[region_id].original = monkey[region_id].extracted.slice(0);							//clone the undecoded string 
 				monkey[region_id].extracted = SearchandReplace(monkey[region_id].extracted, font.data);
 			}
@@ -66,7 +66,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 						valid_chars:	new Number(),
 					};
 					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset);
-					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits);
+					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits.slice(0));
 					srolling_temp[offset].original = srolling_temp[offset].extracted.slice(0);							//clone the undecoded string 
 					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data);
 					srolling_temp[offset].number_of.chars = CountNumberofChars(srolling_temp[offset].extracted);
