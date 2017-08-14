@@ -7,18 +7,14 @@ importScripts("./8x6bitmapfont.js");
 self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
 		var lenna_bkp = lenna.clone();
-		var bitwisemap = new Array(e.data.region_data.length);
-		var fruits = new Array(e.data.region_data.length);
-		var fruits_orig = new Array(e.data.region_data.length);
 		var monkey = new Array(e.data.region_data.length);
-
 		var font = new Array(e.data.region_data.length);
-		var imgsrc = new Array(e.data.region_data.length);
 		for(var regno = 0; regno < e.data.region_data.length; regno++){
 			lenna = lenna_bkp.clone();
 for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] + 'val' + e.data.region_data[regno][i]);
 			monkey[regno] ={
 				region_number:  new Number(),
+				img_src:		new String(),
 				map_of_bits: 	new Array(),
 				original:  		new String(),
 				extracted:  	new String(),
@@ -28,6 +24,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				chars:  new Number(),
 				valid_chars:  new Number(),
 			};
+			
 			lenna.crop( e.data.region_data[regno][0],
 						e.data.region_data[regno][1],
 						e.data.region_data[regno][2],
@@ -95,7 +92,7 @@ console.log('i:'+i+' font[regno].data[i]:'+font[regno].data[i]);
 			}
 			lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 				if (err) throw err;
-				imgsrc[regno] = src;
+				monkey[regno].img_src = src;
 			});	
 			
 			monkey[regno].number_of.chars = (monkey[regno].extracted.match(new RegExp("([&#]{2})([0-9]{1,3})([;]{1})", "g")) || []).length;
@@ -105,13 +102,9 @@ console.log('img:'+e.data.imgid+' name:'+ e.data.filename+' region:'+regno+ ' cr
 console.log(' font:'+font[regno]+' chars:'+monkey[regno].number_of.chars+' valid chars:'+monkey[regno].number_of.valid_chars);
 		}
 		self.postMessage({
-			'view': imgsrc,
 			'imgid': e.data.imgid,
 			'filename': e.data.filename,
-			'monkey': monkey, 
-			'bitwisemap': bitwisemap,
-			'fruits_orig': fruits_orig,
-			'fruits': fruits
+			'monkey': monkey
 		});
 		self.close();
 	});
