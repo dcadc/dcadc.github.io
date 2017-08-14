@@ -118,17 +118,17 @@ function newFiles(element){
 				for(var regno = 0; regno < region_data.length; regno++){
 					var newTable = document.createElement("table");
 					newTable.setAttribute("id", 'tab'+e.data.imgid+'_'+regno);
-					for (var row = 0; row < e.data.bitwisemap[regno][0].length; row++) {
+					for (var row = 0; row < e.data.monkey[regno].map_of_bits[0].length; row++) {
 						//iterate through rows
 						//rows would be accessed using the "row" variable assigned in the for loop
 						var newTR = document.createElement("tr"); 
 						newTR.style.height = '1px';
-						for (var col = 0; col < e.data.bitwisemap[regno].length; col++) {
+						for (var col = 0; col < e.data.monkey[regno].map_of_bits.length; col++) {
 							//iterate through columns
 							//columns would be accessed using the "col" variable assigned in the for loop
 							var newTD = document.createElement("td"); 
 							newTD.style.width = '1px';
-							if(e.data.bitwisemap[regno][col][row]){
+							if(e.data.monkey[regno].map_of_bits[col][row]){
 								newTD.setAttribute("class", 'b-CH');
 								newTD.style.backgroundColor = '#FFFFFF';
 							}
@@ -137,8 +137,8 @@ function newFiles(element){
 								newTD.style.backgroundColor = '#000000';
 							}
 							newTR.appendChild(newTD);
-							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.bitwisemap[regno][col][row];
-							//newTD.innerHTML = e.data.bitwisemap[regno][col][row];
+							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.monkey[regno].map_of_bits[col][row];
+							//newTD.innerHTML = e.data.monkey[regno].map_of_bits[col][row];
 						}
 						newTable.appendChild(newTR);
 					}
@@ -169,7 +169,7 @@ function newFiles(element){
 					currentDiv.appendChild(newTable);
 					//currentDiv.appendChild(newtext);
 					//document.body.insertBefore(newBr, currentDiv); 
-					console.log('00000000004'+'x.length='+e.data.bitwisemap[regno].length+' y.length='+e.data.bitwisemap[regno][0].length);
+					console.log('00000000004'+'x.length='+e.data.monkey[regno].map_of_bits.length+' y.length='+e.data.monkey[regno].map_of_bits[0].length);
 				}
 				var newSpan = document.createElement("textarea");
 				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+regno);

@@ -93,12 +93,13 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				if (err) throw err;
 				imgsrc[regno] = src;
 			});	
-console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+monkey[regno].map_of_bits.length+ ' cropped.y'+monkey[regno].map_of_bits[0].length+' font'+font[regno]);
+console.log('img:'+e.data.imgid+' region:'+regno+' name:'+ e.data.filename+ ' cropped.x:'+monkey[regno].map_of_bits.length+ ' cropped.y:'+monkey[regno].map_of_bits[0].length+' font:'+font[regno]);
 		}
 		self.postMessage({
 			'view': imgsrc,
 			'imgid': e.data.imgid,
 			'filename': e.data.filename,
+			'monkey': monkey, 
 			'bitwisemap': bitwisemap,
 			'fruits_orig': fruits_orig,
 			'fruits': fruits
