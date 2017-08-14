@@ -82,7 +82,7 @@ self.addEventListener("message", function (e) {
 				console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.length-1].number_of.valid_chars);
 				if(srolling_temp.filter(function(a){ return a.number_of.valid_chars > 1;}).length > 1){											//see if there is more than one line decoded
 					monkey[region_id].sub_region = srolling_temp.filter(function(a){ return a.number_of.valid_chars > 1;});						//apply to .sub_region
-					monkey[region_id].sub_region = monkey[region_id].sub_region.sort(function (a, b) { return a.offset < b.offset ? 1 : -1;});	//sort .sub_region with offsets
+					monkey[region_id].sub_region = monkey[region_id].sub_region.sort(function (a, b) { return a.offset > b.offset ? 1 : -1;});	//sort .sub_region with offsets
 					monkey[region_id].original = "";
 					monkey[region_id].extracted = "";
 					for(var i = 0; i < monkey[region_id].sub_region.length; i++){
