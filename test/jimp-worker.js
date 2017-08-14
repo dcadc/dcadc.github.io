@@ -116,7 +116,7 @@ function OffsetMapofBits(map_obj, fh, dh) {
 function CalculateColumn(map_obj) {
 	var map = map_obj.slice(0);						//preventing call by ref on non-primitive type (clone)
 	for(var i = 0; i < map.length; i++){		//for each columns
-console.log('map['+i+']:'+map[i]);
+//console.log('map['+i+']:'+map[i]);
 		map[i] = map[i].join('');				//join the binary value of columns
 		map[i] = parseInt(map[i], 2);			//prase the joined binary columns into decimal int
 		map[i] = toPaddedHexString(map[i], 2);	//prase the decimal int to HEX with padding zeros
@@ -133,6 +133,7 @@ function SearchandReplace(col_obj, fon_obj) {
 			if((fon[i].length) > 0){								//bypass unknown fonts
 				//console.log('i:'+i+' fon[i]:'+fon[i]);
 				for(var j = 0; j < fon[i].length; j++){				//matching the payload
+console.log('fon[i]['+i+']['+j+']:'+fon[i][j]);
 					fon[i][j] = toPaddedHexString(fon[i][j], 2);	//prase the decimal int to HEX with padding zeros
 					fon[i][j] = "x"+fon[i][j].toUpperCase()+"x"; 	//wrap the uppercased HEX column data with x & x
 				}
