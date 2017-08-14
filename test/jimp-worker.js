@@ -59,7 +59,7 @@ self.addEventListener("message", function (e) {
 				var srolling_temp = new Array(subregion_num);
 				for(var offset = 0; offset < (subregion_num); offset++){
 					srolling_temp[offset] ={
-						offset:			offset;
+						offset:			offset,
 						map_of_bits: 	new Array(),
 						original:  		new String(),
 						extracted:  	new String(),
