@@ -49,7 +49,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 			monkey[region_id].extracted = monkey[region_id].map_of_bits.slice(0);
 			font[region_id] = JSON.parse(JSON.stringify(bmpfont1));
 			
-			if ( e.data.region_data[region_id][3] == font[region_id].height) {
+			if ( e.data.region_data[region_id][3] > font[region_id].height) {
 				for(var i = 0; i < monkey[region_id].extracted.length; i++){								//for each columns
 					monkey[region_id].extracted[i]=monkey[region_id].extracted[i].join('');					//join the binary value of columns
 					monkey[region_id].extracted[i] = parseInt(monkey[region_id].extracted[i], 2);			//prase the joined binary columns into decimal int
@@ -74,7 +74,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 					}
 				}
 			}
-			else if ( e.data.region_data[region_id][3] > font[region_id].height) {
+			else if ( e.data.region_data[region_id][3] == font[region_id].height) {
 				for(var i = 0; i < monkey[region_id].extracted.length; i++){								//for each columns
 					monkey[region_id].extracted[i]=monkey[region_id].extracted[i].join('');					//join the binary value of columns
 					monkey[region_id].extracted[i] = parseInt(monkey[region_id].extracted[i], 2);			//prase the joined binary columns into decimal int
