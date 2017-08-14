@@ -43,6 +43,8 @@
 <td style="text-align:right;">
 	Table?
 	<input type="checkbox" id="table_en">
+	Image?
+	<input type="checkbox" id="image_en">
 </td>
 <td style="text-align:center;">
 	<button onclick="channel_swap()">Swap BW</button>
@@ -167,7 +169,9 @@ function newFiles(element){
 					console.log('Data before replacing into chars: \n'+e.data.monkey[region_id].original);
 					console.log('Data after  replacing into chars: \n'+e.data.monkey[region_id].extracted);		
 					currentDiv.appendChild(newBr);
-					currentDiv.appendChild(img);
+					if(document.getElementById("image_en").checked){
+						currentDiv.appendChild(img);
+					}
 					currentDiv.appendChild(fn);
 					currentDiv.appendChild(newBr);
 					currentDiv.appendChild(newTable);
