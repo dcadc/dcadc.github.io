@@ -19,10 +19,14 @@ self.addEventListener("message", function (e) {
 for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof e.data.region_data[regno][i] + 'val' + e.data.region_data[regno][i]);
 			monkey[regno] ={
 				region_number:  new Number(),
-				map_of_bits: new Array(),
-				original:  new Number(),
-				extracted:  new String(),
-				number_of_chars:  new Number(),
+				map_of_bits: 	new Array(),
+				original:  		new String(),
+				extracted:  	new String(),
+				number_of:  	new Object(),
+			};
+			monkey[regno].number_of ={
+				chars:  new Number(),
+				valid_chars:  new Number(),
 			};
 			lenna.crop( e.data.region_data[regno][0],
 						e.data.region_data[regno][1],
@@ -94,9 +98,11 @@ console.log('i:'+i+' font[regno].data[i]:'+font[regno].data[i]);
 				imgsrc[regno] = src;
 			});	
 			
-			monkey[regno].number_of_chars = (monkey[regno].extracted.match(new RegExp("[&#]{2}(4[89]|5[0-7]|6[5-9]|[78][0-9]|90|9[7-9]|1[01][0-9]|12[0-2])[;]{1}", "g")) || []).length;
+			monkey[regno].number_of.chars = (monkey[regno].extracted.match(new RegExp("([&#]{2})([0-9]{1,3})([;]{1})", "g")) || []).length;
+			monkey[regno].number_of.valid_chars = (monkey[regno].extracted.match(new RegExp("([&#]{2})(4[89]|5[0-7]|6[5-9]|[78][0-9]|90|9[7-9]|1[01][0-9]|12[0-2])([;]{1})", "g")) || []).length;
 			
-console.log('img:'+e.data.imgid+' name:'+ e.data.filename+' region:'+regno+ ' cropped.x:'+monkey[regno].map_of_bits.length+ ' cropped.y:'+monkey[regno].map_of_bits[0].length+' font:'+font[regno]+' valid chars:'+monkey[regno].number_of_chars);
+console.log('img:'+e.data.imgid+' name:'+ e.data.filename+' region:'+regno+ ' cropped.x:'+monkey[regno].map_of_bits.length+ ' cropped.y:'+monkey[regno].map_of_bits[0].length);
+console.log(' font:'+font[regno]+' chars:'+monkey[regno].number_of.chars+' valid chars:'+monkey[regno].number_of.valid_chars);
 		}
 		self.postMessage({
 			'view': imgsrc,
