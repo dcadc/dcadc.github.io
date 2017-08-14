@@ -29,7 +29,6 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 						e.data.region_data[regno][2],
 						e.data.region_data[regno][3] );
 			
-			bitwisemap = new Array(lenna.bitmap.width);
 			monkey[regno].map_of_bits = new Array(lenna.bitmap.width);
 			for (var i=0; i <lenna.bitmap.width; i++)
 				monkey[regno].map_of_bits[i]=new Array(lenna.bitmap.height); 
@@ -94,8 +93,8 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[regno][i]' + typeof 
 				if (err) throw err;
 				imgsrc[regno] = src;
 			});	
+console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+monkey[regno].map_of_bits.length+ ' cropped.y'+monkey[regno].map_of_bits[0].length+' font'+font[regno]);
 		}
-console.log('img'+e.data.imgid+' name='+ e.data.filename+ ' cropped.x'+bitwisemap.length+ ' cropped.y'+bitwisemap[0].length+' bmpfont'+font[regno]);
 		self.postMessage({
 			'view': imgsrc,
 			'imgid': e.data.imgid,
