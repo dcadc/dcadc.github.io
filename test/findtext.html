@@ -178,7 +178,7 @@ function newFiles(element){
 				var max_fruit_len = e.data.filename.length;
 					console.log('e.data.filename.length: '+e.data.filename.length);
 				for(var regno = 0; regno < region_data.length; regno++){
-					var wordFilter = e.data.fruits[regno].replace(/x[0-9A-F]{1,2}x/g, "");
+					var wordFilter = e.data.fruits[regno].replace(new RegExp("x[0-9A-F]{2}x", "g"), "");
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
 					console.log(wordFilter);
 					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length
