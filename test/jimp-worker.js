@@ -83,14 +83,14 @@ self.addEventListener("message", function (e) {
 				if(srolling_temp.filter(function(a){ return a.number_of.valid_chars > 5;}).length > 1){											//see if there is more than one line decoded
 					monkey[region_id].sub_region = srolling_temp.filter(function(a){ return a.number_of.valid_chars > 1;});						//apply to .sub_region
 					monkey[region_id].sub_region = monkey[region_id].sub_region.sort(function (a, b) { return a.offset > b.offset ? 1 : -1;});	//sort .sub_region with offsets
-					monkey[region_id].most_valid_offs = monkey[region_id].sub_region.[monkey[region_id].sub_region.length-1].offset;
+					monkey[region_id].most_valid_offs = monkey[region_id].sub_region.[(monkey[region_id].sub_region.length)-1].offset;
 					monkey[region_id].original = "";
 					monkey[region_id].extracted = "";
 					for(var i = 0; i < monkey[region_id].sub_region.length; i++){
 						monkey[region_id].original 	= monkey[region_id].original +monkey[region_id].sub_region[i].original+"\n";
 						monkey[region_id].extracted	= monkey[region_id].extracted+monkey[region_id].sub_region[i].extracted+"\n";
-						monkey[region_id].number_of.chars += monkey[region_id].sub_region[i]
-						monkey[region_id].number_of.valid_chars += monkey[region_id].sub_region[i]
+						monkey[region_id].number_of.chars += monkey[region_id].sub_region[i];
+						monkey[region_id].number_of.valid_chars += monkey[region_id].sub_region[i];
 					}
 				}
 				else{
