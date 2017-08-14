@@ -40,7 +40,10 @@
 <td style="text-align:left;">px</td>
 </tr>
 <tr>
-<td style="text-align:right;"> </td>
+<td style="text-align:right;">
+	Table?
+	<input type="checkbox" id="Table_en">
+</td>
 <td style="text-align:center;">
 	<button onclick="channel_swap()">Swap BW</button>
 	<button onclick="ClearALL()">Clear Result</button>
@@ -118,31 +121,32 @@ function newFiles(element){
 				for(var region_id = 0; region_id < e.data.monkey.length; region_id++){
 					var newTable = document.createElement("table");
 					newTable.setAttribute("id", 'tab'+e.data.imgid+'_'+region_id);
-					for (var row = 0; row < e.data.monkey[region_id].map_of_bits[0].length; row++) {
-						//iterate through rows
-						//rows would be accessed using the "row" variable assigned in the for loop
-						var newTR = document.createElement("tr"); 
-						newTR.style.height = '1px';
-						for (var col = 0; col < e.data.monkey[region_id].map_of_bits.length; col++) {
-							//iterate through columns
-							//columns would be accessed using the "col" variable assigned in the for loop
-							var newTD = document.createElement("td"); 
-							newTD.style.width = '1px';
-							if(e.data.monkey[region_id].map_of_bits[col][row]){
-								newTD.setAttribute("class", 'b-CH');
-								newTD.style.backgroundColor = '#FFFFFF';
+					if(document.getElementById("table_en").checked){
+						for (var row = 0; row < e.data.monkey[region_id].map_of_bits[0].length; row++) {
+							//iterate through rows
+							//rows would be accessed using the "row" variable assigned in the for loop
+							var newTR = document.createElement("tr"); 
+							newTR.style.height = '1px';
+							for (var col = 0; col < e.data.monkey[region_id].map_of_bits.length; col++) {
+								//iterate through columns
+								//columns would be accessed using the "col" variable assigned in the for loop
+								var newTD = document.createElement("td"); 
+								newTD.style.width = '1px';
+								if(e.data.monkey[region_id].map_of_bits[col][row]){
+									newTD.setAttribute("class", 'b-CH');
+									newTD.style.backgroundColor = '#FFFFFF';
+								}
+								else{
+									newTD.setAttribute("class", 'w-CH');
+									newTD.style.backgroundColor = '#000000';
+								}
+								newTR.appendChild(newTD);
+								//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.monkey[region_id].map_of_bits[col][row];
+								//newTD.innerHTML = e.data.monkey[region_id].map_of_bits[col][row];
 							}
-							else{
-								newTD.setAttribute("class", 'w-CH');
-								newTD.style.backgroundColor = '#000000';
-							}
-							newTR.appendChild(newTD);
-							//newTD.innerHTML = 'row'+row+'col'+col+'val'+ e.data.monkey[region_id].map_of_bits[col][row];
-							//newTD.innerHTML = e.data.monkey[region_id].map_of_bits[col][row];
+							newTable.appendChild(newTR);
 						}
-						newTable.appendChild(newTR);
 					}
-					
 					var img = document.createElement("img");
 					img.setAttribute("id", 'img'+e.data.imgid+'_'+region_id);
 					img.setAttribute("src", e.data.monkey[region_id].img_src);
