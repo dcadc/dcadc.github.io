@@ -48,7 +48,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 			});
 			
 			if ( lenna.bitmap.height == font.height) {
-				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits.slice(0));
+				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits);
 				monkey[region_id].original = monkey[region_id].extracted.slice(0);							//clone the undecoded string 
 				monkey[region_id].extracted = SearchandReplace(monkey[region_id].extracted, font.data);
 			}
@@ -66,7 +66,7 @@ for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typ
 						valid_chars:	new Number(),
 					};
 					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset);
-					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits.slice(0));
+					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits);
 					srolling_temp[offset].original = srolling_temp[offset].extracted.slice(0);							//clone the undecoded string 
 					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data);
 					srolling_temp[offset].number_of.chars = CountNumberofChars(srolling_temp[offset].extracted);
@@ -106,13 +106,15 @@ function toPaddedHexString(num, len) {
 	return "0".repeat(len - str.length) + str;
 }
 
-function OffsetMapofBits(map, fh, dh) {
+function OffsetMapofBits(map_obj, fh, dh) {
+	map = map_obj.slice(0);
 	for(var i = 0; i < map.length; i++)			//for each columns
 		map[i] = map[i].slice(dh, dh+fh)		//recalculate rows from offset value to fontheight+offset
 	return map;									//join all the HEX columns into string
 }
 
-function CalculateColumn(map) {
+function CalculateColumn(map_obj) {
+	map = map_obj.slice(0);
 	for(var i = 0; i < map.length; i++){		//for each columns
 console.log('map['+i+']:'+map[i]);
 		map[i] = map[i].join('');				//join the binary value of columns
@@ -123,7 +125,9 @@ console.log('map['+i+']:'+map[i]);
 	return map.join('');						//join all the HEX columns into string
 }
 
-function SearchandReplace(col, fon) {
+function SearchandReplace(col, fon_obj) {
+	fon = fon_obj.slice(0);
+	//col = col_obj.slice(0);
 	for(var i = fon.length-1; i >= 0; i--){							//for each symbol
 		if((fon[i]) != null){										//bypass undefined(i.e. control symbols)
 			if((fon[i].length) > 0){								//bypass unknown fonts
