@@ -26,15 +26,16 @@ self.addEventListener("message", function (e) {
 				chars:			new Number(),
 				valid_chars:	new Number(),
 			};
-			
+			if(e.data.region_data[region_id][2]!=lenna.bitmap.width && e.data.region_data[region_id][3]!=lenna.bitmap.height){
 			lenna.crop( e.data.region_data[region_id][0],
-			e.data.region_data[region_id][1],
-			e.data.region_data[region_id][2],
-			e.data.region_data[region_id][3] );
+						e.data.region_data[region_id][1],
+						e.data.region_data[region_id][2],
+						e.data.region_data[region_id][3] );
+			}
 			
 			monkey[region_id].map_of_bits = new Array(lenna.bitmap.width);
 			for (var i=0; i <lenna.bitmap.width; i++)
-			monkey[region_id].map_of_bits[i]=new Array(lenna.bitmap.height); 
+				monkey[region_id].map_of_bits[i]=new Array(lenna.bitmap.height); 
 			
 			lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
 				// x, y is the position of this pixel on the image
@@ -49,6 +50,16 @@ self.addEventListener("message", function (e) {
 			});
 			
 			var new_region = prescan(monkey[region_id].map_of_bits, font.width, font.height);
+			
+			lenna.crop(	new_region.x,	new_region.y,	new_region.w,	new_region.h);
+
+			monkey[region_id].map_of_bits = new Array(lenna.bitmap.width);
+			for (var i=0; i <lenna.bitmap.width; i++)
+				monkey[region_id].map_of_bits[i]=new Array(lenna.bitmap.height); 
+		
+			lenna.scan(0, 0, lenna.bitmap.width, lenna.bitmap.height, function (x, y, idx) {
+				monkey[region_id].map_of_bits[x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
+			});
 			
 			if ( lenna.bitmap.height == font.height) {
 				monkey[region_id].most_valid_offs = -1;														//no subregion detection
@@ -108,12 +119,7 @@ self.addEventListener("message", function (e) {
 				monkey[region_id].original = "not enough height";
 				monkey[region_id].extracted = "";
 			}
-			lenna.crop(
-				new_region.x,
-				new_region.y,
-				new_region.w,
-				new_region.h
-				);
+			//lenna.crop(	new_region.x,	new_region.y,	new_region.w,	new_region.h);
 			lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 				if (err) throw err;
 				monkey[region_id].img_src = src;
