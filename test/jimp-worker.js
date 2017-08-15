@@ -64,7 +64,7 @@ self.addEventListener("message", function (e) {
 				var new_h = prescan(monkey[region_id].map_of_bits, font.width, font.height).h;
 				var subregion_num = new_h;
 				var srolling_temp = new Array(subregion_num);
-				for(var offset = new_y; offset < (subregion_num); offset++){
+				for(var offset = 0; offset < (subregion_num); offset++){
 					srolling_temp[offset] ={
 						offset:			offset,
 						map_of_bits: 	new Array(),
@@ -76,7 +76,7 @@ self.addEventListener("message", function (e) {
 						chars:  		new Number(),
 						valid_chars:	new Number(),
 					};
-					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset);	//refresh offset in the map_of_bits
+					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset+new_y);	//refresh offset in the map_of_bits
 					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits);
 					srolling_temp[offset].original = srolling_temp[offset].extracted.slice(0);									//clone the undecoded string 
 					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data);
