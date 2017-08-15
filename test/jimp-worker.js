@@ -153,7 +153,7 @@ function prescan(map_obj, fw, fh) {
 		scan_lines[i] = (scan_lines[i].length > fw*7)?1:0;
 	}
 	line_region.y = Math.max(0, scan_lines.indexOf(1) - fh); 
-	line_region.h = Math.min(map_obj.[0].length - line_region.y, scan_lines.lastIndexOf(1) - line_region.y + fh); 
+	line_region.h = Math.min(map_obj[0].length - line_region.y, scan_lines.lastIndexOf(1) - line_region.y + fh); 
 	console.log('new_reg_y: '+line_region.y+' new_reg_h: '+line_region.h); 
 	
 	map = JSON.parse(JSON.stringify(map_obj));
