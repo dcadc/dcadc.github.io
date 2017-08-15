@@ -137,7 +137,7 @@ self.addEventListener("message", function (e) {
 function prescan(map_obj, fw, fh) {
 	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
 	var jmp_row = Math.round(fh/3);
-	var scan_lines = new Array();
+	var h_lines = new Array();
 	var line_region ={
 		x:			new Number(),
 		y:			new Number(),
@@ -145,27 +145,27 @@ function prescan(map_obj, fw, fh) {
 		h: 			new Number(),
 	}
 	for(var i = 0; i < map[0].length; i+=jmp_row){						//horizontal scan	
-		scan_lines[i] = arrayColumn(map, i);
-		scan_lines[i] = scan_lines[i].join('');							//make array of rows
-		//console.log('line['+i+']: '+scan_lines[i]);
-		scan_lines[i] = scan_lines[i].replace(/(.)\1\1\1/gi, "");
-		//console.log('line-rep['+i+']: '+scan_lines[i]+'len: ('+scan_lines[i].length+')'); 
-		scan_lines[i] = (scan_lines[i].length > fw*7)?1:0;
+		h_lines[i] = arrayColumn(map, i);
+		h_lines[i] = h_lines[i].join('');							//make array of rows
+		//console.log('line['+i+']: '+h_lines[i]);
+		h_lines[i] = h_lines[i].replace(/(.)\1\1\1/gi, "");
+		//console.log('line-rep['+i+']: '+h_lines[i]+'len: ('+h_lines[i].length+')'); 
+		h_lines[i] = (h_lines[i].length > fw*7)?1:0;
 	}
-	line_region.y = Math.max(0, scan_lines.indexOf(1) - fh); 
-	line_region.h = Math.min(map_obj[0].length - line_region.y, scan_lines.lastIndexOf(1) - line_region.y + fh); 
+	line_region.y = Math.max(0, h_lines.indexOf(1) - fh); 
+	line_region.h = Math.min(map_obj[0].length - line_region.y, h_lines.lastIndexOf(1) - line_region.y + fh); 
 	console.log('new_reg_y: '+line_region.y+' new_reg_h: '+line_region.h); 
 	
 	map = JSON.parse(JSON.stringify(map_obj));
-	var scan_lines = new Array(line_region.h);
-	for(var i = 0; i < line_region.h; i++){				//vertical scan
-		scan_lines[i] = map[i+line_region.y];
-		scan_lines[i] = scan_lines[i].join('');							//make array of rows
-		//console.log('line['+i+']: '+scan_lines[i]);
-		scan_lines[i] = (parseInt(scan_lines[i], 2))?1:0;
+	var v_lines = new Array(line_region.h);
+	for(var i = 0; i < map_obj.length; i++){				//vertical scan
+		v_lines[i] = map[i].slice(line_region.y, line_region.y+line_region.h);
+		v_lines[i] = v_lines[i].join('');							//make array of rows
+		//console.log('line['+i+']: '+v_lines[i]);
+		v_lines[i] = (parseInt(v_lines[i], 2))?1:0;
 	}
-	line_region.x = Math.max(0, scan_lines.indexOf(1) - fw); 
-	line_region.w = Math.max(map_obj.length - line_region.x, scan_lines.lastIndexOf(1) - line_region.x + fw); 
+	line_region.x = Math.max(0, v_lines.indexOf(1) - fw); 
+	line_region.w = Math.max(map_obj.length - line_region.x, v_lines.lastIndexOf(1) - line_region.x + fw); 
 	console.log('new_reg_x: '+line_region.x+' new_reg_w: '+line_region.w); 
 	return line_region;												//join all the HEX columns into string
 }
@@ -189,7 +189,7 @@ function CalculateColumn(map_obj, fh) {
 		//console.log('map['+i+']:'+map[i]);
 		map[i] = map[i].join('');				//join the binary value of columns
 		map[i] = parseInt(map[i], 2);			//prase the joined binary columns into decimal int
-		map[i] = toPaddedHexString(map[i], Math.round(fh/4));	//prase the decimal int to HEX with padding zeros
+		map[i] = toPaddedHexString(map[i], Math.ceil(fh/4));	//prase the decimal int to HEX with padding zeros
 		map[i] = "x"+map[i].toUpperCase()+"x"; 	//wrap the uppercased HEX column data with x & x
 	}
 	return map.join('');						//join all the HEX columns into string
@@ -202,7 +202,7 @@ function SearchandReplace(col_obj, fon_dat, fh) {
 		if((fon[i]) != null){										//bypass undefined(i.e. control symbols)
 			if((fon[i].length) > 0){								//bypass unknown fonts
 				for(var j = 0; j < fon[i].length; j++){				//matching the payload
-					fon[i][j] = toPaddedHexString(fon[i][j], Math.round(fh/4));	//prase the decimal int to HEX with padding zeros
+					fon[i][j] = toPaddedHexString(fon[i][j], Math.ceil(fh/4));	//prase the decimal int to HEX with padding zeros
 					fon[i][j] = "x"+fon[i][j].toUpperCase()+"x"; 	//wrap the uppercased HEX column data with x & x
 				}
 				fon[i] = fon[i].join('');							//font is in string, ready to be replaced
