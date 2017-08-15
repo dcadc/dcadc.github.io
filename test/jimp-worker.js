@@ -166,6 +166,7 @@ function prescan(map_obj, fw, fh) {
 	}
 	line_region.x = Math.max(0, scan_lines.indexOf(1) - fw); 
 	line_region.w = Math.max(map_obj.length - line_region.x, scan_lines.lastIndexOf(1) - line_region.x + fw); 
+	console.log('new_reg_x: '+line_region.x+' new_reg_w: '+line_region.w); 
 	return line_region;												//join all the HEX columns into string
 }
 
