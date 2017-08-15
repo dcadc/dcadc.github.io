@@ -48,7 +48,7 @@ self.addEventListener("message", function (e) {
 				monkey[region_id].map_of_bits[x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
 			});
 			
-			prescan(map_of_bits, font.width, font.height);
+			prescan(monkey[region_id].map_of_bits, font.width, font.height);
 			if ( lenna.bitmap.height == font.height) {
 				monkey[region_id].most_valid_offs = -1;														//no subregion detection
 				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits);
