@@ -139,7 +139,7 @@ function prescan(map_obj, fw, fh) {
 		scan_lines[i] = scan_lines[i].join('');							//make array of rows
 		console.log('line['+i+']: '+scan_lines[i]);
 		scan_lines[i] = scan_lines[i].replace(/(.)\1\1\1/gi, "");
-		console.log('line-rep['+i+']: '+scan_lines[i]); 
+		console.log('line-rep['+i+']: '+scan_lines[i]+'len: ('+scan_lines[i].length+')'); 
 	}
 	return map;												//join all the HEX columns into string
 }
