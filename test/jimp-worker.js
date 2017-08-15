@@ -48,6 +48,7 @@ self.addEventListener("message", function (e) {
 				monkey[region_id].map_of_bits[x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
 			});
 			
+			prescan(map_of_bits, font.width, font.height);
 			if ( lenna.bitmap.height == font.height) {
 				monkey[region_id].most_valid_offs = -1;														//no subregion detection
 				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits);
@@ -129,6 +130,18 @@ self.addEventListener("message", function (e) {
 	});
 });
 
+function prescan(map_obj, fw, fh) {
+	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
+	var scan_lines = new array(map[0].length/jmp_row);
+	var jmp_row = Math.round(fh/3);
+	for(var i = 0; i < map[0].length; i+=jmp_row){			//for each rows	
+		scan_lines[i] = arrayColumn(map, i);
+		scan_lines[i].join('');							//make array of rows
+		console.log('line['+i+']: 'scan_lines[i]);
+	}
+	return map;												//join all the HEX columns into string
+}
+
 function toPaddedHexString(num, len) {
 	str = num.toString(16);
 	return "0".repeat(len - str.length) + str;
@@ -136,8 +149,9 @@ function toPaddedHexString(num, len) {
 
 function OffsetMapofBits(map_obj, fh, dh) {
 	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
+	map
 	for(var i = 0; i < map.length; i++)			//for each columns
-	map[i] = map[i].slice(dh, dh+fh)		//recalculate rows from offset value to fontheight+offset
+		map[i] = map[i].slice(dh, dh+fh);		//recalculate rows from offset value to fontheight+offset
 	return map;									//join all the HEX columns into string
 }
 
@@ -169,6 +183,10 @@ function SearchandReplace(col_obj, fon_obj) {
 		}
 	}
 	return col;
+}
+
+function arrayColumn( arr, n ){
+	return 	arr.map(function(x){ return x[n];});
 }
 
 function CountNumberofChars(decoded_str) {
