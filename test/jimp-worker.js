@@ -81,11 +81,11 @@ self.addEventListener("message", function (e) {
 					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data);
 					srolling_temp[offset].number_of.chars = CountNumberofChars(srolling_temp[offset].extracted);				//this actually calculates for fun only
 					srolling_temp[offset].number_of.valid_chars = CountNumberofValidChars(srolling_temp[offset].extracted);		//valid chars means [0-9A-Za-z]
-					console.log('srolling_temp['+offset+'].valid_chars:'+srolling_temp[offset].number_of.valid_chars);
+					//console.log('srolling_temp['+offset+'].valid_chars:'+srolling_temp[offset].number_of.valid_chars);
 				}
 				srolling_temp = srolling_temp.sort(function (a, b) { return a.number_of.valid_chars < b.number_of.valid_chars ? 1 : -1;});	//sorting the most valid data at the top
-				//console.log('srolling_temp[sorted].valid_chars:'+srolling_temp[0].number_of.valid_chars);
-				//console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.length-1].number_of.valid_chars);
+				console.log('srolling_temp[sorted].valid_chars:'+srolling_temp[0].number_of.valid_chars);
+				console.log('srolling_temp[sorted+].valid_chars:'+srolling_temp[srolling_temp.length-1].number_of.valid_chars);
 				if(srolling_temp.filter(function(a){ return a.number_of.valid_chars > 5;}).length > 1){											//see if there is more than one line decoded
 					monkey[region_id].sub_region = srolling_temp.filter(function(a){ return a.number_of.valid_chars > 5;});						//apply to .sub_region
 					monkey[region_id].sub_region = monkey[region_id].sub_region.sort(function (a, b) { return a.offset > b.offset ? 1 : -1;});	//sort .sub_region with offsets
