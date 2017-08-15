@@ -8,7 +8,7 @@ self.addEventListener("message", function (e) {
 	Jimp.read(e.data.cmd).then(function (lenna) {
 		var lenna_bkp = lenna.clone();
 		var monkey = new Array(e.data.region_data.length);
-		var font = JSON.parse(JSON.stringify(bmpfont1));
+		var font = JSON.parse(JSON.stringify(bmpfont1));			//clone the font
 		for(var region_id = 0; region_id < e.data.region_data.length; region_id++){
 			lenna = lenna_bkp.clone();
 			for (var i = 0; i < 5; i++)	console.log('e.data.region_data[region_id][i]' + typeof e.data.region_data[region_id][i] + 'val' + e.data.region_data[region_id][i]);
@@ -48,12 +48,11 @@ self.addEventListener("message", function (e) {
 				monkey[region_id].map_of_bits[x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
 			});
 			
-			var new_y = prescan(monkey[region_id].map_of_bits, font.width, font.height).y;
-			var new_h = prescan(monkey[region_id].map_of_bits, font.width, font.height).h;
+			var new_region = prescan(monkey[region_id].map_of_bits, font.width, font.height);
 			
 			if ( lenna.bitmap.height == font.height) {
 				monkey[region_id].most_valid_offs = -1;														//no subregion detection
-				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits);
+				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits, font.height);
 				monkey[region_id].original = monkey[region_id].extracted.slice(0);							//clone the undecoded string 
 				monkey[region_id].extracted = SearchandReplace(monkey[region_id].extracted, font.data);
 			}
@@ -61,7 +60,7 @@ self.addEventListener("message", function (e) {
 				//var subregion_num = lenna.bitmap.height-font.height+1;
 				//var srolling_temp = new Array(subregion_num);
 				//for(var offset = 0; offset < (subregion_num); offset++){
-				var subregion_num = new_h;
+				var subregion_num = new_region.h;
 				var srolling_temp = new Array(subregion_num);
 				for(var offset = 0; offset < (subregion_num); offset++){
 					srolling_temp[offset] ={
@@ -75,8 +74,8 @@ self.addEventListener("message", function (e) {
 						chars:  		new Number(),
 						valid_chars:	new Number(),
 					};
-					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset+new_y);	//refresh offset in the map_of_bits
-					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits);
+					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset+new_region.y);	//refresh offset in the map_of_bits
+					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits, font.height);
 					srolling_temp[offset].original = srolling_temp[offset].extracted.slice(0);									//clone the undecoded string 
 					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data);
 					srolling_temp[offset].number_of.chars = CountNumberofChars(srolling_temp[offset].extracted);				//this actually calculates for fun only
@@ -105,15 +104,15 @@ self.addEventListener("message", function (e) {
 				}
 				monkey[region_id] = JSON.parse(JSON.stringify(monkey[region_id]));												//latch the whole object
 			}
-			
 			else{
 				monkey[region_id].original = "not enough height";
 				monkey[region_id].extracted = "";
 			}
-			lenna.crop( e.data.region_data[region_id][0],
-				new_y,
-				e.data.region_data[region_id][2],
-				new_h
+			lenna.crop(
+				new_region.x,
+				new_region.y,
+				new_region.w,
+				new_region.h
 				);
 			lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 				if (err) throw err;
@@ -140,20 +139,33 @@ function prescan(map_obj, fw, fh) {
 	var jmp_row = Math.round(fh/3);
 	var scan_lines = new Array();
 	var line_region ={
+		x:			new Number(),
 		y:			new Number(),
+		w: 			new Number(),
 		h: 			new Number(),
 	}
-	for(var i = 0; i < map[0].length; i+=jmp_row){						//for each rows	
+	for(var i = 0; i < map[0].length; i+=jmp_row){						//horizontal scan	
 		scan_lines[i] = arrayColumn(map, i);
 		scan_lines[i] = scan_lines[i].join('');							//make array of rows
 		//console.log('line['+i+']: '+scan_lines[i]);
 		scan_lines[i] = scan_lines[i].replace(/(.)\1\1\1/gi, "");
 		//console.log('line-rep['+i+']: '+scan_lines[i]+'len: ('+scan_lines[i].length+')'); 
-		scan_lines[i] = (scan_lines[i].length > fw*8)?1:0;
+		scan_lines[i] = (scan_lines[i].length > fw*7)?1:0;
 	}
 	line_region.y = Math.max(0, scan_lines.indexOf(1) - fh); 
-	line_region.h = scan_lines.lastIndexOf(1) - line_region.y + fh; 
+	line_region.h = Math.min(map_obj.[0].length - line_region.y, scan_lines.lastIndexOf(1) - line_region.y + fh); 
 	console.log('new_reg_y: '+line_region.y+' new_reg_h: '+line_region.h); 
+	
+	map = JSON.parse(JSON.stringify(map_obj));
+	var scan_lines = new Array(line_region.h);
+	for(var i = 0; i < line_region.h; i++){				//vertical scan
+		scan_lines[i] = map[i+line_region.y];
+		scan_lines[i] = scan_lines[i].join('');							//make array of rows
+		//console.log('line['+i+']: '+scan_lines[i]);
+		scan_lines[i] = (parseInt(scan_lines[i], 2))?1:0;
+	}
+	line_region.x = Math.max(0, scan_lines.indexOf(1) - fw); 
+	line_region.w = Math.max(map_obj.length - line_region.x, scan_lines.lastIndexOf(1) - line_region.x + fw); 
 	return line_region;												//join all the HEX columns into string
 }
 
@@ -170,26 +182,26 @@ function OffsetMapofBits(map_obj, fh, dh) {
 	return map;									//join all the HEX columns into string
 }
 
-function CalculateColumn(map_obj) {
+function CalculateColumn(map_obj, fh) {
 	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
-	for(var i = 0; i < map.length; i++){		//for each columns
+	for(var i = 0; i < map.length; i++){		//for each columns to be packed
 		//console.log('map['+i+']:'+map[i]);
 		map[i] = map[i].join('');				//join the binary value of columns
 		map[i] = parseInt(map[i], 2);			//prase the joined binary columns into decimal int
-		map[i] = toPaddedHexString(map[i], 2);	//prase the decimal int to HEX with padding zeros
+		map[i] = toPaddedHexString(map[i], Math.round(fh/4));	//prase the decimal int to HEX with padding zeros
 		map[i] = "x"+map[i].toUpperCase()+"x"; 	//wrap the uppercased HEX column data with x & x
 	}
 	return map.join('');						//join all the HEX columns into string
 }
 
-function SearchandReplace(col_obj, fon_obj) {
-	var fon = JSON.parse(JSON.stringify(fon_obj));	//preventing call by ref on non-primitive type (clone)
+function SearchandReplace(col_obj, fon_dat, fh) {
+	var fon = JSON.parse(JSON.stringify(fon_dat));	//preventing call by ref on non-primitive type (clone)
 	var col = JSON.parse(JSON.stringify(col_obj));	//preventing call by ref on non-primitive type (clone)
-	for(var i = fon.length-1; i >= 0; i--){							//for each symbol
+	for(var i = fon.length-1; i >= 0; i--){							//for each symbol to be packed
 		if((fon[i]) != null){										//bypass undefined(i.e. control symbols)
 			if((fon[i].length) > 0){								//bypass unknown fonts
 				for(var j = 0; j < fon[i].length; j++){				//matching the payload
-					fon[i][j] = toPaddedHexString(fon[i][j], 2);	//prase the decimal int to HEX with padding zeros
+					fon[i][j] = toPaddedHexString(fon[i][j], Math.round(fh/4));	//prase the decimal int to HEX with padding zeros
 					fon[i][j] = "x"+fon[i][j].toUpperCase()+"x"; 	//wrap the uppercased HEX column data with x & x
 				}
 				fon[i] = fon[i].join('');							//font is in string, ready to be replaced
