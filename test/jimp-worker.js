@@ -49,7 +49,7 @@ self.addEventListener("message", function (e) {
 				monkey[region_id].map_of_bits[x][y] = ( this.bitmap.data[ idx ] == 255 ) ? (1) : (0) ;
 			});
 			
-			var new_region = prescan(monkey[region_id].map_of_bits, font.width, font.height)
+			var new_region = prescan(monkey[region_id].map_of_bits, font.width, font.height);
 			new_region = JSON.parse(JSON.stringify( new_region ));
 			
 			lenna.crop(	new_region.x,	new_region.y,	new_region.w,	new_region.h);
