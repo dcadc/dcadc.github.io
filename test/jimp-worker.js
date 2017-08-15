@@ -193,7 +193,7 @@ function OffsetMapofBits(map_obj, fh, dh) {
 function CalculateColumn(map_obj, fh) {
 	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
 	for(var i = 0; i < map.length; i++){		//for each columns to be packed
-		console.log('map['+i+']:'+map[i]);
+		//console.log('map['+i+']:'+map[i]);
 		map[i] = map[i].join('');				//join the binary value of columns
 		map[i] = parseInt(map[i], 2);			//prase the joined binary columns into decimal int
 		map[i] = toPaddedHexString(map[i], Math.ceil(fh/4));	//prase the decimal int to HEX with padding zeros

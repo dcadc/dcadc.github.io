@@ -185,16 +185,17 @@ function newFiles(element){
 				newSpan.setAttribute("id", 'decode'+e.data.imgid+'_'+region_id);
 				newSpan.innerHTML = e.data.filename + '\n';
 				var max_len_of_text = e.data.filename.length;
-					console.log('e.data.filename.length: '+e.data.filename.length);
+					//console.log('e.data.filename.length: '+e.data.filename.length);
 				var newlinechar = 0;
 				for(var region_id = 0; region_id < e.data.monkey.length; region_id++){
 					newlinechar +=e.data.monkey[region_id].sub_region.length;
 					var wordFilter = e.data.monkey[region_id].extracted.replace(new RegExp("(x)([0-9A-F]{2}x)", "g"), "");
-					wordFilter = wordFilter.replace(new RegExp("^(&#32;)+|(&#32;)+$", "gm"), "");
+					wordFilter = wordFilter.replace(new RegExp("^(&#32;)+|(&#32;)+$", "gm"), "");		//remove leading & tailing blanks
+					wordFilter = wordFilter.replace(new RegExp("^(&#62;)", "gm"), "");					//remove leading marker selector symbol
 					newSpan.innerHTML = newSpan.innerHTML + '\n' + wordFilter;
-					console.log(wordFilter);
+					console.log('trimmed string:'+wordFilter);
 					wordFilter = (wordFilter.match(new RegExp("&#", "g")) || []).length;
-					console.log(wordFilter);
+					console.log('total output chars:'+wordFilter);
 					max_len_of_text = (wordFilter > max_len_of_text)?wordFilter:max_len_of_text;
 				}
 				newSpan.setAttribute("rows", (e.data.monkey.length+3+newlinechar));
