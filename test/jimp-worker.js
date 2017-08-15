@@ -150,7 +150,7 @@ function prescan(map_obj, fw, fh) {
 		//console.log('line['+i+']: '+h_lines[i]);
 		h_lines[i] = h_lines[i].replace(/(.)\1\1\1/gi, "");
 		//console.log('line-rep['+i+']: '+h_lines[i]+'len: ('+h_lines[i].length+')'); 
-		h_lines[i] = (h_lines[i].length > fw*7)?1:0;
+		h_lines[i] = (h_lines[i].length > fw*10)?1:0;
 	}
 	line_region.y = Math.max(0, h_lines.indexOf(1) - fh); 
 	line_region.h = Math.min(map_obj[0].length - line_region.y, h_lines.lastIndexOf(1) - line_region.y + fh); 
