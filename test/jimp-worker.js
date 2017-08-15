@@ -132,8 +132,8 @@ self.addEventListener("message", function (e) {
 
 function prescan(map_obj, fw, fh) {
 	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
-	var scan_lines = new array(map[0].length/jmp_row);
 	var jmp_row = Math.round(fh/3);
+	var scan_lines = new array(map[0].length/jmp_row);
 	for(var i = 0; i < map[0].length; i+=jmp_row){			//for each rows	
 		scan_lines[i] = arrayColumn(map, i);
 		scan_lines[i].join('');							//make array of rows
