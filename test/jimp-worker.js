@@ -135,15 +135,23 @@ self.addEventListener("message", function (e) {
 function prescan(map_obj, fw, fh) {
 	var map = JSON.parse(JSON.stringify(map_obj));	//preventing call by ref on non-primitive type (clone)
 	var jmp_row = Math.round(fh/3);
-	var scan_lines = new Array(Math.round(map[0].length/jmp_row));
-	for(var i = 0; i < map[0].length; i+=jmp_row){			//for each rows	
+	var scan_lines = new Array();
+	var line_region ={
+		y:			new Number(),
+		h: 			new Number(),
+	}
+	for(var i = 0; i < map[0].length; i+=jmp_row){						//for each rows	
 		scan_lines[i] = arrayColumn(map, i);
 		scan_lines[i] = scan_lines[i].join('');							//make array of rows
-		console.log('line['+i+']: '+scan_lines[i]);
+		//console.log('line['+i+']: '+scan_lines[i]);
 		scan_lines[i] = scan_lines[i].replace(/(.)\1\1\1/gi, "");
-		console.log('line-rep['+i+']: '+scan_lines[i]+'len: ('+scan_lines[i].length+')'); 
+		//console.log('line-rep['+i+']: '+scan_lines[i]+'len: ('+scan_lines[i].length+')'); 
+		scan_lines[i] = (scan_lines[i].length > fw*5)?1:0;
 	}
-	return map;												//join all the HEX columns into string
+	line_region.y = Math.max(0, scan_lines.IndexOf(1) - fh); 
+	line_region.h = scan_lines.lastIndexOf(1) - scan_lines.IndexOf(1) + fh; 
+	console.log('new_reg_y: '+line_region.y+'new_reg_h: '+line_region.h); 
+	return line_region;												//join all the HEX columns into string
 }
 
 function toPaddedHexString(num, len) {
