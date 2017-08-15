@@ -72,7 +72,7 @@ self.addEventListener("message", function (e) {
 				//var subregion_num = lenna.bitmap.height-font.height+1;
 				//var srolling_temp = new Array(subregion_num);
 				//for(var offset = 0; offset < (subregion_num); offset++){
-				var subregion_num = new_region.h - font.height + 1;
+				var subregion_num = lenna.bitmap.height - font.height + 1;
 				var srolling_temp = new Array(subregion_num);
 				for(var offset = 0; offset < (subregion_num); offset++){
 					srolling_temp[offset] ={
@@ -86,7 +86,7 @@ self.addEventListener("message", function (e) {
 						chars:  		new Number(),
 						valid_chars:	new Number(),
 					};
-					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset+new_region.y);	//refresh offset in the map_of_bits
+					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset);	//refresh offset in the map_of_bits
 					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits, font.height);
 					srolling_temp[offset].original = srolling_temp[offset].extracted.slice(0);									//clone the undecoded string 
 					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data, font.height);
