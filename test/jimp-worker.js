@@ -54,7 +54,7 @@ self.addEventListener("message", function (e) {
 				monkey[region_id].most_valid_offs = -1;														//no subregion detection
 				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits, font.height);
 				monkey[region_id].original = monkey[region_id].extracted.slice(0);							//clone the undecoded string 
-				monkey[region_id].extracted = SearchandReplace(monkey[region_id].extracted, font.data);
+				monkey[region_id].extracted = SearchandReplace(monkey[region_id].extracted, font.data, font.height);
 			}
 			else if ( lenna.bitmap.height > font.height) {
 				//var subregion_num = lenna.bitmap.height-font.height+1;
@@ -77,7 +77,7 @@ self.addEventListener("message", function (e) {
 					srolling_temp[offset].map_of_bits = OffsetMapofBits(monkey[region_id].map_of_bits, font.height, offset+new_region.y);	//refresh offset in the map_of_bits
 					srolling_temp[offset].extracted = CalculateColumn(srolling_temp[offset].map_of_bits, font.height);
 					srolling_temp[offset].original = srolling_temp[offset].extracted.slice(0);									//clone the undecoded string 
-					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data);
+					srolling_temp[offset].extracted = SearchandReplace(srolling_temp[offset].extracted, font.data, font.height);
 					srolling_temp[offset].number_of.chars = CountNumberofChars(srolling_temp[offset].extracted);				//this actually calculates for fun only
 					srolling_temp[offset].number_of.valid_chars = CountNumberofValidChars(srolling_temp[offset].extracted);		//valid chars means [0-9A-Za-z]
 					//console.log('srolling_temp['+offset+'].valid_chars:'+srolling_temp[offset].number_of.valid_chars);
@@ -165,7 +165,7 @@ function prescan(map_obj, fw, fh) {
 		v_lines[i] = (parseInt(v_lines[i], 2))?1:0;
 	}
 	line_region.x = Math.max(0, v_lines.indexOf(1) - fw); 
-	line_region.w = Math.max(map_obj.length - line_region.x, v_lines.lastIndexOf(1) - line_region.x + fw); 
+	line_region.w = Math.min(map_obj.length - line_region.x, v_lines.lastIndexOf(1) - line_region.x + fw); 
 	console.log('new_reg_x: '+line_region.x+' new_reg_w: '+line_region.w); 
 	return line_region;												//join all the HEX columns into string
 }
