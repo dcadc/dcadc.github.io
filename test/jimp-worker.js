@@ -105,11 +105,13 @@ self.addEventListener("message", function (e) {
 				monkey[region_id].original = "not enough height";
 				monkey[region_id].extracted = "";
 			}
+			/*
 			lenna.crop( e.data.region_data[region_id][0],
 				e.data.region_data[region_id][1],
 				e.data.region_data[region_id][2],
 				monkey[region_id].most_valid_offs+font.height
 				);
+				*/
 			lenna.getBase64(Jimp.MIME_JPEG, function (err, src) {
 				if (err) throw err;
 				monkey[region_id].img_src = src;
