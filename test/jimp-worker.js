@@ -49,6 +49,7 @@ self.addEventListener("message", function (e) {
 			});
 			
 			prescan(monkey[region_id].map_of_bits, font.width, font.height);
+			
 			if ( lenna.bitmap.height == font.height) {
 				monkey[region_id].most_valid_offs = -1;														//no subregion detection
 				monkey[region_id].extracted = CalculateColumn(monkey[region_id].map_of_bits);
@@ -56,9 +57,14 @@ self.addEventListener("message", function (e) {
 				monkey[region_id].extracted = SearchandReplace(monkey[region_id].extracted, font.data);
 			}
 			else if ( lenna.bitmap.height > font.height) {
-				var subregion_num = lenna.bitmap.height-font.height+1;
+				//var subregion_num = lenna.bitmap.height-font.height+1;
+				//var srolling_temp = new Array(subregion_num);
+				//for(var offset = 0; offset < (subregion_num); offset++){
+				var new_y = prescan(monkey[region_id].map_of_bits, font.width, font.height).y;
+				var new_h = prescan(monkey[region_id].map_of_bits, font.width, font.height).h;
+				var subregion_num = new_h;
 				var srolling_temp = new Array(subregion_num);
-				for(var offset = 0; offset < (subregion_num); offset++){
+				for(var offset = new_y; offset < (subregion_num); offset++){
 					srolling_temp[offset] ={
 						offset:			offset,
 						map_of_bits: 	new Array(),
