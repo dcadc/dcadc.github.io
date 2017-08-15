@@ -72,7 +72,7 @@ self.addEventListener("message", function (e) {
 				//var subregion_num = lenna.bitmap.height-font.height+1;
 				//var srolling_temp = new Array(subregion_num);
 				//for(var offset = 0; offset < (subregion_num); offset++){
-				var subregion_num = new_region.h;
+				var subregion_num = new_region.h - font.height + 1;
 				var srolling_temp = new Array(subregion_num);
 				for(var offset = 0; offset < (subregion_num); offset++){
 					srolling_temp[offset] ={
