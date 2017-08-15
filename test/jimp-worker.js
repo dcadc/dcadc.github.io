@@ -148,8 +148,8 @@ function prescan(map_obj, fw, fh) {
 		//console.log('line-rep['+i+']: '+scan_lines[i]+'len: ('+scan_lines[i].length+')'); 
 		scan_lines[i] = (scan_lines[i].length > fw*5)?1:0;
 	}
-	line_region.y = Math.max(0, scan_lines.IndexOf(1) - fh); 
-	line_region.h = scan_lines.lastIndexOf(1) - scan_lines.IndexOf(1) + fh; 
+	line_region.y = Math.max(0, scan_lines.indexOf(1) - fh); 
+	line_region.h = scan_lines.lastIndexOf(1) - line_region.y + fh; 
 	console.log('new_reg_y: '+line_region.y+'new_reg_h: '+line_region.h); 
 	return line_region;												//join all the HEX columns into string
 }
