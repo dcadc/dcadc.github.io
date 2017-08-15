@@ -162,7 +162,7 @@ function prescan(map_obj, fw, fh) {
 		v_lines[i] = map[i].slice(line_region.y, line_region.y+line_region.h);
 		v_lines[i] = v_lines[i].join('');							//make array of rows
 		//console.log('line['+i+']: '+v_lines[i]);
-		v_lines[i] = (v_lines[i].match(/1/g) > Math.round(fh/3))?1:0;
+		v_lines[i] = (v_lines[i].match(/1/g).length > Math.round(fh/3))?1:0;
 	}
 	line_region.x = Math.max(0, v_lines.indexOf(1) - fw); 
 	line_region.w = Math.min(map_obj.length - line_region.x, v_lines.lastIndexOf(1) - line_region.x + fw); 
