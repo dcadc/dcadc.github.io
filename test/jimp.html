@@ -3,7 +3,7 @@
 <script>
 
 Jimp.read("3.5795-3-32-1.PNG").then(function (lenna) {
-	lenna.rgba(false);
+	lenna.rgba(false);/*
     lenna.crop( 71, 47, 163, 20 )         // crop to the given region
          //.quality(60)                 // set JPEG quality
          //.greyscale()                 // set greyscale
@@ -11,7 +11,7 @@ Jimp.read("3.5795-3-32-1.PNG").then(function (lenna) {
               var img = document.createElement("img");
               img.setAttribute("src", src);
               document.body.appendChild(img);
-         });
+         });*/
 }).catch(function (err) {
     console.error(err);
 });
