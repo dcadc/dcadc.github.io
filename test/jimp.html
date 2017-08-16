@@ -2,18 +2,6 @@
 
 <script>
 
-var image = new Jimp(256, 256, 0xFF0000FF, function (err, image) {
-    // this image is 256 x 256, every pixel is set to 0xFF0000FF
-});
-Jimp.read(image).then(function (mmm) {
-	  mmm.getBase64(Jimp.MIME_JPEG, function (err, src) {
-              var img0 = document.createElement("img");
-              img0.setAttribute("src", src);
-              document.body.appendChild(img0);
-         });
-}).catch(function (err) {
-    console.error(err);
-});
 Jimp.read("3.5795-3-32-1.PNG").then(function (lenna) {
 	lenna.rgba(false);
     lenna.crop( 71, 47, 163, 20 )         // crop to the given region
@@ -23,6 +11,19 @@ Jimp.read("3.5795-3-32-1.PNG").then(function (lenna) {
               var img = document.createElement("img");
               img.setAttribute("src", src);
               document.body.appendChild(img);
+         });
+}).catch(function (err) {
+    console.error(err);
+});
+
+var image = new Jimp(256, 256, 0xFF0000FF, function (err, image) {
+    // this image is 256 x 256, every pixel is set to 0xFF0000FF
+});
+Jimp.read(image).then(function (mmm) {
+	  mmm.getBase64(Jimp.MIME_JPEG, function (err, src) {
+              var img0 = document.createElement("img");
+              img0.setAttribute("src", src);
+              document.body.appendChild(img0);
          });
 }).catch(function (err) {
     console.error(err);
