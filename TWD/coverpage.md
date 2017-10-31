@@ -1,16 +1,22 @@
 
 <!-- _coverpage.md -->
 
-![logo](images/logo/neo_logo.svg)
+![logo](https://scontent.ftpe6-1.fna.fbcdn.net/v/t1.0-9/14330163_524796094382607_6323254424432911743_n.png?oh=499480718116f6bd600772041f23128e&oe=5AAB3E56)
 
-# 8BitMixtape-NEO <small>HW v0.96 SW v0.20</small>
 
-> A very very cool open source and arduino compatible synthesizer.
+# docsify <small>SW v3.80</small>
 
-- Reprogram with audio
-- Object of Desire
-- 8 NEO Pixels (RGB-LEDs)
+> Simple and lightweight (~18kB gzipped)
+
+- Getting started
+- Quick start
+- Writing more pages
+- Custom navbar
 
 [Get Started](Home)
-[View Source](https://github.com/8BitMixtape/8Bit-Mixtape-NEO)
-[Buy Mixtape](https://www.paypal.com/ch/cgi-bin/webscr?cmd=_flow&SESSION=kOXdxGdqaFeJB73P3HIUKbzukGmCKCGCpmzJ3puWQ4-tJsF1HAqPGgduHbi&dispatch=5885d80a13c0db1f8e263663d3faee8d83a0bf7db316a7beb1b14b43acd04037&rapidsState=Donation__DonationFlow___StateDonationLogin&rapidsStateSignature=627c35860a5e9d792eb914ec196b018128a1388c)
+[View Source](https://github.com/)
+[Buy ](https:)
+
+
+<!-- background image -->
+![](_media/bg.png)
